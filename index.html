@@ -30,7 +30,7 @@
     </a>
     <ul class="nav-links">
       <li><a href="/docs">Docs</a></li>
-      <li><a href="https://github.com/linchpinhq/linchpin/blob/main/ARCHITECTURE.md">Architecture</a></li>
+      <li><a href="/architecture">Architecture</a></li>
       <li><a href="https://github.com/linchpinhq/linchpin/releases">Changelog</a></li>
       <li><a href="https://github.com/linchpinhq/linchpin" class="nav-cta">★ GitHub</a></li>
     </ul>
@@ -49,83 +49,76 @@
     </div>
 
     <!-- Schematic diagram -->
-    <div class="schematic">
+    <div class="schematic demo-frame">
       <div class="corner tl"></div>
       <div class="corner tr"></div>
       <div class="corner bl"></div>
       <div class="corner br"></div>
 
       <div class="schematic-meta">
-        <div class="label">Fig. 01 · Runtime Schematic</div>
-        <div class="label">Linchpin / 2026</div>
+        <div class="label">Fig. 01 · Live demo · Loops</div>
+        <div class="label">Linchpin / Runtime</div>
       </div>
 
-      <svg class="diagram" viewBox="0 0 900 320" xmlns="http://www.w3.org/2000/svg" aria-label="Architecture diagram">
-        <defs>
-          <pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6">
-            <path d="M0,6 L6,0" stroke="#1A1A1A" stroke-width="0.5" opacity="0.4"/>
-          </pattern>
-          <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-            <path d="M0,0 L10,5 L0,10 z" fill="#1A1A1A"/>
-          </marker>
-        </defs>
+      <div class="demo">
+        <div class="terminal">
+          <div class="terminal-bar">
+            <span class="t-dot t-r"></span>
+            <span class="t-dot t-y"></span>
+            <span class="t-dot t-g"></span>
+            <span class="terminal-path" id="demo-path">~/linchpin · zsh</span>
+          </div>
+          <div class="terminal-body">
 
-        <g>
-          <rect x="20" y="120" width="120" height="80" fill="none" stroke="#1A1A1A" stroke-width="1.2"/>
-          <text x="80" y="148" text-anchor="middle" font-family="Inter" font-size="13" font-weight="600">Client</text>
-          <text x="80" y="170" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#5B6770">SDK · curl</text>
-          <text x="80" y="188" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#5B6770">Console</text>
-        </g>
-        <path d="M140,160 L210,160" stroke="#1A1A1A" stroke-width="1" marker-end="url(#arrow)"/>
-        <text x="175" y="152" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#5B6770">HTTP/SSE</text>
+            <!-- Scene 1: docker compose up -->
+            <div class="scene scene-1">
+              <p class="line"><span class="prompt">$</span> <span class="cmd">docker compose up --build</span></p>
+              <p class="line out">[+] Building 8.4s ... done</p>
+              <p class="line out">[+] Running 4/4</p>
+              <p class="line"> <span class="ok">✔</span> Container postgres-1           <span class="ok">Healthy</span></p>
+              <p class="line"> <span class="ok">✔</span> Container linchpin-connector-1 <span class="ok">Started</span></p>
+              <p class="line"> <span class="ok">✔</span> Container linchpin-api-1       <span class="ok">Started</span></p>
+              <p class="line"> <span class="ok">✔</span> Container linchpin-console-1   <span class="ok">Started</span></p>
+              <p class="line caret"><span class="prompt">$</span> <span class="cursor"></span></p>
+            </div>
 
-        <g>
-          <rect x="210" y="80" width="220" height="160" fill="none" stroke="#1A1A1A" stroke-width="1.5"/>
-          <rect x="210" y="80" width="220" height="22" fill="#1A1A1A"/>
-          <text x="320" y="96" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#F4F2EC" letter-spacing="0.1em">LINCHPIN-API</text>
-          <text x="320" y="124" text-anchor="middle" font-family="Inter" font-size="12" font-weight="600">Orchestrator</text>
-          <line x1="225" y1="138" x2="415" y2="138" stroke="#1A1A1A" stroke-width="0.5" opacity="0.3"/>
-          <text x="320" y="156" text-anchor="middle" font-family="Inter" font-size="11" fill="#5B6770">Policy · Vaults · Events</text>
-          <text x="320" y="174" text-anchor="middle" font-family="Inter" font-size="11" fill="#5B6770">SSE · LISTEN/NOTIFY</text>
-          <text x="320" y="192" text-anchor="middle" font-family="Inter" font-size="11" fill="#5B6770">Sandbox Manager</text>
-          <text x="320" y="222" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#B83A1A" font-weight="600">› Built-in Tools</text>
-        </g>
+            <!-- Scene 2: create session + send message -->
+            <div class="scene scene-2">
+              <p class="line"><span class="prompt">$</span> <span class="cmd">curl -sX POST localhost:8000/v1/sessions \</span></p>
+              <p class="line indent">-H <span class="str">"Authorization: Bearer $KEY"</span> \</p>
+              <p class="line indent">-d <span class="str">'{"agent_id":"a1","environment_id":"e1"}'</span></p>
+              <p class="line out">{<span class="key">"id"</span>:<span class="str">"0cd24b30"</span>,<span class="key">"status"</span>:<span class="str">"running"</span>,<span class="key">"container_id"</span>:<span class="str">"ab7e…"</span>}</p>
+              <p class="line"><span class="prompt">$</span> <span class="cmd">curl -sX POST .../sessions/0cd24b30/events \</span></p>
+              <p class="line indent">-d <span class="str">'{"type":"user.message",</span></p>
+              <p class="line indent">    <span class="str">"payload":{"text":"Say hi in 5 words"}}'</span></p>
+              <p class="line caret"><span class="prompt">$</span> <span class="cursor"></span></p>
+            </div>
 
-        <path d="M260,240 L260,275 L280,275" stroke="#1A1A1A" stroke-width="1" fill="none"/>
-        <g>
-          <ellipse cx="320" cy="290" rx="55" ry="18" fill="none" stroke="#1A1A1A" stroke-width="1.2"/>
-          <text x="320" y="294" text-anchor="middle" font-family="JetBrains Mono" font-size="10">postgres:16</text>
-        </g>
+            <!-- Scene 3: SSE stream -->
+            <div class="scene scene-3">
+              <p class="line"><span class="prompt">$</span> <span class="cmd">curl -N .../sessions/0cd24b30/stream</span></p>
+              <p class="line ev"><span class="ev-k">event:</span> session.status_running</p>
+              <p class="line ev"><span class="ev-k">event:</span> agent.message_delta</p>
+              <p class="line ev"><span class="ev-k">data: </span> <span class="stream-text"><span class="tok">Hello</span><span class="tok">,</span><span class="tok"> dear</span><span class="tok"> friend</span><span class="tok">,</span><span class="tok"> how</span><span class="tok"> are</span><span class="tok"> you?</span></span></p>
+              <p class="line ev"><span class="ev-k">event:</span> session.status_idle</p>
+              <p class="line ev"><span class="ev-k">data: </span> {<span class="key">"usage"</span>:{<span class="key">"input"</span>:73,<span class="key">"output"</span>:8}}</p>
+              <p class="line caret"><span class="prompt">$</span> <span class="cursor"></span></p>
+            </div>
 
-        <path d="M430,160 L520,160" stroke="#1A1A1A" stroke-width="1" marker-end="url(#arrow)"/>
-        <text x="475" y="152" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#5B6770">POST /tools/invoke</text>
+          </div>
+        </div>
 
-        <g>
-          <rect x="520" y="120" width="140" height="80" fill="none" stroke="#1A1A1A" stroke-width="1.2"/>
-          <text x="590" y="148" text-anchor="middle" font-family="Inter" font-size="13" font-weight="600">Connector</text>
-          <text x="590" y="170" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#5B6770">MCP stdio</text>
-          <text x="590" y="188" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#5B6770">HTTP tools</text>
-        </g>
-
-        <path d="M380,224 C480,260 540,255 590,225" stroke="#B83A1A" stroke-width="1" fill="none" stroke-dasharray="3 3"/>
-        <text x="500" y="280" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#B83A1A">docker-py</text>
-
-        <g>
-          <rect x="700" y="90" width="170" height="70" fill="url(#hatch)" stroke="#1A1A1A" stroke-width="1.2"/>
-          <text x="785" y="120" text-anchor="middle" font-family="Inter" font-size="12" font-weight="600">Session 1</text>
-          <text x="785" y="138" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#5B6770">ubuntu:22.04</text>
-
-          <rect x="700" y="170" width="170" height="70" fill="url(#hatch)" stroke="#1A1A1A" stroke-width="1.2"/>
-          <text x="785" y="200" text-anchor="middle" font-family="Inter" font-size="12" font-weight="600">Session 2</text>
-          <text x="785" y="218" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#5B6770">ubuntu:22.04</text>
-        </g>
-
-        <path d="M430,200 L700,200" stroke="#1A1A1A" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#arrow)"/>
-      </svg>
+        <!-- Scene labels -->
+        <div class="demo-steps">
+          <span class="demo-step" data-step="1">01 · Install</span>
+          <span class="demo-step" data-step="2">02 · Create session</span>
+          <span class="demo-step" data-step="3">03 · Stream events</span>
+        </div>
+      </div>
 
       <div class="schematic-meta">
-        <div class="label">Scale 1:1 · DWG 01</div>
-        <div class="label">Sheet A — Architecture</div>
+        <div class="label"><a href="/architecture" style="color: inherit; text-decoration: underline; text-underline-offset: 3px;">See full schematic →</a></div>
+        <div class="label">Sheet A — Live</div>
       </div>
     </div>
   </section>
@@ -315,7 +308,7 @@ EOF</pre>
       <div class="footer-col">
         <h5>Product</h5>
         <a href="/docs">Docs</a>
-        <a href="https://github.com/linchpinhq/linchpin/blob/main/ARCHITECTURE.md">Architecture</a>
+        <a href="/architecture">Architecture</a>
         <a href="https://github.com/linchpinhq/linchpin/releases">Releases</a>
       </div>
       <div class="footer-col">
