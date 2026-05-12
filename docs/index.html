@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Docs — Linchpin</title>
+  <meta name="description" content="Linchpin documentation. Quickstart, architecture, API reference, and per-feature specs — all linked from the GitHub repo." />
+  <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+  <style>
+    .docs-hero {
+      padding: 80px 0 56px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .docs-hero .crumb {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--steel);
+      margin-bottom: 16px;
+    }
+    .docs-hero .crumb a { color: var(--steel); text-decoration: none; }
+    .docs-hero .crumb a:hover { color: var(--oxide); }
+    .docs-hero h1 {
+      font-family: var(--font-display); font-weight: 500;
+      font-size: clamp(40px, 5.5vw, 72px);
+      letter-spacing: -0.025em; line-height: 1;
+      margin: 0 0 16px;
+    }
+    .docs-hero p {
+      font-size: 19px; color: var(--steel); max-width: 60ch;
+      margin: 0;
+    }
+
+    .doc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      padding: 64px 0 96px;
+    }
+    .doc-section {
+      border: 1px solid var(--ink);
+      background: var(--parchment);
+      padding: 28px 28px 8px;
+    }
+    .doc-section .num {
+      font-family: var(--font-mono); font-size: 11px;
+      color: var(--oxide); letter-spacing: 0.12em; text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .doc-section h2 {
+      font-family: var(--font-display); font-weight: 500;
+      font-size: 26px; letter-spacing: -0.015em;
+      margin: 0 0 4px;
+    }
+    .doc-section > p {
+      color: var(--steel); font-size: 14.5px; margin: 0 0 20px;
+      max-width: 48ch;
+    }
+    .doc-list {
+      list-style: none; padding: 0; margin: 0 -28px;
+      border-top: 1px solid var(--rule);
+    }
+    .doc-list li { border-bottom: 1px solid var(--rule); }
+    .doc-list li:last-child { border-bottom: none; }
+    .doc-list a {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 24px;
+      padding: 16px 28px;
+      text-decoration: none;
+      color: var(--ink);
+      transition: 120ms ease;
+    }
+    .doc-list a:hover {
+      background: var(--parchment-2, #EFEBE3);
+      color: var(--oxide);
+    }
+    .doc-list .title {
+      font-weight: 500;
+      font-size: 15px;
+      letter-spacing: -0.005em;
+    }
+    .doc-list .desc {
+      display: block;
+      font-size: 13px;
+      color: var(--steel);
+      margin-top: 2px;
+      font-weight: 400;
+      letter-spacing: 0;
+    }
+    .doc-list a:hover .desc { color: var(--steel); }
+    .doc-list .arrow {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--steel);
+      letter-spacing: 0;
+    }
+    .doc-list a:hover .arrow { color: var(--oxide); transform: translateX(2px); }
+    .doc-list .arrow { transition: transform 120ms; display: inline-block; }
+    .doc-list .ext::after {
+      content: " ↗"; color: var(--steel); font-family: var(--font-mono); font-size: 11px;
+      margin-left: 6px; vertical-align: 1px;
+    }
+
+    .upstream {
+      margin: 0 0 32px;
+      padding: 20px 24px;
+      border: 1px dashed var(--ink);
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 18px;
+      align-items: center;
+      background: var(--parchment);
+    }
+    .upstream .badge {
+      font-family: var(--font-mono); font-size: 11px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 6px 12px; background: var(--ink); color: var(--parchment);
+    }
+    .upstream p { margin: 0; font-size: 14px; color: var(--ink); }
+    .upstream code { font-family: var(--font-mono); font-size: 13px; background: var(--parchment-2, #EFEBE3); padding: 1px 5px; }
+    .upstream a { color: var(--oxide); text-decoration: underline; text-underline-offset: 2px; }
+
+    @media (max-width: 880px) {
+      .doc-grid { grid-template-columns: 1fr; gap: 20px; padding: 40px 0 56px; }
+      .doc-section { padding: 22px 22px 6px; }
+      .doc-list { margin: 0 -22px; }
+      .doc-list a { padding: 14px 22px; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- NAV -->
+  <nav class="top">
+    <a class="brand" href="/">
+      <svg class="mark" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="square">
+        <path d="M18 8 L18 48"/>
+        <path d="M18 48 L40 48"/>
+        <circle cx="46" cy="48" r="7" fill="currentColor" stroke="none"/>
+      </svg>
+      <span class="brand-word">Linchpin</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="https://github.com/linchpinhq/linchpin/blob/main/ARCHITECTURE.md">Architecture</a></li>
+      <li><a href="https://github.com/linchpinhq/linchpin/releases">Changelog</a></li>
+      <li><a href="https://github.com/linchpinhq/linchpin" class="nav-cta">★ GitHub</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="docs-hero">
+    <div class="crumb"><a href="/">Linchpin</a> <span>/</span> Docs</div>
+    <h1>Documentation</h1>
+    <p>Quickstart, architecture, API reference, and per-feature specs. The source of truth is the <a href="https://github.com/linchpinhq/linchpin" style="color: var(--oxide); text-decoration: underline; text-underline-offset: 2px;">linchpinhq/linchpin</a> repository — the links below jump straight there.</p>
+  </section>
+
+  <!-- UPSTREAM BANNER -->
+  <div class="upstream">
+    <span class="badge">Heads up</span>
+    <p>Linchpin is open source under Apache-2.0. Docs are checked into the repo as markdown — open an issue or PR if anything is wrong, missing, or stale. <a href="https://github.com/linchpinhq/linchpin/issues">github.com/linchpinhq/linchpin/issues</a></p>
+  </div>
+
+  <!-- DOC GRID -->
+  <div class="doc-grid">
+
+    <!-- § 01 Getting Started -->
+    <section class="doc-section">
+      <div class="num">§ 01 / Getting started</div>
+      <h2>Install &amp; first run</h2>
+      <p>Get the stack up on a single VM in under five minutes.</p>
+      <ul class="doc-list">
+        <li><a href="https://github.com/linchpinhq/linchpin#quick-start">
+          <span><span class="title ext">Quickstart</span><span class="desc"><code>docker compose up</code> and you have an agent platform.</span></span>
+          <span class="arrow">→</span>
+        </a></li>
+        <li><a href="https://github.com/linchpinhq/linchpin#environment-variables">
+          <span><span class="title ext">Environment variables</span><span class="desc">All the env keys: <code>LINCHPIN_API_KEY</code>, <code>VAULT_ENCRYPTION_KEY</code>, <code>OPENROUTER_API_KEY</code>.</span></span>
+          <span class="arrow">→</span>
+        </a></li>
+        <li><a href="https://github.com/linchpinhq/linchpin#hello-world">
+          <span><span class="title ext">Hello world</span><span class="desc">Curl walkthrough: create an environment, an agent, a session — send a message, stream the reply.</span></span>
+          <span class="arrow">→</span>
+        </a></li>
+        <li><a href="/#quickstart">
+          <span><span class="title">Quickstart (on this page)</span><span class="desc">Same flow, but rendered on the homepage with click-to-copy code blocks.</span></span>
+          <span class="arrow">→</span>
+        </a></li>
+      </ul>
+    </section>
+
+    <!-- § 02 Concepts -->
+    <section class="doc-section">
+      <div class="num">§ 02 / Concepts</div>
+      <h2>The core nouns</h2>
+      <p>The five resources that the rest of Linchpin is built around.</p>
+      <ul class="doc-list">
+        <li><a href="https://github.com/linchpinhq/linchpin/blob/main/ARCHITECTURE.md#components">
+          <span><span class="title ext">Agents, Environments, Sessions</span><span class="desc">What they are, how they relate, how versioning works.</span></span>
+          <span class="arrow">→</span>
+        </a></li>
+        <li><a href="https://github.com/linchpinhq/linchpin/blob/main/ARCHITECTURE.md#event-log">
+          <span><span class="title ext">Events &amp; the event log</span><span class="desc">Append-only, cursor-paginated, SSE-streamable. The backbone of session state.</span></span>
+          <span class="arrow">→</span>
+        </a></li>
+        <li><a href="https://github.com/linchpinhq/linchpin/blob/main/ARCHITECTURE.md#credential-vaults">
+          <span><span class="title ext">Credential vaults</span><span class="desc">Fernet-encrypted secret store. Bound to sessions, never on disk in plaintext.</span></span>
+          <span class="arrow">→</span>
+        </a></li>
+        <li><a href="https://github.com/linchpinhq/linchpin#tools">
+          <span><span class="title ext">Tools</span><span class="desc">Built-in eight, MCP servers via stdio, custom HTTP endpoints.</span></span>
+          <span class="arrow">→</span>
+        </a></li>
+      </ul>
+    </section>
+
+    <!-- § 03 Architecture -->
+    <section class="doc-section">
+      <div class="num">§ 03 / Architecture</div>
+      <h2>How it works</h2>
+      <p>Two Python services, Postgres, and a Docker daemon. ~3k LOC.</p>
+      <ul class="doc-list">
+        <li><a href="https://github.com/linchpinhq/linchpin/blob/main/ARCHITECTURE.md">
+          <span><span class="title ext">ARCHITECTURE.md</span><span class="desc">Topology, process boundaries, sandbox networks, key interfaces.</span></span>
+          <span class="arrow">→</span>
+        </a></li>
+        <li><a href="https://github.com/linchpinhq/linchpin/blob/main/ARCHITECTURE.md#session-state-machine">
+          <span><span class="title ext">Session state machine</span><span class="desc">rescheduling → running → idle → terminated / failed.</span></span>
+          <span class="arrow">→</span>
+        </a></li>
+        <li><a href="https://github.com/linchpinhq/linchpin/blob/main/ARCHITECTURE.md#orchestrator-loop">
+          <span><span class="title ext">Orchestrator loop</span><span class="desc">Per-session async task: build context → call model → emit events → policy-gate tool use.</span></span>
+          <span class="arrow">→</span>
+        </a></li>
+        <li><a href="https://github.com/linchpinhq/linchpin/blob/main/ARCHITECTURE.md#sandbox-network-policy">
+          <span><span class="title ext">Sandbox &amp; networks</span><span class="desc">Per-session containers on <code>linchpin-none</code> or <code>linchpin-open</code>.</span></span>
+          <span class="arrow">→</span>
+        </a></li>
+      </ul>
+    </section>
+
+    <!-- § 04 Reference -->
+    <section class="doc-section">
+      <div class="num">§ 04 / Reference</div>
+      <h2>HTTP &amp; events</h2>
+      <p>The wire-level contract: routes, payloads, event types.</p>
+      <ul class="doc-list">
+        <li><a href="https://github.com/linchpinhq/linchpin#api-reference">
+          <span><span class="title ext">HTTP API</span><span class="desc">All <code>/v1</code> routes — agents, environments, sessions, vaults, events, stream.</span></span>
+          <span class="arrow">→</span>
+        </a></li>
+        <li><a href="https://github.com/linchpinhq/linchpin/blob/main/ARCHITECTURE.md#event-taxonomy">
+          <span><span class="title ext">Event taxonomy</span><span class="desc"><code>user.*</code>, <code>agent.*</code>, <code>session.*</code> — what to send and what to expect back.</span></span>
+          <span class="arrow">→</span>
+        </a></li>
+        <li><a href="https://github.com/linchpinhq/linchpin/blob/main/linchpin-api/app/providers.py">
+          <span><span class="title ext">Model providers</span><span class="desc"><code>openrouter</code> + <code>ollama</code> adapters, retry logic, streaming.</span></span>
+          <span class="arrow">→</span>
+        </a></li>
+        <li><a href="https://github.com/linchpinhq/linchpin/blob/main/linchpin-api/app/tools.py">
+          <span><span class="title ext">Built-in tool catalog</span><span class="desc"><code>bash</code> · <code>read</code> · <code>write</code> · <code>edit</code> · <code>glob</code> · <code>grep</code> · <code>web_fetch</code> · <code>web_search</code></span></span>
+          <span class="arrow">→</span>
+        </a></li>
+      </ul>
+    </section>
+
+    <!-- § 05 Specs -->
+    <section class="doc-section">
+      <div class="num">§ 05 / Specs</div>
+      <h2>Per-feature design docs</h2>
+      <p>Requirements · design · tasks for each feature, in markdown.</p>
+      <ul class="doc-list">
+        <li><a href="https://github.com/linchpinhq/linchpin/tree/main/.kiro/specs/linchpin-mvp">
+          <span><span class="title ext">linchpin-mvp</span><span class="desc">The five-capability MVP: agents, environments, sessions, events, tools.</span></span>
+          <span class="arrow">→</span>
+        </a></li>
+        <li><a href="https://github.com/linchpinhq/linchpin/tree/main/.kiro/specs/linchpin-console">
+          <span><span class="title ext">linchpin-console</span><span class="desc">The React + Vite web UI.</span></span>
+          <span class="arrow">→</span>
+        </a></li>
+        <li><a href="https://github.com/linchpinhq/linchpin/tree/main/.kiro/specs/credential-vaults">
+          <span><span class="title ext">credential-vaults</span><span class="desc">Encryption, vault binding, runtime resolution.</span></span>
+          <span class="arrow">→</span>
+        </a></li>
+        <li><a href="https://github.com/linchpinhq/linchpin/tree/main/.kiro/specs/token-streaming">
+          <span><span class="title ext">token-streaming</span><span class="desc">SSE deltas, cursors, replay semantics.</span></span>
+          <span class="arrow">→</span>
+        </a></li>
+        <li><a href="https://github.com/linchpinhq/linchpin/tree/main/.kiro/specs">
+          <span><span class="title ext">All specs</span><span class="desc">Browse every spec folder.</span></span>
+          <span class="arrow">→</span>
+        </a></li>
+      </ul>
+    </section>
+
+    <!-- § 06 Community -->
+    <section class="doc-section">
+      <div class="num">§ 06 / Community</div>
+      <h2>Source &amp; conversation</h2>
+      <p>Linchpin is open source, Apache-2.0. PRs welcome.</p>
+      <ul class="doc-list">
+        <li><a href="https://github.com/linchpinhq/linchpin">
+          <span><span class="title ext">Repository</span><span class="desc">linchpinhq/linchpin on GitHub. Star, clone, fork.</span></span>
+          <span class="arrow">→</span>
+        </a></li>
+        <li><a href="https://github.com/linchpinhq/linchpin/issues">
+          <span><span class="title ext">Issues</span><span class="desc">Report a bug, request a feature.</span></span>
+          <span class="arrow">→</span>
+        </a></li>
+        <li><a href="https://github.com/linchpinhq/linchpin/discussions">
+          <span><span class="title ext">Discussions</span><span class="desc">Design questions, RFCs, show-and-tell.</span></span>
+          <span class="arrow">→</span>
+        </a></li>
+        <li><a href="https://github.com/linchpinhq/linchpin/releases">
+          <span><span class="title ext">Releases</span><span class="desc">Version history and changelog.</span></span>
+          <span class="arrow">→</span>
+        </a></li>
+        <li><a href="https://github.com/linchpinhq/linchpin/blob/main/LICENSE">
+          <span><span class="title ext">License</span><span class="desc">Apache-2.0.</span></span>
+          <span class="arrow">→</span>
+        </a></li>
+      </ul>
+    </section>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-cols">
+      <div class="footer-brand">
+        <a class="brand" href="/">
+          <svg class="mark" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="square">
+            <path d="M18 8 L18 48"/>
+            <path d="M18 48 L40 48"/>
+            <circle cx="46" cy="48" r="7" fill="currentColor" stroke="none"/>
+          </svg>
+          <span class="brand-word">Linchpin</span>
+        </a>
+        <p class="footer-tag">An open standard for managed AI agents.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Product</h5>
+        <a href="/docs">Docs</a>
+        <a href="https://github.com/linchpinhq/linchpin/blob/main/ARCHITECTURE.md">Architecture</a>
+        <a href="https://github.com/linchpinhq/linchpin/releases">Releases</a>
+      </div>
+      <div class="footer-col">
+        <h5>Community</h5>
+        <a href="https://github.com/linchpinhq/linchpin">GitHub</a>
+        <a href="https://github.com/linchpinhq/linchpin/issues">Issues</a>
+        <a href="https://github.com/linchpinhq/linchpin/discussions">Discussions</a>
+      </div>
+      <div class="footer-col">
+        <h5>Legal</h5>
+        <a href="https://github.com/linchpinhq/linchpin/blob/main/LICENSE">License</a>
+        <a href="https://github.com/linchpinhq/linchpin/security">Security</a>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>linchpin.work/docs</span>
+      <span>© 2026 · Apache-2.0</span>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
