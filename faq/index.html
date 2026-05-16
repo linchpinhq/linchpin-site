@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FAQ — Linchpin open-source managed-agent runtime</title>
+  <meta name="description" content="Frequently asked questions about Linchpin: what it is, how it differs from LangChain and OpenHands, model providers, MCP support, self-hosting, license, and production readiness." />
+  <link rel="canonical" href="https://linchpin.work/faq" />
+  <meta property="og:title" content="Linchpin FAQ — open-source managed agents" />
+  <meta property="og:description" content="Common questions about Linchpin: what it is, how it compares, how to self-host." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://linchpin.work/faq" />
+  <meta property="og:image" content="https://linchpin.work/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Linchpin FAQ" />
+  <meta name="twitter:description" content="Common questions about Linchpin: what it is, how it compares, how to self-host." />
+  <meta name="twitter:image" content="https://linchpin.work/og.png" />
+  <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Linchpin", "item": "https://linchpin.work/" },
+      { "@type": "ListItem", "position": 2, "name": "FAQ", "item": "https://linchpin.work/faq" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is Linchpin?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Linchpin is an open-source, self-hostable runtime for managed AI agents. It runs as three services and Postgres on a single VM via docker compose up, exposes an HTTP API for agents, environments, and sessions, and streams agent output back via Server-Sent Events. License: Apache-2.0."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is Linchpin different from LangChain or LangGraph?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "LangChain and LangGraph are Python libraries you import into your own application code. Linchpin is a pre-wired runtime — three services plus Postgres — that runs agents as a platform. The HTTP API is language-agnostic. Closer in shape to a managed-agent service than to a library."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is Linchpin different from OpenHands?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "OpenHands is a coding agent with its own UI. Linchpin is the runtime layer beneath an agent product. You could build an OpenHands-style coding agent on top of Linchpin; OpenHands is the agent itself, Linchpin is the platform."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why no first-party Anthropic or OpenAI adapter?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Linchpin uses OpenRouter for cloud models and Ollama for local models. OpenRouter exposes Claude, GPT, Gemini, Llama, and ~200 others through one OpenAI-compatible API. Routing everything through OpenRouter means one adapter to maintain and one place to set quotas — and OpenRouter handles provider-specific quirks for us."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can Linchpin run on a single VM?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Everything — API, connector, console, Postgres — runs under docker compose. A 4 GB VM is the minimum; 16 GB is recommended for production workloads with several concurrent sessions."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What models can I use with Linchpin?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Any cloud model on OpenRouter (~200 models including Claude, GPT-4, Gemini, Llama, Mistral, Qwen) and any local model in Ollama (Llama 3.x, Qwen 2.5, DeepSeek-Coder, Mistral, etc.). The provider is chosen per agent."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is Linchpin production-ready?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Linchpin is pre-1.0 and the API may change before 1.0. The core paths — session lifecycle, event log, sandbox containers, model calls — are stable enough for internal tools and prototypes. Mission-critical customer-facing workloads should wait for 1.0 or run a hosted alternative."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the license?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Apache-2.0. Commercial use, modification, distribution, and patent grant are all permitted. The license is in the repo at github.com/linchpinhq/linchpin."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I self-host Linchpin?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Clone github.com/linchpinhq/linchpin, copy .env.example to .env and set the keys (LINCHPIN_API_KEY, VAULT_ENCRYPTION_KEY, and either OPENROUTER_API_KEY or OLLAMA_HOST), then run docker compose up --build. The console is at localhost:5173 and the API at localhost:8000."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does Linchpin support MCP (Model Context Protocol)?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Linchpin can register MCP servers as tool sources over stdio. The MCP server runs inside the per-session sandbox container; the agent can invoke its tools just like the built-in eight (bash, read, write, edit, glob, grep, web_fetch, web_search)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How are credentials stored?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Linchpin has a credential vault — Fernet-encrypted at rest in Postgres, with the encryption key supplied via VAULT_ENCRYPTION_KEY in the environment. Vaults bind to sessions, and the agent gets credentials injected at runtime; they are never written to disk in plaintext."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I run Linchpin entirely offline?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, when paired with Ollama. The model runs locally, the runtime runs locally, the event log is in your local Postgres, and the sandbox containers are local. No outbound calls are required at runtime. See the local-LLM agents use-case page for setup."
+        }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="top">
+    <a class="brand" href="/">
+      <svg class="mark" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="square">
+        <path d="M18 8 L18 48"/>
+        <path d="M18 48 L40 48"/>
+        <circle cx="46" cy="48" r="7" fill="currentColor" stroke="none"/>
+      </svg>
+      <span class="brand-word">Linchpin</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/architecture">Architecture</a></li>
+      <li><a href="https://github.com/linchpinhq/linchpin/releases">Changelog</a></li>
+      <li><a href="https://github.com/linchpinhq/linchpin" class="nav-cta"><svg class="gh-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.07c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18.92-.26 1.91-.39 2.89-.39.98 0 1.97.13 2.89.39 2.21-1.49 3.18-1.18 3.18-1.18.62 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.69 5.4-5.26 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.55C20.21 21.38 23.5 17.07 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg> GitHub</a></li>
+    </ul>
+  </nav>
+
+  <section class="page-hero">
+    <div class="crumb"><a href="/">Linchpin</a> <span>/</span> FAQ</div>
+    <h1>Frequently asked questions</h1>
+    <p class="lede">Direct answers about Linchpin — what it is, how it differs from other agent projects, how to self-host, and what tradeoffs to expect.</p>
+  </section>
+
+  <section class="content-section">
+    <div class="faq-list">
+      <div class="faq-item">
+        <h3>What is Linchpin?</h3>
+        <p>Linchpin is an open-source, self-hostable runtime for managed AI agents. It runs as three services and Postgres on a single VM via <code>docker compose up</code>, exposes an HTTP API for agents, environments, and sessions, and streams agent output back via Server-Sent Events. License: Apache-2.0.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>How is Linchpin different from LangChain or LangGraph?</h3>
+        <p>LangChain and LangGraph are Python libraries you import into your own application code. Linchpin is a pre-wired runtime — three services plus Postgres — that runs agents as a platform. The HTTP API is language-agnostic. Closer in shape to a managed-agent service than to a library. See <a href="/compare/langgraph">Linchpin vs LangGraph</a> for the side-by-side.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>How is Linchpin different from OpenHands?</h3>
+        <p>OpenHands is a coding agent with its own UI. Linchpin is the runtime layer beneath an agent product. You could build an OpenHands-style coding agent on top of Linchpin; OpenHands is the agent itself, Linchpin is the platform. See <a href="/compare/openhands">Linchpin vs OpenHands</a>.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Why no first-party Anthropic or OpenAI adapter?</h3>
+        <p>Linchpin uses OpenRouter for cloud models and Ollama for local models. OpenRouter exposes Claude, GPT, Gemini, Llama, and ~200 others through one OpenAI-compatible API. Routing everything through OpenRouter means one adapter to maintain and one place to set quotas — and OpenRouter handles provider-specific quirks for us.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Can Linchpin run on a single VM?</h3>
+        <p>Yes. Everything — API, connector, console, Postgres — runs under <code>docker compose</code>. A 4 GB VM is the minimum; 16 GB is recommended for production workloads with several concurrent sessions. See <a href="/blog/self-hosting-ai-agents-single-vm">self-hosting AI agents on a single VM</a>.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>What models can I use with Linchpin?</h3>
+        <p>Any cloud model on OpenRouter (~200 models including Claude, GPT-4, Gemini, Llama, Mistral, Qwen) and any local model in Ollama (Llama 3.x, Qwen 2.5, DeepSeek-Coder, Mistral, etc.). The provider is chosen per agent.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Is Linchpin production-ready?</h3>
+        <p>Linchpin is pre-1.0 and the API may change before 1.0. The core paths — session lifecycle, event log, sandbox containers, model calls — are stable enough for internal tools and prototypes. Mission-critical customer-facing workloads should wait for 1.0 or run a hosted alternative.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>What is the license?</h3>
+        <p>Apache-2.0. Commercial use, modification, distribution, and patent grant are all permitted. The license is in the repo at <a href="https://github.com/linchpinhq/linchpin/blob/main/LICENSE">github.com/linchpinhq/linchpin</a>.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>How do I self-host Linchpin?</h3>
+        <p>Clone <a href="https://github.com/linchpinhq/linchpin">github.com/linchpinhq/linchpin</a>, copy <code>.env.example</code> to <code>.env</code> and set the keys (<code>LINCHPIN_API_KEY</code>, <code>VAULT_ENCRYPTION_KEY</code>, and either <code>OPENROUTER_API_KEY</code> or <code>OLLAMA_HOST</code>), then run <code>docker compose up --build</code>. The console is at <code>localhost:5173</code> and the API at <code>localhost:8000</code>. See <a href="/use-cases/self-hosted-agents">self-hosted AI agents</a> for architecture and example deployments.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Does Linchpin support MCP (Model Context Protocol)?</h3>
+        <p>Yes. Linchpin can register MCP servers as tool sources over stdio. The MCP server runs inside the per-session sandbox container; the agent can invoke its tools just like the built-in eight (<code>bash</code>, <code>read</code>, <code>write</code>, <code>edit</code>, <code>glob</code>, <code>grep</code>, <code>web_fetch</code>, <code>web_search</code>).</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>How are credentials stored?</h3>
+        <p>Linchpin has a credential vault — Fernet-encrypted at rest in Postgres, with the encryption key supplied via <code>VAULT_ENCRYPTION_KEY</code> in the environment. Vaults bind to sessions, and the agent gets credentials injected at runtime; they are never written to disk in plaintext.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Can I run Linchpin entirely offline?</h3>
+        <p>Yes, when paired with Ollama. The model runs locally, the runtime runs locally, the event log is in your local Postgres, and the sandbox containers are local. No outbound calls are required at runtime. See <a href="/use-cases/local-llm-agents">local-LLM agents</a> for setup.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-cols">
+      <div class="footer-brand">
+        <a class="brand" href="/">
+          <svg class="mark" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="square">
+            <path d="M18 8 L18 48"/>
+            <path d="M18 48 L40 48"/>
+            <circle cx="46" cy="48" r="7" fill="currentColor" stroke="none"/>
+          </svg>
+          <span class="brand-word">Linchpin</span>
+        </a>
+        <p class="footer-tag">An open standard for managed AI agents.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Product</h5>
+        <a href="/docs">Docs</a>
+        <a href="/architecture">Architecture</a>
+        <a href="/blog">Blog</a>
+        <a href="/faq">FAQ</a>
+        <a href="/glossary">Glossary</a>
+      </div>
+      <div class="footer-col">
+        <h5>Compare</h5>
+        <a href="/compare/openhands">vs OpenHands</a>
+        <a href="/compare/langgraph">vs LangGraph</a>
+        <a href="/compare/anthropic-managed-agents">vs Anthropic MA</a>
+        <a href="/compare/aider">vs Aider</a>
+      </div>
+      <div class="footer-col">
+        <h5>Community</h5>
+        <a href="https://github.com/linchpinhq/linchpin">GitHub</a>
+        <a href="https://github.com/linchpinhq/linchpin/issues">Issues</a>
+        <a href="https://github.com/linchpinhq/linchpin/discussions">Discussions</a>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>linchpin.work/faq</span>
+      <span>© 2026 · Apache-2.0</span>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>

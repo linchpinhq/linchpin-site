@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Notes — Linchpin blog</title>
+  <meta name="description" content="Notes on open-source managed agents, self-hosting AI, and agent-runtime design. From the Linchpin team." />
+  <link rel="canonical" href="https://linchpin.work/blog" />
+  <meta property="og:title" content="Linchpin — Notes" />
+  <meta property="og:description" content="Notes on open-source managed agents, self-hosting AI, and agent-runtime design." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://linchpin.work/blog" />
+  <meta property="og:image" content="https://linchpin.work/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Linchpin — Notes" />
+  <meta name="twitter:description" content="Notes on open-source managed agents." />
+  <meta name="twitter:image" content="https://linchpin.work/og.png" />
+  <link rel="alternate" type="application/rss+xml" title="Linchpin — Notes" href="/blog/feed.xml" />
+  <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "Linchpin — Notes",
+    "url": "https://linchpin.work/blog",
+    "description": "Notes on open-source managed agents, self-hosting AI, and agent-runtime design.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Linchpin",
+      "url": "https://linchpin.work/"
+    }
+  }
+  </script>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="top">
+    <a class="brand" href="/">
+      <svg class="mark" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="square">
+        <path d="M18 8 L18 48"/>
+        <path d="M18 48 L40 48"/>
+        <circle cx="46" cy="48" r="7" fill="currentColor" stroke="none"/>
+      </svg>
+      <span class="brand-word">Linchpin</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/architecture">Architecture</a></li>
+      <li><a href="https://github.com/linchpinhq/linchpin/releases">Changelog</a></li>
+      <li><a href="https://github.com/linchpinhq/linchpin" class="nav-cta"><svg class="gh-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.07c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18.92-.26 1.91-.39 2.89-.39.98 0 1.97.13 2.89.39 2.21-1.49 3.18-1.18 3.18-1.18.62 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.69 5.4-5.26 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.55C20.21 21.38 23.5 17.07 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg> GitHub</a></li>
+    </ul>
+  </nav>
+
+  <section class="page-hero">
+    <div class="crumb"><a href="/">Linchpin</a> <span>/</span> Notes</div>
+    <h1>Notes</h1>
+    <p class="lede">Short essays and how-tos on open-source managed agents, self-hosting AI, and agent-runtime design. <a href="/blog/feed.xml">RSS</a>.</p>
+  </section>
+
+  <section class="content-section">
+    <ul class="post-list">
+      <li>
+        <a href="/blog/what-is-a-managed-agent-runtime">
+          <div class="date">2026-05-13</div>
+          <h2>What is a managed agent runtime?</h2>
+          <p>The runtime layer sits between agent libraries and hosted agent services. Defining the term, drawing the lines, and naming what each layer is good for.</p>
+        </a>
+      </li>
+      <li>
+        <a href="/blog/self-hosting-ai-agents-single-vm">
+          <div class="date">2026-05-13</div>
+          <h2>Self-hosting AI agents on a single VM</h2>
+          <p>A step-by-step deployment guide: provision the VM, configure the environment, run docker compose, and create your first agent session — without leaving your own infrastructure.</p>
+        </a>
+      </li>
+    </ul>
+  </section>
+
+  <footer>
+    <div class="footer-cols">
+      <div class="footer-brand">
+        <a class="brand" href="/">
+          <svg class="mark" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="square">
+            <path d="M18 8 L18 48"/>
+            <path d="M18 48 L40 48"/>
+            <circle cx="46" cy="48" r="7" fill="currentColor" stroke="none"/>
+          </svg>
+          <span class="brand-word">Linchpin</span>
+        </a>
+        <p class="footer-tag">An open standard for managed AI agents.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Product</h5>
+        <a href="/docs">Docs</a>
+        <a href="/architecture">Architecture</a>
+        <a href="/blog">Blog</a>
+        <a href="/faq">FAQ</a>
+        <a href="/glossary">Glossary</a>
+      </div>
+      <div class="footer-col">
+        <h5>Compare</h5>
+        <a href="/compare/openhands">vs OpenHands</a>
+        <a href="/compare/langgraph">vs LangGraph</a>
+        <a href="/compare/anthropic-managed-agents">vs Anthropic MA</a>
+        <a href="/compare/aider">vs Aider</a>
+      </div>
+      <div class="footer-col">
+        <h5>Community</h5>
+        <a href="https://github.com/linchpinhq/linchpin">GitHub</a>
+        <a href="https://github.com/linchpinhq/linchpin/issues">Issues</a>
+        <a href="https://github.com/linchpinhq/linchpin/discussions">Discussions</a>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>linchpin.work/blog</span>
+      <span>© 2026 · Apache-2.0</span>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>

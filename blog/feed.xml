@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linchpin — Notes</title>
+    <link>https://linchpin.work/blog</link>
+    <atom:link href="https://linchpin.work/blog/feed.xml" rel="self" type="application/rss+xml" />
+    <description>Notes on open-source managed agents, self-hosting AI, and agent-runtime design.</description>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 14 May 2026 21:43:00 GMT</lastBuildDate>
+    <item>
+      <title>What is a managed agent runtime? | Linchpin</title>
+      <link>https://linchpin.work/blog/what-is-a-managed-agent-runtime</link>
+      <guid isPermaLink="true">https://linchpin.work/blog/what-is-a-managed-agent-runtime</guid>
+      <pubDate>Wed, 13 May 2026 12:00:00 GMT</pubDate>
+      <description>A managed agent runtime is the platform layer between an agent library and a hosted agent service. It owns session lifecycle, sandboxing, event log, and tool execution — and is the layer Linchpin builds.</description>
+    </item>
+    <item>
+      <title>Self-hosting AI agents on a single VM | Linchpin</title>
+      <link>https://linchpin.work/blog/self-hosting-ai-agents-single-vm</link>
+      <guid isPermaLink="true">https://linchpin.work/blog/self-hosting-ai-agents-single-vm</guid>
+      <pubDate>Wed, 13 May 2026 12:00:00 GMT</pubDate>
+      <description>Step-by-step guide to self-hosting AI agents on a single VM with Linchpin: provision the box, configure environment variables, run docker compose, create your first agent and session. ~5 minutes.</description>
+    </item>
+  </channel>
+</rss>

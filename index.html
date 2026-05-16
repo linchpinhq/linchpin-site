@@ -9,11 +9,94 @@
   <meta property="og:description" content="A self-hostable runtime for AI agents. Bring any model. No vendor lock-in." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://linchpin.work/" />
+  <meta property="og:image" content="https://linchpin.work/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Linchpin — Open-source managed agents" />
+  <meta name="twitter:description" content="A self-hostable runtime for AI agents. Bring any model. No vendor lock-in." />
+  <meta name="twitter:image" content="https://linchpin.work/og.png" />
+  <link rel="canonical" href="https://linchpin.work/" />
   <link rel="icon" type="image/svg+xml" href="/logo.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/styles.css" />
+  <link rel="alternate" type="application/rss+xml" title="Linchpin — Notes" href="/blog/feed.xml" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Linchpin",
+    "alternateName": "linchpinhq/linchpin",
+    "description": "Open-source, self-hostable runtime for managed AI agents. Apache-2.0. Run agents on infrastructure you own, against any cloud model via OpenRouter or local model via Ollama.",
+    "applicationCategory": "DeveloperApplication",
+    "applicationSubCategory": "AI agent runtime",
+    "operatingSystem": "Linux, macOS",
+    "url": "https://linchpin.work/",
+    "downloadUrl": "https://github.com/linchpinhq/linchpin",
+    "softwareVersion": "0.1",
+    "license": "https://www.apache.org/licenses/LICENSE-2.0",
+    "isAccessibleForFree": true,
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "Linchpin",
+      "url": "https://linchpin.work/"
+    },
+    "softwareRequirements": "Docker, Postgres 16, ~4 GB RAM minimum"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Linchpin",
+    "url": "https://linchpin.work/",
+    "logo": "https://linchpin.work/logo.svg",
+    "description": "Open-source managed-agent runtime. Self-hostable, model-agnostic, Apache-2.0.",
+    "sameAs": [
+      "https://github.com/linchpinhq/linchpin"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is Linchpin?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Linchpin is an open-source, self-hostable runtime for managed AI agents. It runs on a single VM via docker compose up and works with any cloud model via OpenRouter or any local model via Ollama. License: Apache-2.0."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is Linchpin an open-source alternative to Devin or Manus?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Devin and Manus are closed, hosted agent products. Linchpin is the open-source runtime layer you self-host. You bring the model, the agents, and the tools; Linchpin runs the sessions, sandboxes, event log, and tool calls."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How is Linchpin different from LangChain or LangGraph?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "LangChain and LangGraph are Python libraries you import into your own service. Linchpin is a pre-wired runtime — three services and Postgres — that runs agents as a platform. Closer in spirit to a managed-agent service, but self-hosted."
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 <div class="wrap">
@@ -309,18 +392,22 @@ EOF</pre>
         <h5>Product</h5>
         <a href="/docs">Docs</a>
         <a href="/architecture">Architecture</a>
-        <a href="https://github.com/linchpinhq/linchpin/releases">Releases</a>
+        <a href="/blog">Blog</a>
+        <a href="/faq">FAQ</a>
+        <a href="/glossary">Glossary</a>
+      </div>
+      <div class="footer-col">
+        <h5>Compare</h5>
+        <a href="/compare/openhands">vs OpenHands</a>
+        <a href="/compare/langgraph">vs LangGraph</a>
+        <a href="/compare/anthropic-managed-agents">vs Anthropic MA</a>
+        <a href="/compare/aider">vs Aider</a>
       </div>
       <div class="footer-col">
         <h5>Community</h5>
         <a href="https://github.com/linchpinhq/linchpin">GitHub</a>
         <a href="https://github.com/linchpinhq/linchpin/issues">Issues</a>
         <a href="https://github.com/linchpinhq/linchpin/discussions">Discussions</a>
-      </div>
-      <div class="footer-col">
-        <h5>Legal</h5>
-        <a href="https://github.com/linchpinhq/linchpin/blob/main/LICENSE">License</a>
-        <a href="https://github.com/linchpinhq/linchpin/security">Security</a>
       </div>
     </div>
     <div class="footer-bar">

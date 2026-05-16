@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>What is a managed agent runtime? | Linchpin</title>
+  <meta name="description" content="A managed agent runtime is the platform layer between an agent library and a hosted agent service. It owns session lifecycle, sandboxing, event log, and tool execution — and is the layer Linchpin builds." />
+  <link rel="canonical" href="https://linchpin.work/blog/what-is-a-managed-agent-runtime" />
+  <meta property="og:title" content="What is a managed agent runtime?" />
+  <meta property="og:description" content="The platform layer between an agent library and a hosted agent service. Defined." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://linchpin.work/blog/what-is-a-managed-agent-runtime" />
+  <meta property="og:image" content="https://linchpin.work/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="What is a managed agent runtime?" />
+  <meta name="twitter:description" content="The platform layer between an agent library and a hosted agent service." />
+  <meta name="twitter:image" content="https://linchpin.work/og.png" />
+  <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Linchpin", "item": "https://linchpin.work/" },
+      { "@type": "ListItem", "position": 2, "name": "Notes", "item": "https://linchpin.work/blog" },
+      { "@type": "ListItem", "position": 3, "name": "What is a managed agent runtime?", "item": "https://linchpin.work/blog/what-is-a-managed-agent-runtime" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "What is a managed agent runtime?",
+    "description": "A managed agent runtime is the platform layer between an agent library and a hosted agent service. It owns session lifecycle, sandboxing, event log, and tool execution.",
+    "datePublished": "2026-05-13",
+    "dateModified": "2026-05-13",
+    "author": {
+      "@type": "Organization",
+      "name": "Linchpin",
+      "url": "https://linchpin.work/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Linchpin",
+      "url": "https://linchpin.work/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://linchpin.work/logo.svg"
+      }
+    },
+    "mainEntityOfPage": "https://linchpin.work/blog/what-is-a-managed-agent-runtime",
+    "image": "https://linchpin.work/og.png"
+  }
+  </script>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="top">
+    <a class="brand" href="/">
+      <svg class="mark" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="square">
+        <path d="M18 8 L18 48"/>
+        <path d="M18 48 L40 48"/>
+        <circle cx="46" cy="48" r="7" fill="currentColor" stroke="none"/>
+      </svg>
+      <span class="brand-word">Linchpin</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/architecture">Architecture</a></li>
+      <li><a href="https://github.com/linchpinhq/linchpin/releases">Changelog</a></li>
+      <li><a href="https://github.com/linchpinhq/linchpin" class="nav-cta"><svg class="gh-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.07c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18.92-.26 1.91-.39 2.89-.39.98 0 1.97.13 2.89.39 2.21-1.49 3.18-1.18 3.18-1.18.62 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.69 5.4-5.26 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.55C20.21 21.38 23.5 17.07 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg> GitHub</a></li>
+    </ul>
+  </nav>
+
+  <section class="page-hero">
+    <div class="crumb"><a href="/">Linchpin</a> <span>/</span> <a href="/blog">Notes</a> <span>/</span> Managed agent runtime</div>
+    <h1>What is a managed agent runtime?</h1>
+    <p class="lede">A managed agent runtime is the platform layer between an agent library and a hosted agent service. It owns session lifecycle, tool execution, sandboxing, the event log, and the streaming protocol. You self-host it.</p>
+  </section>
+
+  <article class="prose">
+    <p class="meta">Posted 2026-05-13 · By the Linchpin team</p>
+
+    <p>Three things get called "agent" today and they sit at very different layers of the stack. Mixing them up is the source of a lot of "X is just Y" arguments online. Let me draw the layers.</p>
+
+    <h2>The three layers</h2>
+
+    <p>From bottom to top:</p>
+
+    <ol>
+      <li><strong>Agent library.</strong> Code you import into your own service. Examples: <a href="/compare/langgraph">LangGraph</a>, LangChain agents, Mastra, Pydantic AI, the OpenAI Agents SDK. You write the FastAPI service (or whatever) that wraps the library. You decide how to persist state, how to expose the API, how to isolate tool calls, how to stream output. The library gives you a graph or a loop; everything else is yours.</li>
+      <li><strong>Agent runtime.</strong> A platform that runs agents. You define agents through an API; the runtime owns the orchestrator loop, the session state, the sandbox, the event log, the tool calls, and the streaming. Examples: <a href="/">Linchpin</a>, and <a href="/compare/openhands">OpenHands</a> in some configurations. The runtime is something you operate. You ship agents on top of it.</li>
+      <li><strong>Hosted agent service.</strong> A vendor runs the runtime for you. You configure agents through their API and consume them as a service. Examples: <a href="/compare/anthropic-managed-agents">Anthropic Managed Agents</a>, Devin, Manus, OpenAI's agent tools. You do not operate anything; you bring your prompts and pay per use.</li>
+    </ol>
+
+    <div class="mermaid-figure">
+      <div class="label">Fig. 01 · Three layers</div>
+      <pre class="mermaid">
+flowchart TB
+    L3["Hosted agent service<br/>(Anthropic Managed Agents, Devin, Manus)"]
+    L2["Agent runtime<br/>(Linchpin, OpenHands)"]
+    L1["Agent library<br/>(LangGraph, LangChain, Mastra)"]
+    L3 -->|"sits on"| L2
+    L2 -->|"is built around"| L1
+    style L2 fill:#B83A1A,color:#F4F2EC
+      </pre>
+    </div>
+
+    <p>The lines are not perfectly clean. Many agent libraries ship some runtime affordances (state persistence, checkpointing). Many hosted services expose enough surface that they feel like a runtime you happen to not operate. But the layers are real, and noticing which one a project is at will save you a lot of "are these competitors?" confusion.</p>
+
+    <h2>What a runtime owns</h2>
+
+    <p>A real <a href="/glossary#agent-runtime">agent runtime</a> takes responsibility for a specific list of things. The list is what distinguishes a runtime from a library that ships with a server.</p>
+
+    <h3>Sessions</h3>
+
+    <p>An agent session is long-lived. The user sends a message, the agent reasons, the agent calls tools, the agent replies. Then later the user sends another message — and the agent picks up where it left off. The runtime is responsible for persisting that session, surfacing its state, resuming it, and tearing it down. Sessions outlive HTTP requests.</p>
+
+    <h3>Event log</h3>
+
+    <p>Everything that happens in a session is recorded as events: <code>user.message</code>, <code>agent.message_delta</code>, <code>agent.tool_call</code>, <code>agent.tool_result</code>, <code>session.status_running</code>, <code>session.status_idle</code>. Append-only. Cursor-paginated. The <a href="/glossary#event-log">event log</a> is the source of truth, not the agent's in-memory state. You can replay it. You can subscribe to it. Other services can consume it.</p>
+
+    <h3>Sandbox</h3>
+
+    <p>When the agent runs <code>bash</code>, you don't want it running on the runtime's host. Each session gets a <a href="/glossary#per-session-sandbox">per-session sandbox</a> — typically a Docker container on a network the operator controls. File I/O, shell commands, MCP servers all run inside the sandbox. The runtime mediates between the agent's tool calls and the sandbox's filesystem and processes.</p>
+
+    <h3>Tool execution</h3>
+
+    <p>Tools come in a few flavors. Built-in tools (<code>read</code>, <code>write</code>, <code>bash</code>, <code>edit</code>, <code>grep</code>, etc.) are shipped by the runtime. <a href="/glossary#mcp">MCP</a> servers are registered as additional tool sources. Custom HTTP tools point at services the operator defines. The runtime is responsible for dispatching tool calls, policy-gating them (this agent in this environment can or cannot use this tool), and recording the results back into the event log.</p>
+
+    <h3>Model providers</h3>
+
+    <p>The runtime calls models. It is responsible for the wire-format, retries, streaming, and provider selection. A library typically supports many providers via adapters; a runtime usually picks a small number and supports them well. Linchpin uses two: <a href="/glossary#openrouter">OpenRouter</a> for any cloud model and <a href="/glossary#ollama">Ollama</a> for any local model.</p>
+
+    <h3>Streaming</h3>
+
+    <p>Agents are slow. Users want to see the answer arriving. The runtime exposes the event log as a stream — typically <a href="/glossary#sse">Server-Sent Events</a> — so clients can subscribe and render deltas as they happen, with replay from a cursor if the connection drops.</p>
+
+    <h2>Why this layer exists</h2>
+
+    <p>You could, in principle, build all of this yourself on top of an agent library. People do. The reason runtimes exist as a distinct layer is that the work is not negligible, and it is the same work across every agent product:</p>
+
+    <ul>
+      <li>Spawning and tearing down sandbox containers.</li>
+      <li>Storing and paginating an event log.</li>
+      <li>Streaming events to many clients with cursor-replay semantics.</li>
+      <li>Policy-gating tool calls.</li>
+      <li>Resuming sessions after a server restart.</li>
+      <li>Encrypting credentials per session and injecting them at tool time.</li>
+    </ul>
+
+    <p>That list is two months of work, and you have not yet written your actual product. Runtimes commoditize it — you import a runtime, you ship the product.</p>
+
+    <h2>Runtime vs hosted service</h2>
+
+    <p>The split between a runtime and a hosted service is operational, not architectural. A hosted service <em>is</em> a runtime — just operated by someone else, on their infrastructure, with their pricing. <a href="/compare/anthropic-managed-agents">Anthropic Managed Agents</a> is roughly what you would get if you packaged a runtime and ran it as a SaaS.</p>
+
+    <p>The reasons to pick a self-hosted runtime over a hosted service are the usual self-hosting reasons: data residency, cost predictability, model choice, source-availability, embedding inside another product. The reasons to pick a hosted service are the usual hosted-service reasons: no operations, vendor SLA, compliance certifications, day-one feature breadth.</p>
+
+    <h2>Linchpin as an example</h2>
+
+    <p>Linchpin is one example of a runtime. Three services and Postgres on a single VM. The API is HTTP. The streaming is SSE. Sandboxes are Docker. Models are OpenRouter or Ollama. Credentials are Fernet-encrypted. Apache-2.0. There is nothing exotic about any of these choices — they are the obvious defaults — but they are <em>made</em>, and they are pre-wired, which is what makes Linchpin a runtime and not a library.</p>
+
+    <p>If you are looking for the layer this post defines, see the <a href="/">homepage</a> and <a href="/docs">docs</a>. If you are looking for the comparison to one of the libraries or services above, the comparison pages have a side-by-side: <a href="/compare/openhands">vs OpenHands</a>, <a href="/compare/langgraph">vs LangGraph</a>, <a href="/compare/anthropic-managed-agents">vs Anthropic Managed Agents</a>.</p>
+
+    <h2>Further reading</h2>
+
+    <ul>
+      <li><a href="/blog/self-hosting-ai-agents-single-vm">Self-hosting AI agents on a single VM</a> — practical deployment</li>
+      <li><a href="/glossary">Glossary</a> — definitions for every term used here</li>
+      <li><a href="/use-cases/self-hosted-agents">Self-hosted agents</a> — who picks this layer and why</li>
+    </ul>
+  </article>
+
+  <footer>
+    <div class="footer-cols">
+      <div class="footer-brand">
+        <a class="brand" href="/">
+          <svg class="mark" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="square">
+            <path d="M18 8 L18 48"/>
+            <path d="M18 48 L40 48"/>
+            <circle cx="46" cy="48" r="7" fill="currentColor" stroke="none"/>
+          </svg>
+          <span class="brand-word">Linchpin</span>
+        </a>
+        <p class="footer-tag">An open standard for managed AI agents.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Product</h5>
+        <a href="/docs">Docs</a>
+        <a href="/architecture">Architecture</a>
+        <a href="/blog">Blog</a>
+        <a href="/faq">FAQ</a>
+        <a href="/glossary">Glossary</a>
+      </div>
+      <div class="footer-col">
+        <h5>Compare</h5>
+        <a href="/compare/openhands">vs OpenHands</a>
+        <a href="/compare/langgraph">vs LangGraph</a>
+        <a href="/compare/anthropic-managed-agents">vs Anthropic MA</a>
+        <a href="/compare/aider">vs Aider</a>
+      </div>
+      <div class="footer-col">
+        <h5>Community</h5>
+        <a href="https://github.com/linchpinhq/linchpin">GitHub</a>
+        <a href="https://github.com/linchpinhq/linchpin/issues">Issues</a>
+        <a href="https://github.com/linchpinhq/linchpin/discussions">Discussions</a>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>linchpin.work/blog/what-is-a-managed-agent-runtime</span>
+      <span>© 2026 · Apache-2.0</span>
+    </div>
+  </footer>
+
+</div>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'
+  mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: { primaryColor: '#F4F2EC', primaryTextColor: '#1A1A1A', primaryBorderColor: '#1A1A1A', lineColor: '#1A1A1A', fontFamily: 'JetBrains Mono, monospace' }})
+</script>
+</body>
+</html>

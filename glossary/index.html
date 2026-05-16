@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Glossary — managed-agent runtime terms | Linchpin</title>
+  <meta name="description" content="Definitions of the key terms used in the Linchpin managed-agent runtime: managed agent, agent runtime, per-session sandbox, event log, MCP, OpenRouter, Ollama, SSE, Fernet, self-hostable." />
+  <link rel="canonical" href="https://linchpin.work/glossary" />
+  <meta property="og:title" content="Linchpin glossary — managed-agent runtime terms" />
+  <meta property="og:description" content="Definitions for managed agent, runtime, sandbox, event log, MCP, and more." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://linchpin.work/glossary" />
+  <meta property="og:image" content="https://linchpin.work/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Linchpin glossary" />
+  <meta name="twitter:description" content="Definitions for the managed-agent runtime vocabulary." />
+  <meta name="twitter:image" content="https://linchpin.work/og.png" />
+  <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Linchpin", "item": "https://linchpin.work/" },
+      { "@type": "ListItem", "position": 2, "name": "Glossary", "item": "https://linchpin.work/glossary" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "DefinedTermSet",
+    "name": "Linchpin glossary",
+    "description": "Definitions for managed-agent runtime concepts used in Linchpin.",
+    "url": "https://linchpin.work/glossary",
+    "hasDefinedTerm": [
+      {
+        "@type": "DefinedTerm",
+        "name": "Managed agent",
+        "description": "An AI agent that runs as a long-lived, externally-managed session rather than a one-shot LLM call. The runtime tracks state, sandboxes tools, persists events, and exposes a control surface over an API."
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Agent runtime",
+        "description": "The platform that runs agents — session lifecycle, tool execution, model calls, event log, streaming. Distinct from an agent library (imported code) and a hosted agent service (someone else's runtime)."
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Per-session sandbox",
+        "description": "A dedicated Docker container created for each agent session. Tool calls (bash, file I/O, MCP servers) run inside this container on a network the operator controls, isolating the agent from the host."
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Event log",
+        "description": "An append-only record of every event in a session — user messages, agent messages, tool calls, tool results, status transitions. Cursor-paginated, streamable over SSE, replayable from any cursor."
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "MCP",
+        "description": "Model Context Protocol. An open standard for connecting LLMs to external tools and data via stdio servers. Linchpin runs MCP servers inside the per-session sandbox so the agent can invoke their tools."
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "OpenRouter",
+        "description": "A model-routing service that exposes ~200 LLMs (Claude, GPT, Gemini, Llama, Mistral, Qwen, and more) through one OpenAI-compatible API. Linchpin uses OpenRouter as its single cloud-model provider."
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Ollama",
+        "description": "A local-first runtime for running LLMs on your own machine. Linchpin's ollama provider points at a local Ollama server so agents can run entirely offline against local model weights."
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "SSE",
+        "description": "Server-Sent Events. A one-way streaming protocol over HTTP that Linchpin uses to push event-log updates and token deltas to clients. Distinct from WebSockets — simpler, HTTP-native, replayable from a cursor."
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Fernet",
+        "description": "A symmetric encryption recipe (AES-128-CBC + HMAC-SHA256) from the Python cryptography library. Linchpin's credential vault encrypts secrets with Fernet using a key supplied at startup."
+      },
+      {
+        "@type": "DefinedTerm",
+        "name": "Self-hostable",
+        "description": "Software that can be installed and operated on infrastructure owned by the user — not a hosted service. Linchpin is self-hostable: clone, configure, run on your own VM with docker compose."
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="top">
+    <a class="brand" href="/">
+      <svg class="mark" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="square">
+        <path d="M18 8 L18 48"/>
+        <path d="M18 48 L40 48"/>
+        <circle cx="46" cy="48" r="7" fill="currentColor" stroke="none"/>
+      </svg>
+      <span class="brand-word">Linchpin</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/architecture">Architecture</a></li>
+      <li><a href="https://github.com/linchpinhq/linchpin/releases">Changelog</a></li>
+      <li><a href="https://github.com/linchpinhq/linchpin" class="nav-cta"><svg class="gh-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.07c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18.92-.26 1.91-.39 2.89-.39.98 0 1.97.13 2.89.39 2.21-1.49 3.18-1.18 3.18-1.18.62 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.69 5.4-5.26 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.55C20.21 21.38 23.5 17.07 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg> GitHub</a></li>
+    </ul>
+  </nav>
+
+  <section class="page-hero">
+    <div class="crumb"><a href="/">Linchpin</a> <span>/</span> Glossary</div>
+    <h1>Glossary</h1>
+    <p class="lede">Definitions for the vocabulary used across the Linchpin docs, comparisons, and use-case pages. Linked from every page on first technical-term use.</p>
+  </section>
+
+  <section class="content-section">
+    <dl class="glossary-list">
+      <li>
+        <dt id="managed-agent">Managed agent</dt>
+        <dd>An AI agent that runs as a long-lived, externally-managed session rather than a one-shot LLM call. The runtime tracks state, sandboxes tools, persists events, and exposes a control surface over an API. <a href="/blog/what-is-a-managed-agent-runtime">More</a>.</dd>
+      </li>
+      <li>
+        <dt id="agent-runtime">Agent runtime</dt>
+        <dd>The platform that runs agents — session lifecycle, tool execution, model calls, event log, streaming. Distinct from an agent <em>library</em> (code you import into your service) and a hosted agent <em>service</em> (someone else's runtime). Linchpin is a runtime. See <a href="/compare/langgraph">vs LangGraph</a>.</dd>
+      </li>
+      <li>
+        <dt id="per-session-sandbox">Per-session sandbox</dt>
+        <dd>A dedicated Docker container created for each agent session. Tool calls (bash, file I/O, MCP servers) run inside this container, on a network the operator controls. Isolates the agent from the host machine and from other sessions.</dd>
+      </li>
+      <li>
+        <dt id="event-log">Event log</dt>
+        <dd>An append-only record of every event in a session — user messages, agent messages, tool calls, tool results, status transitions. Cursor-paginated, streamable over SSE, replayable from any cursor. Backed by Postgres.</dd>
+      </li>
+      <li>
+        <dt id="mcp">MCP <span class="alt">Model Context Protocol</span></dt>
+        <dd>An open standard for connecting LLMs to external tools and data via stdio servers. Linchpin runs MCP servers inside the per-session sandbox so the agent can invoke their tools alongside the built-in eight.</dd>
+      </li>
+      <li>
+        <dt id="openrouter">OpenRouter</dt>
+        <dd>A model-routing service that exposes ~200 LLMs (Claude, GPT, Gemini, Llama, Mistral, Qwen, and more) through one OpenAI-compatible API. Linchpin uses OpenRouter as its single cloud-model provider — one adapter, every model.</dd>
+      </li>
+      <li>
+        <dt id="ollama">Ollama</dt>
+        <dd>A local-first runtime for running LLMs on your own machine. Linchpin's <code>ollama</code> provider points at a local Ollama server so agents can run entirely offline against local model weights. See <a href="/use-cases/local-llm-agents">local-LLM agents</a>.</dd>
+      </li>
+      <li>
+        <dt id="sse">SSE <span class="alt">Server-Sent Events</span></dt>
+        <dd>A one-way streaming protocol over HTTP. Linchpin uses SSE to push event-log updates and token deltas to clients. Simpler than WebSockets, HTTP-native, replayable from a cursor.</dd>
+      </li>
+      <li>
+        <dt id="fernet">Fernet</dt>
+        <dd>A symmetric encryption recipe (AES-128-CBC + HMAC-SHA256) from the Python <code>cryptography</code> library. Linchpin's credential vault encrypts secrets with Fernet using <code>VAULT_ENCRYPTION_KEY</code>, supplied at startup and never persisted.</dd>
+      </li>
+      <li>
+        <dt id="self-hostable">Self-hostable</dt>
+        <dd>Software that can be installed and operated on infrastructure owned by the user — not a hosted service. Linchpin is self-hostable: clone, configure, run on your own VM with <code>docker compose</code>. See <a href="/use-cases/self-hosted-agents">self-hosted agents</a>.</dd>
+      </li>
+    </dl>
+  </section>
+
+  <footer>
+    <div class="footer-cols">
+      <div class="footer-brand">
+        <a class="brand" href="/">
+          <svg class="mark" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="square">
+            <path d="M18 8 L18 48"/>
+            <path d="M18 48 L40 48"/>
+            <circle cx="46" cy="48" r="7" fill="currentColor" stroke="none"/>
+          </svg>
+          <span class="brand-word">Linchpin</span>
+        </a>
+        <p class="footer-tag">An open standard for managed AI agents.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Product</h5>
+        <a href="/docs">Docs</a>
+        <a href="/architecture">Architecture</a>
+        <a href="/blog">Blog</a>
+        <a href="/faq">FAQ</a>
+        <a href="/glossary">Glossary</a>
+      </div>
+      <div class="footer-col">
+        <h5>Compare</h5>
+        <a href="/compare/openhands">vs OpenHands</a>
+        <a href="/compare/langgraph">vs LangGraph</a>
+        <a href="/compare/anthropic-managed-agents">vs Anthropic MA</a>
+        <a href="/compare/aider">vs Aider</a>
+      </div>
+      <div class="footer-col">
+        <h5>Community</h5>
+        <a href="https://github.com/linchpinhq/linchpin">GitHub</a>
+        <a href="https://github.com/linchpinhq/linchpin/issues">Issues</a>
+        <a href="https://github.com/linchpinhq/linchpin/discussions">Discussions</a>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>linchpin.work/glossary</span>
+      <span>© 2026 · Apache-2.0</span>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>

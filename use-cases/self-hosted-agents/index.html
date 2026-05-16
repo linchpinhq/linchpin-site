@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Self-hosted AI agents — Linchpin runtime on your infrastructure</title>
+  <meta name="description" content="Run AI agents on infrastructure you own. Linchpin is an open-source, self-hostable managed-agent runtime. One VM, docker compose up, any cloud or local model. Apache-2.0." />
+  <link rel="canonical" href="https://linchpin.work/use-cases/self-hosted-agents" />
+  <meta property="og:title" content="Self-hosted AI agents — Linchpin" />
+  <meta property="og:description" content="Open-source managed-agent runtime you self-host on a single VM. Any cloud or local model." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://linchpin.work/use-cases/self-hosted-agents" />
+  <meta property="og:image" content="https://linchpin.work/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Self-hosted AI agents — Linchpin" />
+  <meta name="twitter:description" content="Open-source managed-agent runtime. One VM, any model, Apache-2.0." />
+  <meta name="twitter:image" content="https://linchpin.work/og.png" />
+  <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Linchpin", "item": "https://linchpin.work/" },
+      { "@type": "ListItem", "position": 2, "name": "Use cases", "item": "https://linchpin.work/use-cases/self-hosted-agents" },
+      { "@type": "ListItem", "position": 3, "name": "Self-hosted agents", "item": "https://linchpin.work/use-cases/self-hosted-agents" }
+    ]
+  }
+  </script>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="top">
+    <a class="brand" href="/">
+      <svg class="mark" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="square">
+        <path d="M18 8 L18 48"/>
+        <path d="M18 48 L40 48"/>
+        <circle cx="46" cy="48" r="7" fill="currentColor" stroke="none"/>
+      </svg>
+      <span class="brand-word">Linchpin</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/architecture">Architecture</a></li>
+      <li><a href="https://github.com/linchpinhq/linchpin/releases">Changelog</a></li>
+      <li><a href="https://github.com/linchpinhq/linchpin" class="nav-cta"><svg class="gh-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.07c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18.92-.26 1.91-.39 2.89-.39.98 0 1.97.13 2.89.39 2.21-1.49 3.18-1.18 3.18-1.18.62 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.69 5.4-5.26 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.55C20.21 21.38 23.5 17.07 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg> GitHub</a></li>
+    </ul>
+  </nav>
+
+  <section class="page-hero">
+    <div class="crumb"><a href="/">Linchpin</a> <span>/</span> Use cases <span>/</span> Self-hosted agents</div>
+    <h1>Run AI agents on infrastructure you own.</h1>
+    <p class="lede">Linchpin is an open-source managed-agent runtime. Deploy it on your VM with <code>docker compose up</code> and run AI agents against any cloud or local model. The data never leaves your environment.</p>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>Who this is for</h2>
+      <div class="num">§ 01</div>
+    </div>
+    <p>Teams who cannot, will not, or do not want to send their data to a third-party hosted agent service. The most common reasons we hear:</p>
+    <ul>
+      <li><strong>Regulated industries</strong> — healthcare, finance, government, defense. Data residency and audit requirements rule out hosted agent platforms.</li>
+      <li><strong>Privacy-conscious products</strong> — internal tools that touch customer data, employee records, or proprietary IP. Even with vendor agreements in place, "data never leaves our perimeter" is the simpler story.</li>
+      <li><strong>Cost-sensitive infrastructure</strong> — paying per-agent runtime fees on top of model costs adds up. Linchpin itself is free; you pay only for the VM and the model usage.</li>
+      <li><strong>Air-gapped or VPC-only deployments</strong> — internal networks where outbound calls to a managed agent service are not an option.</li>
+      <li><strong>Teams building their own agent products</strong> — when the agent runtime is part of your stack, owning it (rather than depending on a vendor's roadmap) matters.</li>
+    </ul>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>Anchor scenarios</h2>
+      <div class="num">§ 02</div>
+    </div>
+    <h3>1. Code review on private repositories</h3>
+    <p>You want an agent that reads PRs against an internal monorepo, runs lint and tests inside a sandbox, and posts review comments. The repo cannot leave your VPC. Linchpin runs the agent inside a per-session container on a network you control; the agent talks to your internal git host over the private network and to OpenRouter (or your own self-hosted gateway) for the model calls.</p>
+    <h3>2. Internal data analysis</h3>
+    <p>An agent that answers questions over a warehouse of customer data. The query plan, the SQL, the result rows, and the final answer all need to stay inside your perimeter. Run Linchpin on the same VPC as the warehouse. The agent's tool definitions point at internal services; nothing goes out except the LLM prompt itself, and you can route that through a self-hosted gateway if needed.</p>
+    <h3>3. Customer-data workflows in regulated industries</h3>
+    <p>An agent that helps clinicians, claims adjusters, or analysts work through case files. HIPAA, SOC 2, internal audit — Linchpin's append-only event log gives you a tamper-evident record of every action. The runtime is yours; the audit trail is yours; the deployment posture is yours.</p>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>Architecture on a single VM</h2>
+      <div class="num">§ 03</div>
+    </div>
+    <p>Everything runs on one machine — a small VM is enough to start. Three services plus Postgres, all in <code>docker compose</code>. Per-session sandbox containers spin up on demand.</p>
+    <div class="mermaid-figure">
+      <div class="label">Fig. 01 · Linchpin on a single VM</div>
+      <pre class="mermaid">
+flowchart LR
+    user[Your client] -->|HTTP| api[linchpin-api<br/>FastAPI]
+    api --> pg[(Postgres 16<br/>event log)]
+    api --> conn[linchpin-connector<br/>docker exec]
+    conn --> sbx[per-session<br/>sandbox container]
+    api -->|model call| router[OpenRouter<br/>or Ollama]
+    api -->|SSE stream| user
+    style api fill:#B83A1A,color:#F4F2EC
+    style pg fill:#1A1A1A,color:#F4F2EC
+      </pre>
+    </div>
+    <p>Hardware sizing: 4 GB RAM minimum for the platform itself; 16 GB recommended once you are running multiple concurrent sessions. If your models are local (Ollama), the model is the binding constraint and you want a GPU. If your models are cloud (OpenRouter), CPU and RAM are plenty.</p>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>Quickstart</h2>
+      <div class="num">§ 04</div>
+    </div>
+    <p>Clone, configure, run. The end-to-end is documented in the <a href="/docs">docs</a> and the <a href="https://github.com/linchpinhq/linchpin#quick-start">repo README</a>. The short version:</p>
+    <pre class="code"><span class="tok-cmt"># 1. clone</span>
+git clone https://github.com/linchpinhq/linchpin
+cd linchpin
+
+<span class="tok-cmt"># 2. configure</span>
+cp .env.example .env
+<span class="tok-cmt"># set OPENROUTER_API_KEY or OLLAMA_HOST + LINCHPIN_API_KEY + VAULT_ENCRYPTION_KEY</span>
+
+<span class="tok-cmt"># 3. run</span>
+docker compose up --build</pre>
+    <p>The console comes up at <code>localhost:5173</code> and the API at <code>localhost:8000</code>. From there, create an environment, define an agent, and open a session. The <a href="/#quickstart">homepage quickstart</a> walks through the curl flow.</p>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>What you give up</h2>
+      <div class="num">§ 05</div>
+    </div>
+    <ul>
+      <li><strong>SLA.</strong> You operate the runtime. Anthropic's Managed Agents and similar hosted services beat anything you can stand up in a week on a single VM.</li>
+      <li><strong>SSO / RBAC.</strong> Linchpin today is single-tenant. If you need fine-grained user-level access control, you wire that in your reverse proxy.</li>
+      <li><strong>Observability dashboards.</strong> The event log is in Postgres and streamable over SSE. There is no built-in Grafana, no anomaly detection, no error budgets. You build what you need.</li>
+      <li><strong>Compliance certifications</strong>. The runtime itself does not carry SOC 2 or HIPAA badges — your environment does. Linchpin gives you the building blocks (audit log, sandbox isolation, encrypted credential vault); the certification work is on you.</li>
+    </ul>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>Related</h2>
+      <div class="num">§ 06</div>
+    </div>
+    <ul>
+      <li><a href="/use-cases/local-llm-agents">Use case: local-LLM agents with Ollama</a></li>
+      <li><a href="/compare/anthropic-managed-agents">Linchpin vs Anthropic Managed Agents</a></li>
+      <li><a href="/compare/openhands">Linchpin vs OpenHands</a></li>
+      <li><a href="/blog/self-hosting-ai-agents-single-vm">Blog: self-hosting AI agents on a single VM</a></li>
+      <li><a href="/docs">Docs and quickstart</a></li>
+    </ul>
+  </section>
+
+  <footer>
+    <div class="footer-cols">
+      <div class="footer-brand">
+        <a class="brand" href="/">
+          <svg class="mark" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="square">
+            <path d="M18 8 L18 48"/>
+            <path d="M18 48 L40 48"/>
+            <circle cx="46" cy="48" r="7" fill="currentColor" stroke="none"/>
+          </svg>
+          <span class="brand-word">Linchpin</span>
+        </a>
+        <p class="footer-tag">An open standard for managed AI agents.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Product</h5>
+        <a href="/docs">Docs</a>
+        <a href="/architecture">Architecture</a>
+        <a href="/blog">Blog</a>
+        <a href="/faq">FAQ</a>
+        <a href="/glossary">Glossary</a>
+      </div>
+      <div class="footer-col">
+        <h5>Compare</h5>
+        <a href="/compare/openhands">vs OpenHands</a>
+        <a href="/compare/langgraph">vs LangGraph</a>
+        <a href="/compare/anthropic-managed-agents">vs Anthropic MA</a>
+        <a href="/compare/aider">vs Aider</a>
+      </div>
+      <div class="footer-col">
+        <h5>Community</h5>
+        <a href="https://github.com/linchpinhq/linchpin">GitHub</a>
+        <a href="https://github.com/linchpinhq/linchpin/issues">Issues</a>
+        <a href="https://github.com/linchpinhq/linchpin/discussions">Discussions</a>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>linchpin.work/use-cases/self-hosted-agents</span>
+      <span>© 2026 · Apache-2.0</span>
+    </div>
+  </footer>
+
+</div>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'
+  mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: { primaryColor: '#F4F2EC', primaryTextColor: '#1A1A1A', primaryBorderColor: '#1A1A1A', lineColor: '#1A1A1A', fontFamily: 'JetBrains Mono, monospace' }})
+</script>
+</body>
+</html>

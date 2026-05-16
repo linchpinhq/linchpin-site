@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Linchpin vs OpenHands — open-source agent comparison</title>
+  <meta name="description" content="Side-by-side comparison of Linchpin (open-source managed-agent runtime) and OpenHands (open-source coding agent with UI). License, self-host, model providers, sandbox, when to pick which." />
+  <link rel="canonical" href="https://linchpin.work/compare/openhands" />
+  <meta property="og:title" content="Linchpin vs OpenHands — open-source agent comparison" />
+  <meta property="og:description" content="What each one is, side-by-side specs, when to pick Linchpin, when to pick OpenHands." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://linchpin.work/compare/openhands" />
+  <meta property="og:image" content="https://linchpin.work/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Linchpin vs OpenHands — open-source agent comparison" />
+  <meta name="twitter:description" content="Runtime/platform vs agent+UI. Honest side-by-side and tradeoffs." />
+  <meta name="twitter:image" content="https://linchpin.work/og.png" />
+  <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Linchpin", "item": "https://linchpin.work/" },
+      { "@type": "ListItem", "position": 2, "name": "Compare", "item": "https://linchpin.work/compare/openhands" },
+      { "@type": "ListItem", "position": 3, "name": "vs OpenHands", "item": "https://linchpin.work/compare/openhands" }
+    ]
+  }
+  </script>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="top">
+    <a class="brand" href="/">
+      <svg class="mark" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="square">
+        <path d="M18 8 L18 48"/>
+        <path d="M18 48 L40 48"/>
+        <circle cx="46" cy="48" r="7" fill="currentColor" stroke="none"/>
+      </svg>
+      <span class="brand-word">Linchpin</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/architecture">Architecture</a></li>
+      <li><a href="https://github.com/linchpinhq/linchpin/releases">Changelog</a></li>
+      <li><a href="https://github.com/linchpinhq/linchpin" class="nav-cta"><svg class="gh-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.07c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18.92-.26 1.91-.39 2.89-.39.98 0 1.97.13 2.89.39 2.21-1.49 3.18-1.18 3.18-1.18.62 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.69 5.4-5.26 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.55C20.21 21.38 23.5 17.07 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg> GitHub</a></li>
+    </ul>
+  </nav>
+
+  <section class="page-hero">
+    <div class="crumb"><a href="/">Linchpin</a> <span>/</span> <a href="/compare/openhands">Compare</a> <span>/</span> vs OpenHands</div>
+    <h1>Linchpin vs OpenHands</h1>
+    <p class="lede">Both are open-source. They sit at different layers of the stack. OpenHands is a coding agent with a UI; Linchpin is the runtime you would build a coding agent on top of. You can run them side by side.</p>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>What each one is</h2>
+      <div class="num">§ 01</div>
+    </div>
+    <p><strong>Linchpin</strong> is an open-source managed-agent runtime. It is a platform — three services and Postgres — that runs agents as long-lived sessions. You define an agent (system prompt, tools, model), create an environment (capabilities and policies), open a session, send events, and stream the agent's replies back via SSE. Linchpin does not ship a coding-agent UI; it ships the runtime layer beneath one. License: Apache-2.0. Stack: FastAPI, React, Postgres 16, Docker. Models: OpenRouter (cloud) and Ollama (local).</p>
+    <p><strong>OpenHands</strong> (formerly OpenDevin) is an open-source coding agent that runs tasks end-to-end in a sandbox. It ships its own web UI, its own agent loop, its own evaluation harness. The primary use case is "give me an agent that writes and runs code for me." OpenHands supports a wide set of LLM providers via litellm and runs the agent in a Docker sandbox. License: MIT. Stack: Python, React.</p>
+    <p>Different abstraction layers. OpenHands is a coding agent you use. Linchpin is the platform on which you would build a coding agent (or a research agent, or a customer-support agent — whatever).</p>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>Side by side</h2>
+      <div class="num">§ 02</div>
+    </div>
+    <table class="compare-table">
+      <thead>
+        <tr><th>Dimension</th><th>Linchpin</th><th>OpenHands</th></tr>
+      </thead>
+      <tbody>
+        <tr><th>What it is</th><td>Managed-agent runtime (platform)</td><td>Coding agent with UI (product)</td></tr>
+        <tr><th>License</th><td>Apache-2.0</td><td>MIT</td></tr>
+        <tr><th>Self-host</th><td>Yes — <code>docker compose up</code></td><td>Yes — <code>docker run</code></td></tr>
+        <tr><th>Ships a UI</th><td>Yes — a console for sessions, but no opinionated agent UX</td><td>Yes — a full coding-agent UI</td></tr>
+        <tr><th>Model providers</th><td>OpenRouter + Ollama only</td><td>Wide (via litellm — OpenAI, Anthropic, etc.)</td></tr>
+        <tr><th>Sandbox model</th><td>Per-session Docker container, dedicated network</td><td>Per-task Docker container</td></tr>
+        <tr><th>Event log</th><td>Append-only, cursor-paginated, SSE replay</td><td>In-memory + persistence; tied to agent loop</td></tr>
+        <tr><th>API surface</th><td>HTTP <code>/v1</code> for agents/environments/sessions/events</td><td>HTTP API focused on tasks; primarily UI-driven</td></tr>
+        <tr><th>Tools</th><td>Built-in eight (<code>bash</code>, <code>read</code>, <code>write</code>, <code>edit</code>, <code>glob</code>, <code>grep</code>, <code>web_fetch</code>, <code>web_search</code>) plus MCP via stdio</td><td>Built-in (file ops, browser, bash, etc.); domain-tuned for coding</td></tr>
+        <tr><th>MCP support</th><td>Yes (stdio MCP servers)</td><td>Yes (recent versions)</td></tr>
+        <tr><th>RBAC / SSO</th><td>No (single-tenant)</td><td>No</td></tr>
+        <tr><th>Typical use</th><td>Build your own agent product on top of it</td><td>Have an agent code for you</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>When to pick Linchpin</h2>
+      <div class="num">§ 03</div>
+    </div>
+    <ul>
+      <li><strong>You are building a product</strong>, and you want the agent runtime to be infrastructure — not the product itself. You will write the UX, the agent definitions, the tools. Linchpin handles sessions, sandboxing, event log, tool execution, streaming.</li>
+      <li><strong>You want OpenRouter and Ollama only</strong>, deliberately. Linchpin's narrower provider set is a feature: every model in OpenRouter works the day OpenRouter adds it, and every Ollama model works locally with no API key.</li>
+      <li><strong>You need a clean HTTP API</strong> for agents, environments, sessions, and events that another service can drive headlessly. The Linchpin console is optional.</li>
+      <li><strong>You want an append-only event log</strong> that downstream consumers can subscribe to via SSE and replay from a cursor — useful for audit, observability, or building multi-client agent UIs.</li>
+      <li><strong>You want to self-host an agent platform</strong> that is small (~3k LOC) and readable rather than a sprawling toolkit.</li>
+    </ul>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>When to pick OpenHands</h2>
+      <div class="num">§ 04</div>
+    </div>
+    <ul>
+      <li><strong>You want a coding agent today, not a platform.</strong> OpenHands ships with a working UI and a coding-tuned agent loop. Clone, run, get an agent that writes code.</li>
+      <li><strong>You need a wide range of LLM providers.</strong> OpenHands integrates with anything litellm supports — Anthropic, OpenAI, Google, Azure, Bedrock, etc. Linchpin is intentionally narrower.</li>
+      <li><strong>You want a benchmark-tested agent.</strong> OpenHands has invested significantly in evaluation harnesses against SWE-Bench and similar. If your job is "improve the coding agent itself," OpenHands has the scaffolding.</li>
+      <li><strong>You want the community around an agent product</strong> rather than a runtime. OpenHands has a larger community, more contributors, more issues, more demo videos.</li>
+      <li><strong>You do not want to build the UX yourself.</strong> Linchpin's console is functional but not opinionated. OpenHands ships UX you can use today.</li>
+    </ul>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>Using them together</h2>
+      <div class="num">§ 05</div>
+    </div>
+    <p>They are not exclusive. OpenHands runs as a coding agent; Linchpin runs as a runtime for whatever agents you define. A reasonable architecture: use OpenHands for ad-hoc coding tasks (developer-facing), and use Linchpin as the runtime for the production agents your application actually ships to users (customer-facing). Different layers, different jobs.</p>
+    <p>If you are choosing only one and your need is "an agent that codes for me on demand," pick OpenHands. If your need is "infrastructure to run agents inside my product," pick Linchpin. <a href="/docs">See the docs</a> for the quickstart.</p>
+    <div class="callout">
+      <span class="badge">Honest take</span>
+      <p>Linchpin is younger and smaller than OpenHands. If you want to bet on the largest open-source agent project today, OpenHands is the safer bet. If you want a runtime layer that you can read top-to-bottom in an afternoon, Linchpin is the right shape.</p>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>Related</h2>
+      <div class="num">§ 06</div>
+    </div>
+    <ul>
+      <li><a href="/compare/langgraph">Linchpin vs LangGraph</a> — platform vs Python graph library</li>
+      <li><a href="/compare/anthropic-managed-agents">Linchpin vs Anthropic Managed Agents</a> — open-source self-hostable vs closed hosted</li>
+      <li><a href="/compare/aider">Linchpin vs Aider</a> — runtime vs CLI coding agent</li>
+      <li><a href="/use-cases/self-hosted-agents">Use case: self-hosted agents</a></li>
+      <li><a href="/blog/what-is-a-managed-agent-runtime">What is a managed agent runtime?</a></li>
+    </ul>
+  </section>
+
+  <footer>
+    <div class="footer-cols">
+      <div class="footer-brand">
+        <a class="brand" href="/">
+          <svg class="mark" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="square">
+            <path d="M18 8 L18 48"/>
+            <path d="M18 48 L40 48"/>
+            <circle cx="46" cy="48" r="7" fill="currentColor" stroke="none"/>
+          </svg>
+          <span class="brand-word">Linchpin</span>
+        </a>
+        <p class="footer-tag">An open standard for managed AI agents.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Product</h5>
+        <a href="/docs">Docs</a>
+        <a href="/architecture">Architecture</a>
+        <a href="/blog">Blog</a>
+        <a href="/faq">FAQ</a>
+        <a href="/glossary">Glossary</a>
+      </div>
+      <div class="footer-col">
+        <h5>Compare</h5>
+        <a href="/compare/openhands">vs OpenHands</a>
+        <a href="/compare/langgraph">vs LangGraph</a>
+        <a href="/compare/anthropic-managed-agents">vs Anthropic MA</a>
+        <a href="/compare/aider">vs Aider</a>
+      </div>
+      <div class="footer-col">
+        <h5>Community</h5>
+        <a href="https://github.com/linchpinhq/linchpin">GitHub</a>
+        <a href="https://github.com/linchpinhq/linchpin/issues">Issues</a>
+        <a href="https://github.com/linchpinhq/linchpin/discussions">Discussions</a>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>linchpin.work/compare/openhands</span>
+      <span>© 2026 · Apache-2.0</span>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>

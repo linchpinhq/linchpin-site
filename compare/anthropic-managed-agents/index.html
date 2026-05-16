@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Linchpin vs Anthropic Managed Agents — open vs hosted</title>
+  <meta name="description" content="Linchpin is the open-source, self-hostable alternative to Anthropic's Managed Agents. Same shape — agents, sessions, tools — but Apache-2.0, on infrastructure you own, with any model." />
+  <link rel="canonical" href="https://linchpin.work/compare/anthropic-managed-agents" />
+  <meta property="og:title" content="Linchpin vs Anthropic Managed Agents — open vs hosted" />
+  <meta property="og:description" content="Open-source self-hostable alternative to Anthropic's hosted managed-agent service." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://linchpin.work/compare/anthropic-managed-agents" />
+  <meta property="og:image" content="https://linchpin.work/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Linchpin vs Anthropic Managed Agents" />
+  <meta name="twitter:description" content="Open-source self-hostable alternative to Anthropic's hosted managed agents." />
+  <meta name="twitter:image" content="https://linchpin.work/og.png" />
+  <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Linchpin", "item": "https://linchpin.work/" },
+      { "@type": "ListItem", "position": 2, "name": "Compare", "item": "https://linchpin.work/compare/anthropic-managed-agents" },
+      { "@type": "ListItem", "position": 3, "name": "vs Anthropic Managed Agents", "item": "https://linchpin.work/compare/anthropic-managed-agents" }
+    ]
+  }
+  </script>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="top">
+    <a class="brand" href="/">
+      <svg class="mark" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="square">
+        <path d="M18 8 L18 48"/>
+        <path d="M18 48 L40 48"/>
+        <circle cx="46" cy="48" r="7" fill="currentColor" stroke="none"/>
+      </svg>
+      <span class="brand-word">Linchpin</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/architecture">Architecture</a></li>
+      <li><a href="https://github.com/linchpinhq/linchpin/releases">Changelog</a></li>
+      <li><a href="https://github.com/linchpinhq/linchpin" class="nav-cta"><svg class="gh-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.07c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18.92-.26 1.91-.39 2.89-.39.98 0 1.97.13 2.89.39 2.21-1.49 3.18-1.18 3.18-1.18.62 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.69 5.4-5.26 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.55C20.21 21.38 23.5 17.07 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg> GitHub</a></li>
+    </ul>
+  </nav>
+
+  <section class="page-hero">
+    <div class="crumb"><a href="/">Linchpin</a> <span>/</span> <a href="/compare/openhands">Compare</a> <span>/</span> vs Anthropic Managed Agents</div>
+    <h1>Linchpin vs Anthropic Managed Agents</h1>
+    <p class="lede">Anthropic's Managed Agents is the hosted, closed-source version of the same idea. Linchpin is the open-source alternative you self-host. Same surface area — agents, sessions, tools — different trust boundary.</p>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>What each one is</h2>
+      <div class="num">§ 01</div>
+    </div>
+    <p><strong>Linchpin</strong> is an open-source, self-hostable managed-agent runtime. You install it on your own VM with <code>docker compose up</code>. Agents, sessions, tools, vaults, and the event log all live on infrastructure you control. Apache-2.0. Models are pulled from OpenRouter (cloud) or Ollama (local).</p>
+    <p><strong>Anthropic Managed Agents</strong> is Anthropic's hosted service for running Claude-based agents. You define the agent through Anthropic's API; Anthropic runs it for you, manages the session state, executes the tool calls, and bills per token plus per-agent infrastructure. It is closed-source and runs only on Anthropic's infrastructure. The trust boundary is at the API.</p>
+    <p>The two are addressing the same problem from opposite ends. Anthropic optimizes for "we run it for you, on our models, with our reliability." Linchpin optimizes for "you run it, on whatever models you choose, where you want it."</p>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>Side by side</h2>
+      <div class="num">§ 02</div>
+    </div>
+    <table class="compare-table">
+      <thead>
+        <tr><th>Dimension</th><th>Linchpin</th><th>Anthropic Managed Agents</th></tr>
+      </thead>
+      <tbody>
+        <tr><th>Source</th><td>Open source (Apache-2.0)</td><td>Closed source</td></tr>
+        <tr><th>Hosting</th><td>You self-host, on your VM</td><td>Hosted by Anthropic</td></tr>
+        <tr><th>Data residency</th><td>Your infrastructure, your region, your control</td><td>Anthropic's infrastructure</td></tr>
+        <tr><th>Models</th><td>Any model on OpenRouter (~200) + any Ollama model</td><td>Claude family (Anthropic's models only)</td></tr>
+        <tr><th>Tool execution</th><td>Per-session Docker container on a network you control</td><td>Anthropic's sandbox + computer-use surfaces</td></tr>
+        <tr><th>Event log</th><td>Append-only Postgres, your database</td><td>Anthropic's managed store</td></tr>
+        <tr><th>SLA</th><td>You operate it — your SLA</td><td>Anthropic's SLA</td></tr>
+        <tr><th>Pricing</th><td>Free (Apache-2.0); you pay for VM + model usage</td><td>Per-token model fees + agent runtime fees</td></tr>
+        <tr><th>Compliance</th><td>Compliance is your responsibility (in your environment)</td><td>Inherit Anthropic's compliance posture</td></tr>
+        <tr><th>API</th><td>HTTP <code>/v1</code> — open, documented, language-agnostic</td><td>HTTP — closed, documented, language-agnostic</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>When to pick Linchpin</h2>
+      <div class="num">§ 03</div>
+    </div>
+    <ul>
+      <li><strong>You cannot send data to Anthropic.</strong> Regulated industry, customer data agreements, government workloads, internal-only deployments — Linchpin runs entirely on infrastructure you control.</li>
+      <li><strong>You need model choice beyond Claude.</strong> Linchpin works against any cloud model via OpenRouter and any local model via Ollama. You can run a Llama agent, a Qwen agent, a Mistral agent, all in the same platform.</li>
+      <li><strong>You want a fixed cost.</strong> Linchpin itself is free. Your only marginal cost is the model API and the VM. There are no per-agent runtime fees.</li>
+      <li><strong>You want to read the code.</strong> Linchpin is ~3k LOC of Python and TypeScript. You can audit, fork, patch, and PR. With a managed service the platform is a black box.</li>
+      <li><strong>You want to embed the runtime inside another product.</strong> Self-hosting is the default; you do not have to expose your users to a third-party platform.</li>
+    </ul>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>When to pick Anthropic Managed Agents</h2>
+      <div class="num">§ 04</div>
+    </div>
+    <ul>
+      <li><strong>You want Anthropic to operate it.</strong> No VM, no Postgres, no monitoring, no on-call. You write the agent definition, they run it.</li>
+      <li><strong>You are committed to Claude.</strong> Anthropic's managed service is the most direct way to use Claude in an agent loop — first-party tool execution, first-party computer-use integration, first-party hosting.</li>
+      <li><strong>You need very high reliability targets out of the gate.</strong> Anthropic's hosted SLA beats whatever you can stand up on a single VM in week one.</li>
+      <li><strong>You want enterprise integrations Anthropic ships.</strong> SSO, audit logs, compliance certifications — managed services typically have these on day one. Linchpin does not.</li>
+      <li><strong>You do not value source-availability.</strong> If reading the runtime is not a requirement, a closed managed service is fine.</li>
+    </ul>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>Migration / using both</h2>
+      <div class="num">§ 05</div>
+    </div>
+    <p>The shapes are similar enough that a port is plausible: both expose agent / session / tool concepts, both stream output. We do not maintain a Claude-direct adapter today (Linchpin uses OpenRouter for Claude — same models, different routing), but you could fork and add one. Going the other direction — exporting a Linchpin agent to Anthropic's service — is straightforward conceptually since both are JSON-defined.</p>
+    <p>If you are choosing only one and your need is "I want a hosted, Claude-native managed-agent service," pick Anthropic Managed Agents. If your need is "I want an open-source alternative to Anthropic's Managed Agents," that is Linchpin. <a href="/docs">See the quickstart</a>.</p>
+    <div class="callout">
+      <span class="badge">Honest take</span>
+      <p>Anthropic's product has more polish, more compliance certifications, and more reliability investment than Linchpin will ever have. The reason to pick Linchpin is not "it is better" — it is "it runs where Anthropic's product cannot, on models Anthropic's product does not run, with code you can read."</p>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>Related</h2>
+      <div class="num">§ 06</div>
+    </div>
+    <ul>
+      <li><a href="/use-cases/self-hosted-agents">Use case: self-hosted agents</a></li>
+      <li><a href="/use-cases/local-llm-agents">Use case: local-LLM agents with Ollama</a></li>
+      <li><a href="/compare/openhands">Linchpin vs OpenHands</a></li>
+      <li><a href="/compare/langgraph">Linchpin vs LangGraph</a></li>
+      <li><a href="/blog/what-is-a-managed-agent-runtime">What is a managed agent runtime?</a></li>
+    </ul>
+  </section>
+
+  <footer>
+    <div class="footer-cols">
+      <div class="footer-brand">
+        <a class="brand" href="/">
+          <svg class="mark" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="square">
+            <path d="M18 8 L18 48"/>
+            <path d="M18 48 L40 48"/>
+            <circle cx="46" cy="48" r="7" fill="currentColor" stroke="none"/>
+          </svg>
+          <span class="brand-word">Linchpin</span>
+        </a>
+        <p class="footer-tag">An open standard for managed AI agents.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Product</h5>
+        <a href="/docs">Docs</a>
+        <a href="/architecture">Architecture</a>
+        <a href="/blog">Blog</a>
+        <a href="/faq">FAQ</a>
+        <a href="/glossary">Glossary</a>
+      </div>
+      <div class="footer-col">
+        <h5>Compare</h5>
+        <a href="/compare/openhands">vs OpenHands</a>
+        <a href="/compare/langgraph">vs LangGraph</a>
+        <a href="/compare/anthropic-managed-agents">vs Anthropic MA</a>
+        <a href="/compare/aider">vs Aider</a>
+      </div>
+      <div class="footer-col">
+        <h5>Community</h5>
+        <a href="https://github.com/linchpinhq/linchpin">GitHub</a>
+        <a href="https://github.com/linchpinhq/linchpin/issues">Issues</a>
+        <a href="https://github.com/linchpinhq/linchpin/discussions">Discussions</a>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>linchpin.work/compare/anthropic-managed-agents</span>
+      <span>© 2026 · Apache-2.0</span>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Local-LLM agents with Ollama — Linchpin runtime</title>
+  <meta name="description" content="Run AI agents entirely on local models with Ollama and Linchpin. No cloud, no API keys, no data leaving your machine. Open-source managed-agent runtime, Apache-2.0." />
+  <link rel="canonical" href="https://linchpin.work/use-cases/local-llm-agents" />
+  <meta property="og:title" content="Local-LLM agents with Ollama — Linchpin" />
+  <meta property="og:description" content="Open-source managed-agent runtime that works with any local Ollama model. No cloud, no API keys." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://linchpin.work/use-cases/local-llm-agents" />
+  <meta property="og:image" content="https://linchpin.work/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Local-LLM agents with Ollama — Linchpin" />
+  <meta name="twitter:description" content="Run agents fully local with Ollama. Open source, Apache-2.0." />
+  <meta name="twitter:image" content="https://linchpin.work/og.png" />
+  <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Linchpin", "item": "https://linchpin.work/" },
+      { "@type": "ListItem", "position": 2, "name": "Use cases", "item": "https://linchpin.work/use-cases/local-llm-agents" },
+      { "@type": "ListItem", "position": 3, "name": "Local-LLM agents", "item": "https://linchpin.work/use-cases/local-llm-agents" }
+    ]
+  }
+  </script>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="top">
+    <a class="brand" href="/">
+      <svg class="mark" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="square">
+        <path d="M18 8 L18 48"/>
+        <path d="M18 48 L40 48"/>
+        <circle cx="46" cy="48" r="7" fill="currentColor" stroke="none"/>
+      </svg>
+      <span class="brand-word">Linchpin</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/architecture">Architecture</a></li>
+      <li><a href="https://github.com/linchpinhq/linchpin/releases">Changelog</a></li>
+      <li><a href="https://github.com/linchpinhq/linchpin" class="nav-cta"><svg class="gh-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.07c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18.92-.26 1.91-.39 2.89-.39.98 0 1.97.13 2.89.39 2.21-1.49 3.18-1.18 3.18-1.18.62 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.69 5.4-5.26 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.55C20.21 21.38 23.5 17.07 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg> GitHub</a></li>
+    </ul>
+  </nav>
+
+  <section class="page-hero">
+    <div class="crumb"><a href="/">Linchpin</a> <span>/</span> Use cases <span>/</span> Local-LLM agents</div>
+    <h1>Run agents on your local Ollama models.</h1>
+    <p class="lede">Linchpin works directly with Ollama. No cloud API keys, no per-token billing, no data leaving your machine. The agent runtime is open source, the models are local, the loop is closed.</p>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>Who this is for</h2>
+      <div class="num">§ 01</div>
+    </div>
+    <ul>
+      <li><strong>r/LocalLLaMA readers</strong> — you already run Ollama or llama.cpp locally and want to graduate from chat to agents.</li>
+      <li><strong>Privacy-first solo developers</strong> — the prompt, the tool calls, the data, the model weights, the runtime — all on your machine.</li>
+      <li><strong>Researchers and tinkerers</strong> — try different models against the same agent definition without paying API fees per experiment.</li>
+      <li><strong>Edge / air-gapped deployments</strong> — when the machine has no network egress, local models plus Linchpin gives you a complete agent stack with zero external calls.</li>
+    </ul>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>How it fits together</h2>
+      <div class="num">§ 02</div>
+    </div>
+    <p>Ollama runs as a local HTTP server (default <code>http://localhost:11434</code>). Linchpin's <code>ollama</code> provider points at it. The agent's session state, event log, and sandbox containers all live in Linchpin; the model weights and inference live in Ollama. Both run on the same machine.</p>
+    <div class="mermaid-figure">
+      <div class="label">Fig. 01 · Local agent stack with Linchpin + Ollama</div>
+      <pre class="mermaid">
+flowchart LR
+    you[You] -->|chat / HTTP| linchpin[Linchpin<br/>runtime]
+    linchpin -->|/api/chat| ollama[Ollama<br/>http://localhost:11434]
+    ollama --> weights[(local model<br/>weights)]
+    linchpin --> pg[(Postgres<br/>event log)]
+    linchpin --> sbx[per-session<br/>sandbox]
+    style linchpin fill:#B83A1A,color:#F4F2EC
+    style ollama fill:#1A1A1A,color:#F4F2EC
+      </pre>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>Configuration</h2>
+      <div class="num">§ 03</div>
+    </div>
+    <p>Point Linchpin at your local Ollama in the <code>.env</code>:</p>
+    <pre class="code"><span class="tok-cmt"># .env</span>
+LINCHPIN_API_KEY=dev-key
+VAULT_ENCRYPTION_KEY=<span class="tok-str">$(openssl rand -base64 32)</span>
+
+<span class="tok-cmt"># model provider</span>
+MODEL_PROVIDER=ollama
+OLLAMA_HOST=http://host.docker.internal:11434</pre>
+    <p>If Linchpin is on the same host as Ollama (typical), <code>host.docker.internal</code> resolves from inside the Linchpin container. If Ollama is on a different machine on the LAN, point at that host's IP. From there, define an agent whose model is whatever you have pulled — <code>llama3.2</code>, <code>qwen2.5</code>, <code>mistral</code>, <code>deepseek-coder</code>, anything Ollama can run.</p>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>Which models work as agents</h2>
+      <div class="num">§ 04</div>
+    </div>
+    <p>Not every chat model holds together inside an agent loop. The honest signal is "does the model reliably emit tool calls when asked, and follow multi-step instructions across many turns." A working set today:</p>
+    <ul>
+      <li><strong>Llama 3.1 / 3.2 (8B+)</strong> — solid tool calling, reasonable instruction following at 8B; better at 70B if you have the GPU.</li>
+      <li><strong>Qwen 2.5 (7B+)</strong> — strong tool calling, good multi-turn coherence. Punches above its weight at 7B.</li>
+      <li><strong>DeepSeek-Coder / DeepSeek-V2.5</strong> — good for code-shaped agent tasks.</li>
+      <li><strong>Mistral / Mixtral</strong> — works for chat-shaped agent tasks; tool calling is weaker than Llama 3.x or Qwen 2.5.</li>
+    </ul>
+    <p>Smaller models (3B and below) will agent — but unreliably. Expect more "model forgot the tool format" and "model went in circles" failures. For a real workload, plan on 7B or larger.</p>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>Hardware notes</h2>
+      <div class="num">§ 05</div>
+    </div>
+    <ul>
+      <li><strong>Ollama:</strong> a Mac with 16 GB unified memory will run 7-8B models comfortably; 32 GB will fit 13-14B. For 70B models you want a 64 GB+ Mac or a real GPU (24 GB VRAM minimum).</li>
+      <li><strong>Linchpin:</strong> the runtime itself is light — 1-2 GB RAM, negligible CPU. The Postgres event log and the per-session sandbox containers are the only consumers.</li>
+      <li><strong>Latency:</strong> first token is dominated by model loading on first use; Ollama keeps the model warm. Steady-state token rate is whatever your hardware delivers.</li>
+    </ul>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>Quickstart</h2>
+      <div class="num">§ 06</div>
+    </div>
+    <pre class="code"><span class="tok-cmt"># 1. pull a model</span>
+ollama pull llama3.2:8b
+
+<span class="tok-cmt"># 2. clone linchpin</span>
+git clone https://github.com/linchpinhq/linchpin
+cd linchpin
+cp .env.example .env
+<span class="tok-cmt"># set MODEL_PROVIDER=ollama and OLLAMA_HOST</span>
+
+<span class="tok-cmt"># 3. up</span>
+docker compose up --build</pre>
+    <p>Define an agent with <code>model: "llama3.2:8b"</code>, open a session, send an event. Streaming output comes back over SSE. <a href="/docs">See the docs</a> for the full curl flow.</p>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>Related</h2>
+      <div class="num">§ 07</div>
+    </div>
+    <ul>
+      <li><a href="/use-cases/self-hosted-agents">Use case: self-hosted agents</a></li>
+      <li><a href="/compare/openhands">Linchpin vs OpenHands</a></li>
+      <li><a href="/compare/anthropic-managed-agents">Linchpin vs Anthropic Managed Agents</a></li>
+      <li><a href="/blog/self-hosting-ai-agents-single-vm">Blog: self-hosting AI agents on a single VM</a></li>
+      <li><a href="/docs">Docs and quickstart</a></li>
+    </ul>
+  </section>
+
+  <footer>
+    <div class="footer-cols">
+      <div class="footer-brand">
+        <a class="brand" href="/">
+          <svg class="mark" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="square">
+            <path d="M18 8 L18 48"/>
+            <path d="M18 48 L40 48"/>
+            <circle cx="46" cy="48" r="7" fill="currentColor" stroke="none"/>
+          </svg>
+          <span class="brand-word">Linchpin</span>
+        </a>
+        <p class="footer-tag">An open standard for managed AI agents.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Product</h5>
+        <a href="/docs">Docs</a>
+        <a href="/architecture">Architecture</a>
+        <a href="/blog">Blog</a>
+        <a href="/faq">FAQ</a>
+        <a href="/glossary">Glossary</a>
+      </div>
+      <div class="footer-col">
+        <h5>Compare</h5>
+        <a href="/compare/openhands">vs OpenHands</a>
+        <a href="/compare/langgraph">vs LangGraph</a>
+        <a href="/compare/anthropic-managed-agents">vs Anthropic MA</a>
+        <a href="/compare/aider">vs Aider</a>
+      </div>
+      <div class="footer-col">
+        <h5>Community</h5>
+        <a href="https://github.com/linchpinhq/linchpin">GitHub</a>
+        <a href="https://github.com/linchpinhq/linchpin/issues">Issues</a>
+        <a href="https://github.com/linchpinhq/linchpin/discussions">Discussions</a>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>linchpin.work/use-cases/local-llm-agents</span>
+      <span>© 2026 · Apache-2.0</span>
+    </div>
+  </footer>
+
+</div>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs'
+  mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: { primaryColor: '#F4F2EC', primaryTextColor: '#1A1A1A', primaryBorderColor: '#1A1A1A', lineColor: '#1A1A1A', fontFamily: 'JetBrains Mono, monospace' }})
+</script>
+</body>
+</html>

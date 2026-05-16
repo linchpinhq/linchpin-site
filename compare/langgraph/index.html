@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Linchpin vs LangGraph — runtime vs Python library</title>
+  <meta name="description" content="Side-by-side comparison of Linchpin (open-source managed-agent runtime) and LangGraph (Python graph-execution library). Platform vs library, when to pick which." />
+  <link rel="canonical" href="https://linchpin.work/compare/langgraph" />
+  <meta property="og:title" content="Linchpin vs LangGraph — runtime vs Python library" />
+  <meta property="og:description" content="Platform vs library. Honest side-by-side and tradeoffs." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://linchpin.work/compare/langgraph" />
+  <meta property="og:image" content="https://linchpin.work/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Linchpin vs LangGraph — runtime vs Python library" />
+  <meta name="twitter:description" content="Platform vs library. What you get pre-wired, what you have to build." />
+  <meta name="twitter:image" content="https://linchpin.work/og.png" />
+  <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Linchpin", "item": "https://linchpin.work/" },
+      { "@type": "ListItem", "position": 2, "name": "Compare", "item": "https://linchpin.work/compare/langgraph" },
+      { "@type": "ListItem", "position": 3, "name": "vs LangGraph", "item": "https://linchpin.work/compare/langgraph" }
+    ]
+  }
+  </script>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="top">
+    <a class="brand" href="/">
+      <svg class="mark" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="square">
+        <path d="M18 8 L18 48"/>
+        <path d="M18 48 L40 48"/>
+        <circle cx="46" cy="48" r="7" fill="currentColor" stroke="none"/>
+      </svg>
+      <span class="brand-word">Linchpin</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/architecture">Architecture</a></li>
+      <li><a href="https://github.com/linchpinhq/linchpin/releases">Changelog</a></li>
+      <li><a href="https://github.com/linchpinhq/linchpin" class="nav-cta"><svg class="gh-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.07c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18.92-.26 1.91-.39 2.89-.39.98 0 1.97.13 2.89.39 2.21-1.49 3.18-1.18 3.18-1.18.62 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.69 5.4-5.26 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.55C20.21 21.38 23.5 17.07 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg> GitHub</a></li>
+    </ul>
+  </nav>
+
+  <section class="page-hero">
+    <div class="crumb"><a href="/">Linchpin</a> <span>/</span> <a href="/compare/openhands">Compare</a> <span>/</span> vs LangGraph</div>
+    <h1>Linchpin vs LangGraph</h1>
+    <p class="lede">LangGraph is a Python library for orchestrating LLM workflows as a graph. Linchpin is a runtime that runs agents as persistent sessions on a single VM. Library vs platform. You would use LangGraph inside an application; you would deploy Linchpin as one.</p>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>What each one is</h2>
+      <div class="num">§ 01</div>
+    </div>
+    <p><strong>Linchpin</strong> is an open-source managed-agent runtime. You define agents and environments through an HTTP API; Linchpin owns the orchestrator loop, the sandbox containers, the append-only event log, the model-provider calls, and the streaming protocol. It is a small platform you can self-host on a single VM. License: Apache-2.0. Stack: FastAPI, React, Postgres 16, Docker. Models: OpenRouter and Ollama.</p>
+    <p><strong>LangGraph</strong> is a Python library from the LangChain team for building stateful, multi-actor LLM workflows as directed graphs. You define nodes (functions) and edges (transitions), and LangGraph drives the graph. It is excellent at expressing complex agent control flow in Python, with checkpointing and human-in-the-loop primitives. License: MIT. Stack: Python library.</p>
+    <p>LangGraph is what you write your agent's brain in. Linchpin is what runs that brain in production, exposes it over HTTP, persists its event log, isolates its tool calls in a sandbox, and streams its output to clients.</p>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>Side by side</h2>
+      <div class="num">§ 02</div>
+    </div>
+    <table class="compare-table">
+      <thead>
+        <tr><th>Dimension</th><th>Linchpin</th><th>LangGraph</th></tr>
+      </thead>
+      <tbody>
+        <tr><th>Shape</th><td>Runtime / platform — runs as services</td><td>Library — imported into your code</td></tr>
+        <tr><th>License</th><td>Apache-2.0</td><td>MIT</td></tr>
+        <tr><th>Self-host</th><td>Yes — <code>docker compose up</code></td><td>You write the service; LangGraph has no server of its own (LangGraph Platform is hosted/closed)</td></tr>
+        <tr><th>API surface</th><td>HTTP <code>/v1</code> for agents, environments, sessions, events</td><td>Python API — graph, state, checkpoint</td></tr>
+        <tr><th>Sessions</th><td>First-class — persistent, resumable, event-sourced</td><td>Threads via checkpointer</td></tr>
+        <tr><th>Sandbox / isolation</th><td>Per-session Docker container, dedicated network</td><td>Whatever your code does</td></tr>
+        <tr><th>Tools</th><td>Built-in eight + MCP via stdio</td><td>You wire them as graph nodes</td></tr>
+        <tr><th>Streaming</th><td>SSE on every session</td><td>Async streaming primitives — you serve them</td></tr>
+        <tr><th>Persistence</th><td>Postgres-backed event log, cursor-paginated</td><td>Pluggable checkpointer (SQLite, Postgres, Redis)</td></tr>
+        <tr><th>Language</th><td>API is language-agnostic (HTTP)</td><td>Python only</td></tr>
+        <tr><th>Models</th><td>OpenRouter + Ollama only</td><td>Anything LangChain supports</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>When to pick Linchpin</h2>
+      <div class="num">§ 03</div>
+    </div>
+    <ul>
+      <li><strong>You want a platform, not a library.</strong> Sessions, sandboxes, event log, streaming, model providers — pre-wired. You will not build a FastAPI service around a LangGraph graph yourself.</li>
+      <li><strong>Your callers are not Python.</strong> Linchpin's surface is HTTP. Any client can drive it — Go, TypeScript, Rust, curl.</li>
+      <li><strong>You want sandboxed tool execution.</strong> Linchpin runs the agent's tool calls inside a per-session Docker container on a locked-down network. With LangGraph you would build this layer yourself.</li>
+      <li><strong>You want an event log other systems can subscribe to.</strong> Linchpin's append-only log with cursor replay is a primitive other services can build on. LangGraph's checkpointer is a serialization mechanism, not an event bus.</li>
+      <li><strong>You want to self-host on commodity infrastructure.</strong> Linchpin is one VM and Postgres. There is no LangGraph-equivalent that you self-host as a platform without writing the platform yourself.</li>
+    </ul>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>When to pick LangGraph</h2>
+      <div class="num">§ 04</div>
+    </div>
+    <ul>
+      <li><strong>Your agent logic is complex and you want to express it as a graph in Python.</strong> LangGraph is unmatched for this — branching, loops, conditional edges, parallel nodes, human-in-the-loop checkpoints.</li>
+      <li><strong>You are already inside a Python application</strong> (a FastAPI service, a notebook, a Celery worker) and you just want a library to drive the agent. Linchpin is overkill if you already have the platform.</li>
+      <li><strong>You need exotic model providers</strong>. LangGraph (via LangChain) supports nearly every provider in existence. Linchpin is deliberately limited to OpenRouter and Ollama.</li>
+      <li><strong>You want the LangSmith ecosystem</strong>. LangGraph integrates tightly with LangSmith for tracing and evaluation. Linchpin has no equivalent built-in observability product.</li>
+      <li><strong>You are doing research or prototyping</strong>. The shorter feedback loop of a Python library beats spinning up a runtime.</li>
+    </ul>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>Using them together</h2>
+      <div class="num">§ 05</div>
+    </div>
+    <p>The two are complementary in principle. Linchpin's orchestrator loop is intentionally simple; if your agent logic is graph-shaped, the natural extension is to drive the model calls and tool decisions from a LangGraph graph living inside Linchpin's agent definition. We do not ship this integration today, but nothing in the runtime prevents it — Linchpin treats the agent's "next step" as opaque, so you can plug a graph engine in.</p>
+    <p>If you are choosing only one and your need is "give me the platform on which I will run agents," pick Linchpin. If your need is "give me a great way to structure agent logic in Python," pick LangGraph. <a href="/docs">See the Linchpin quickstart</a>.</p>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>Related</h2>
+      <div class="num">§ 06</div>
+    </div>
+    <ul>
+      <li><a href="/compare/openhands">Linchpin vs OpenHands</a></li>
+      <li><a href="/compare/anthropic-managed-agents">Linchpin vs Anthropic Managed Agents</a></li>
+      <li><a href="/compare/aider">Linchpin vs Aider</a></li>
+      <li><a href="/blog/what-is-a-managed-agent-runtime">What is a managed agent runtime?</a></li>
+    </ul>
+  </section>
+
+  <footer>
+    <div class="footer-cols">
+      <div class="footer-brand">
+        <a class="brand" href="/">
+          <svg class="mark" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="square">
+            <path d="M18 8 L18 48"/>
+            <path d="M18 48 L40 48"/>
+            <circle cx="46" cy="48" r="7" fill="currentColor" stroke="none"/>
+          </svg>
+          <span class="brand-word">Linchpin</span>
+        </a>
+        <p class="footer-tag">An open standard for managed AI agents.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Product</h5>
+        <a href="/docs">Docs</a>
+        <a href="/architecture">Architecture</a>
+        <a href="/blog">Blog</a>
+        <a href="/faq">FAQ</a>
+        <a href="/glossary">Glossary</a>
+      </div>
+      <div class="footer-col">
+        <h5>Compare</h5>
+        <a href="/compare/openhands">vs OpenHands</a>
+        <a href="/compare/langgraph">vs LangGraph</a>
+        <a href="/compare/anthropic-managed-agents">vs Anthropic MA</a>
+        <a href="/compare/aider">vs Aider</a>
+      </div>
+      <div class="footer-col">
+        <h5>Community</h5>
+        <a href="https://github.com/linchpinhq/linchpin">GitHub</a>
+        <a href="https://github.com/linchpinhq/linchpin/issues">Issues</a>
+        <a href="https://github.com/linchpinhq/linchpin/discussions">Discussions</a>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>linchpin.work/compare/langgraph</span>
+      <span>© 2026 · Apache-2.0</span>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>

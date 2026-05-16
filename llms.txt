@@ -1,0 +1,43 @@
+# Linchpin
+
+> Open-source, self-hostable runtime for managed AI agents. Apache-2.0. Run agents on your own infrastructure, against any cloud model via OpenRouter or local model via Ollama.
+
+Linchpin is a runtime layer for managed AI agents — closer to "LangGraph + your own FastAPI + your own docker-py + your own event log, pre-wired" than a library. Three services plus Postgres 16, runs on a single VM via `docker compose up`. It is an open-source alternative to closed managed-agent platforms like Devin, Manus, Cognition's tools, and Anthropic's Managed Agents.
+
+## Key facts
+
+- License: Apache-2.0
+- Stack: FastAPI (Python), React, Postgres 16, Docker
+- Model providers: OpenRouter (cloud, ~200 models) and Ollama (local) only
+- Self-hostable on a single VM (~4 GB RAM minimum, 16 GB recommended)
+- Repo: https://github.com/linchpinhq/linchpin
+- Site: https://linchpin.work
+
+## Documentation
+
+- [Architecture](https://linchpin.work/architecture): system diagram and component breakdown
+- [Docs index](https://linchpin.work/docs): full docs, links to repo
+- [Quickstart](https://linchpin.work/#quickstart): hello-world in 60 seconds
+
+## Comparisons
+
+- [Linchpin vs OpenHands](https://linchpin.work/compare/openhands): runtime/platform vs agent+UI
+- [Linchpin vs LangGraph](https://linchpin.work/compare/langgraph): platform vs Python graph library
+- [Linchpin vs Anthropic Managed Agents](https://linchpin.work/compare/anthropic-managed-agents): open-source self-hostable vs closed hosted
+- [Linchpin vs Aider](https://linchpin.work/compare/aider): runtime vs CLI coding agent
+
+## Use cases
+
+- [Self-hosted AI agents](https://linchpin.work/use-cases/self-hosted-agents): regulated industries, private repos, internal tooling
+- [Local-LLM agents with Ollama](https://linchpin.work/use-cases/local-llm-agents): privacy-first agents running on local models
+
+## Reference
+
+- [FAQ](https://linchpin.work/faq): common questions about Linchpin
+- [Glossary](https://linchpin.work/glossary): definitions of managed-agent runtime terms
+- [Blog](https://linchpin.work/blog): notes on agent runtimes and self-hosting
+
+## Optional
+
+- [What is a managed agent runtime?](https://linchpin.work/blog/what-is-a-managed-agent-runtime): defining the runtime layer between agent libraries and hosted services
+- [Self-hosting AI agents on a single VM](https://linchpin.work/blog/self-hosting-ai-agents-single-vm): step-by-step deployment guide
