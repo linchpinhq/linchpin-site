@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Linchpin vs AutoGen — agent runtime vs Microsoft multi-agent library</title>
+  <meta name="description" content="Linchpin is an open-source, self-hostable runtime for managed AI agents. AutoGen is a Microsoft Research Python library for multi-agent conversation. Different abstraction layers — how to pick, and how to combine." />
+  <link rel="canonical" href="https://linchpin.work/compare/autogen" />
+  <meta property="og:title" content="Linchpin vs AutoGen — agent runtime vs Microsoft multi-agent library" />
+  <meta property="og:description" content="Runtime with HTTP API and Docker sandboxes vs a Python library you import." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://linchpin.work/compare/autogen" />
+  <meta property="og:image" content="https://linchpin.work/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Linchpin vs AutoGen — agent runtime vs Microsoft multi-agent library" />
+  <meta name="twitter:description" content="Runtime vs library. Side-by-side." />
+  <meta name="twitter:image" content="https://linchpin.work/og.png" />
+  <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Linchpin", "item": "https://linchpin.work/" },
+      { "@type": "ListItem", "position": 2, "name": "Compare", "item": "https://linchpin.work/compare/autogen" },
+      { "@type": "ListItem", "position": 3, "name": "vs AutoGen", "item": "https://linchpin.work/compare/autogen" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Linchpin vs AutoGen — agent runtime vs Microsoft multi-agent library",
+    "description": "Comparison of Linchpin (open-source agent runtime) and AutoGen (Microsoft Research multi-agent library).",
+    "url": "https://linchpin.work/compare/autogen",
+    "datePublished": "2026-05-16",
+    "dateModified": "2026-05-16",
+    "inLanguage": "en",
+    "author": { "@type": "Organization", "name": "Linchpin", "url": "https://linchpin.work/" },
+    "publisher": { "@type": "Organization", "name": "Linchpin", "url": "https://linchpin.work/", "logo": { "@type": "ImageObject", "url": "https://linchpin.work/logo.svg" } }
+  }
+  </script>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="top">
+    <a class="brand" href="/">
+      <svg class="mark" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="square">
+        <path d="M18 8 L18 48"/>
+        <path d="M18 48 L40 48"/>
+        <circle cx="46" cy="48" r="7" fill="currentColor" stroke="none"/>
+      </svg>
+      <span class="brand-word">Linchpin</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/architecture">Architecture</a></li>
+      <li><a href="https://github.com/linchpinhq/linchpin/releases">Changelog</a></li>
+      <li><a href="https://github.com/linchpinhq/linchpin" class="nav-cta">GitHub</a></li>
+    </ul>
+  </nav>
+
+  <section class="page-hero">
+    <div class="crumb"><a href="/">Linchpin</a> <span>/</span> <a href="/compare/autogen">Compare</a> <span>/</span> vs AutoGen</div>
+    <h1>Linchpin vs AutoGen</h1>
+    <p class="lede">AutoGen is Microsoft Research's Python library for multi-agent conversation. Linchpin is an HTTP-API agent runtime with per-session Docker sandboxes. Library vs runtime — different layers of the same stack.</p>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>What each one is</h2>
+      <div class="num">§ 01</div>
+    </div>
+    <p><strong>AutoGen</strong> is a Python library from Microsoft Research for building applications around conversations between multiple agents. You define agents (each one an LLM with a system prompt and tools), then orchestrate them in group chats, sequential conversations, or nested team patterns. AutoGen v0.4+ rewrote the core for async + actor-style messaging. License is MIT. The library is imported into your own Python service.</p>
+    <p><strong>Linchpin</strong> is an open-source managed-agent runtime. Three services plus Postgres on a single VM. Agents, environments, sessions, events are HTTP resources. Each session runs in its own Docker container with controlled networking. The append-only event log streams over SSE with cursor replay. Language-agnostic — anything that can <code>curl</code> can drive Linchpin. Apache-2.0.</p>
+    <p>Frame: AutoGen is code you import into a Python process. Linchpin is infrastructure you deploy and call over HTTP.</p>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>Side by side</h2>
+      <div class="num">§ 02</div>
+    </div>
+    <table class="compare-table">
+      <thead>
+        <tr><th>Dimension</th><th>Linchpin</th><th>AutoGen</th></tr>
+      </thead>
+      <tbody>
+        <tr><th>What it is</th><td>Managed-agent runtime (platform)</td><td>Multi-agent conversation library</td></tr>
+        <tr><th>Maintainer</th><td>Open source community (linchpinhq)</td><td>Microsoft Research</td></tr>
+        <tr><th>License</th><td>Apache-2.0</td><td>MIT (Creative Commons for docs)</td></tr>
+        <tr><th>Language</th><td>HTTP API; runtime in Python</td><td>Python library</td></tr>
+        <tr><th>Deployment</th><td><code>docker compose up</code> on a VM</td><td>Imported into your Python app</td></tr>
+        <tr><th>Multi-agent</th><td>Run multiple sessions; orchestrate from your code</td><td>First-class group chat / sequential / nested patterns</td></tr>
+        <tr><th>Sandbox</th><td>Per-session Docker container, per-env network policy</td><td>Optional code-executor (Jupyter, Docker) you wire</td></tr>
+        <tr><th>Event log</th><td>Append-only Postgres, SSE replay</td><td>Conversation history in-process</td></tr>
+        <tr><th>Model providers</th><td>OpenRouter (~200) + Ollama</td><td>Broad (OpenAI, Azure, others via clients)</td></tr>
+        <tr><th>Streaming UI</th><td>SSE event stream out of the box</td><td>You build it</td></tr>
+        <tr><th>Persistence</th><td>Postgres by default — durable session state</td><td>In-process unless you wire your own</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>When to pick Linchpin</h2>
+      <div class="num">§ 03</div>
+    </div>
+    <ul>
+      <li><strong>You want long-lived sessions with a durable event log.</strong> Linchpin persists every event in Postgres and lets SSE clients replay from a cursor. AutoGen sessions live in your process unless you wire persistence yourself.</li>
+      <li><strong>You want the agent's tool calls to run inside a sandboxed container.</strong> Linchpin's per-session Docker container is the default; AutoGen has code-executor options but you compose them.</li>
+      <li><strong>You want a runtime callable from any language.</strong> HTTP + SSE.</li>
+      <li><strong>You want operational simplicity</strong>: one set of services running on a VM, all your apps call it.</li>
+      <li><strong>You want a small codebase to audit.</strong> ~3k LOC.</li>
+    </ul>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>When to pick AutoGen</h2>
+      <div class="num">§ 04</div>
+    </div>
+    <ul>
+      <li><strong>You want multi-agent group chat as a first-class abstraction.</strong> AutoGen's conversation patterns are the load-bearing API.</li>
+      <li><strong>You are research-leaning and want to iterate on agent topologies fast.</strong> AutoGen Studio + the actor-style runtime are built for that.</li>
+      <li><strong>You want Microsoft Research's ongoing investment</strong> behind the project.</li>
+      <li><strong>You are Python-first and want everything in-process.</strong> AutoGen is just an import.</li>
+    </ul>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>Using them together</h2>
+      <div class="num">§ 05</div>
+    </div>
+    <p>They compose. AutoGen orchestrates the conversation pattern inside a Python service; Linchpin runs individual agents that need a sandbox (shell access, file ops, MCP tools). AutoGen calls Linchpin's HTTP API the way it would call any tool, and gets back streamed events from a real sandboxed session.</p>
+    <p>If your problem is "agents talking to each other" → AutoGen. If your problem is "agents executing tasks in isolated environments" → Linchpin. Many real apps are both.</p>
+    <div class="callout">
+      <span class="badge">Honest take</span>
+      <p>AutoGen v0.4 is sophisticated and well-resourced. Linchpin is small and focused. They aim at different problems — multi-agent topology vs single-agent runtime infrastructure. Pick by which one matches your bottleneck.</p>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>Related</h2>
+      <div class="num">§ 06</div>
+    </div>
+    <ul>
+      <li><a href="/compare/crewai">Linchpin vs CrewAI</a> — runtime vs role-based multi-agent library</li>
+      <li><a href="/compare/langgraph">Linchpin vs LangGraph</a> — runtime vs Python state-machine library</li>
+      <li><a href="/compare/openhands">Linchpin vs OpenHands</a> — runtime vs coding agent</li>
+      <li><a href="/use-cases/self-hosted-agents">Use case: self-hosted AI agents</a></li>
+    </ul>
+  </section>
+
+  <footer>
+    <div class="footer-cols">
+      <div class="footer-brand">
+        <a class="brand" href="/">
+          <svg class="mark" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="square">
+            <path d="M18 8 L18 48"/>
+            <path d="M18 48 L40 48"/>
+            <circle cx="46" cy="48" r="7" fill="currentColor" stroke="none"/>
+          </svg>
+          <span class="brand-word">Linchpin</span>
+        </a>
+        <p class="footer-tag">An open standard for managed AI agents.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Product</h5>
+        <a href="/docs">Docs</a>
+        <a href="/architecture">Architecture</a>
+        <a href="/blog">Blog</a>
+        <a href="/faq">FAQ</a>
+        <a href="/glossary">Glossary</a>
+      </div>
+      <div class="footer-col">
+        <h5>Compare</h5>
+        <a href="/compare/openhands">vs OpenHands</a>
+        <a href="/compare/langgraph">vs LangGraph</a>
+        <a href="/compare/crewai">vs CrewAI</a>
+        <a href="/compare/autogen">vs AutoGen</a>
+      </div>
+      <div class="footer-col">
+        <h5>Community</h5>
+        <a href="https://github.com/linchpinhq/linchpin">GitHub</a>
+        <a href="https://github.com/linchpinhq/linchpin/issues">Issues</a>
+        <a href="https://github.com/linchpinhq/linchpin/discussions">Discussions</a>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>linchpin.work/compare/autogen</span>
+      <span>© 2026 · Apache-2.0</span>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>

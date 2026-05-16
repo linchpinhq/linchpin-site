@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Linchpin vs Dify — agent runtime vs LLMOps platform</title>
+  <meta name="description" content="Linchpin is an open-source, self-hostable runtime for managed AI agents. Dify is an open-source LLMOps platform with a visual workflow builder. License, target user, model providers, sandbox, when to pick which." />
+  <link rel="canonical" href="https://linchpin.work/compare/dify" />
+  <meta property="og:title" content="Linchpin vs Dify — agent runtime vs LLMOps platform" />
+  <meta property="og:description" content="Code-first agent runtime vs visual LLMOps platform. Side-by-side and tradeoffs." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://linchpin.work/compare/dify" />
+  <meta property="og:image" content="https://linchpin.work/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Linchpin vs Dify — agent runtime vs LLMOps platform" />
+  <meta name="twitter:description" content="Code-first runtime vs visual LLMOps platform." />
+  <meta name="twitter:image" content="https://linchpin.work/og.png" />
+  <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Linchpin", "item": "https://linchpin.work/" },
+      { "@type": "ListItem", "position": 2, "name": "Compare", "item": "https://linchpin.work/compare/dify" },
+      { "@type": "ListItem", "position": 3, "name": "vs Dify", "item": "https://linchpin.work/compare/dify" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Linchpin vs Dify — agent runtime vs LLMOps platform",
+    "description": "Side-by-side comparison of Linchpin (open-source agent runtime, HTTP-API-first) and Dify (open-source LLMOps platform with visual workflow builder).",
+    "url": "https://linchpin.work/compare/dify",
+    "datePublished": "2026-05-16",
+    "dateModified": "2026-05-16",
+    "inLanguage": "en",
+    "author": { "@type": "Organization", "name": "Linchpin", "url": "https://linchpin.work/" },
+    "publisher": { "@type": "Organization", "name": "Linchpin", "url": "https://linchpin.work/", "logo": { "@type": "ImageObject", "url": "https://linchpin.work/logo.svg" } }
+  }
+  </script>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="top">
+    <a class="brand" href="/">
+      <svg class="mark" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="square">
+        <path d="M18 8 L18 48"/>
+        <path d="M18 48 L40 48"/>
+        <circle cx="46" cy="48" r="7" fill="currentColor" stroke="none"/>
+      </svg>
+      <span class="brand-word">Linchpin</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/architecture">Architecture</a></li>
+      <li><a href="https://github.com/linchpinhq/linchpin/releases">Changelog</a></li>
+      <li><a href="https://github.com/linchpinhq/linchpin" class="nav-cta">GitHub</a></li>
+    </ul>
+  </nav>
+
+  <section class="page-hero">
+    <div class="crumb"><a href="/">Linchpin</a> <span>/</span> <a href="/compare/dify">Compare</a> <span>/</span> vs Dify</div>
+    <h1>Linchpin vs Dify</h1>
+    <p class="lede">Both are open-source and self-hostable. They aim at different users: Dify is a visual LLMOps platform with a drag-and-drop workflow builder for non-developer-led teams. Linchpin is a code-first agent runtime exposed as an HTTP API. Different audience, different abstraction.</p>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>What each one is</h2>
+      <div class="num">§ 01</div>
+    </div>
+    <p><strong>Linchpin</strong> is an open-source managed-agent runtime. Three services and Postgres on a single VM. You define agents (system prompt + tools + model), environments (capabilities and policies), and open sessions over an HTTP API. Output streams back via SSE from an append-only event log. Code-first, language-agnostic via HTTP. Apache-2.0. Stack: FastAPI, React, Postgres 16, Docker. Models: OpenRouter (~200) and Ollama (local).</p>
+    <p><strong>Dify</strong> is an open-source LLMOps platform. The headline feature is a visual workflow builder where you wire blocks — prompts, tools, branches, datasets — into a chatbot or agent. It ships with a polished web UI, dataset / RAG ingestion, prompt management, and observability. Self-hostable via Docker. Broad model provider integration. License: Apache-2.0 with some commercial restrictions historically; check the LICENSE file in the version you install.</p>
+    <p>Frame: Dify is a platform for building agent products through a visual UI. Linchpin is a runtime layer exposed as an HTTP API for engineering teams who write code.</p>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>Side by side</h2>
+      <div class="num">§ 02</div>
+    </div>
+    <table class="compare-table">
+      <thead>
+        <tr><th>Dimension</th><th>Linchpin</th><th>Dify</th></tr>
+      </thead>
+      <tbody>
+        <tr><th>Primary surface</th><td>HTTP API + SSE (code-first)</td><td>Visual workflow builder (UI-first)</td></tr>
+        <tr><th>License</th><td>Apache-2.0</td><td>Apache-2.0 (verify the version's LICENSE for commercial-use clauses)</td></tr>
+        <tr><th>Self-host</th><td>Single VM, <code>docker compose up</code></td><td>Single VM, <code>docker compose up</code></td></tr>
+        <tr><th>Target user</th><td>Engineers building agent products</td><td>Non-engineering teams + engineers building chatbots / RAG apps</td></tr>
+        <tr><th>Model providers</th><td>OpenRouter (~200) + Ollama only</td><td>Broad: OpenAI, Anthropic, Azure, Bedrock, Hugging Face, etc.</td></tr>
+        <tr><th>RAG / datasets</th><td>Not built-in; you wire your own retrieval via tools or MCP</td><td>Built-in dataset ingestion, vector store, retrieval</td></tr>
+        <tr><th>Sandbox</th><td>Per-session Docker container, per-env network policy</td><td>No per-session container sandbox</td></tr>
+        <tr><th>Built-in tools</th><td>8 (<code>bash</code>, <code>read</code>, <code>write</code>, <code>edit</code>, <code>glob</code>, <code>grep</code>, <code>web_fetch</code>, <code>web_search</code>)</td><td>Wide catalog via visual builder</td></tr>
+        <tr><th>MCP support</th><td>Yes (stdio MCP servers in the sandbox)</td><td>Has MCP integration in recent versions</td></tr>
+        <tr><th>Event log</th><td>Append-only Postgres, SSE replay, cursor-paginated</td><td>Conversation history + observability traces</td></tr>
+        <tr><th>UX out of the box</th><td>Functional session console, not opinionated</td><td>Polished chatbot UI, embeddable widgets</td></tr>
+        <tr><th>Multi-tenant</th><td>No (single-tenant)</td><td>Yes (workspaces, members)</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>When to pick Linchpin</h2>
+      <div class="num">§ 03</div>
+    </div>
+    <ul>
+      <li><strong>Your agent runs code, not just text.</strong> Linchpin's per-session Docker sandbox with <code>bash</code>, file ops, and a real shell is built for agents that execute, not just chat.</li>
+      <li><strong>You want a code-first, HTTP-driven runtime.</strong> Any backend language calls Linchpin's <code>/v1</code> API. No visual builder to maintain; your agent definitions live in your repo.</li>
+      <li><strong>You want a small, readable codebase.</strong> ~3k LOC of Python plus a React console. Linchpin is intentionally small; you audit it in an afternoon.</li>
+      <li><strong>You want stable streaming via SSE with cursor replay.</strong> Backbone for live UIs and audit. Less of a fit for Dify's chatbot-conversation model.</li>
+      <li><strong>You want the OpenRouter + Ollama model story.</strong> One adapter for ~200 cloud models, plus local. Switch per agent.</li>
+    </ul>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>When to pick Dify</h2>
+      <div class="num">§ 04</div>
+    </div>
+    <ul>
+      <li><strong>You are building a chatbot or RAG app, not a code-executing agent.</strong> Dify's visual workflow + dataset ingestion is the shorter path.</li>
+      <li><strong>Your team includes non-engineers who should be able to edit prompts and tools.</strong> Visual builder beats Python files for that audience.</li>
+      <li><strong>You want broad model-provider integration out of the box.</strong> Linchpin is deliberately narrower (OpenRouter + Ollama only).</li>
+      <li><strong>You need multi-tenant workspaces with member management.</strong> Built into Dify; not in Linchpin.</li>
+      <li><strong>You need built-in observability and prompt evaluation.</strong> Dify ships with these.</li>
+    </ul>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>Using them together</h2>
+      <div class="num">§ 05</div>
+    </div>
+    <p>They are compatible. A pragmatic split: Dify for customer-facing chatbots and RAG apps where the workflow is mostly LLM calls + retrieval. Linchpin for internal agents that need to run code, hit the filesystem, or call MCP tools in a sandbox. Both run on the same host under <code>docker compose</code>.</p>
+    <p>If you must pick one and your agents need to <em>do things in a shell</em>, pick Linchpin. If your agents are mostly chatbots over your data, pick Dify.</p>
+    <div class="callout">
+      <span class="badge">Honest take</span>
+      <p>Dify is more mature, has more community, more contributors, more polish. Linchpin is younger, smaller, more focused. If "agent that runs code in a sandbox" is the load-bearing requirement, Linchpin is the better-shaped tool. If it is not, Dify is the safer general-purpose bet.</p>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>Related</h2>
+      <div class="num">§ 06</div>
+    </div>
+    <ul>
+      <li><a href="/compare/langgraph">Linchpin vs LangGraph</a> — runtime vs Python library</li>
+      <li><a href="/compare/openhands">Linchpin vs OpenHands</a> — runtime vs coding agent</li>
+      <li><a href="/compare/crewai">Linchpin vs CrewAI</a> — runtime vs multi-agent library</li>
+      <li><a href="/use-cases/self-hosted-agents">Use case: self-hosted AI agents</a></li>
+    </ul>
+  </section>
+
+  <footer>
+    <div class="footer-cols">
+      <div class="footer-brand">
+        <a class="brand" href="/">
+          <svg class="mark" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="square">
+            <path d="M18 8 L18 48"/>
+            <path d="M18 48 L40 48"/>
+            <circle cx="46" cy="48" r="7" fill="currentColor" stroke="none"/>
+          </svg>
+          <span class="brand-word">Linchpin</span>
+        </a>
+        <p class="footer-tag">An open standard for managed AI agents.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Product</h5>
+        <a href="/docs">Docs</a>
+        <a href="/architecture">Architecture</a>
+        <a href="/blog">Blog</a>
+        <a href="/faq">FAQ</a>
+        <a href="/glossary">Glossary</a>
+      </div>
+      <div class="footer-col">
+        <h5>Compare</h5>
+        <a href="/compare/openhands">vs OpenHands</a>
+        <a href="/compare/devin">vs Devin</a>
+        <a href="/compare/langgraph">vs LangGraph</a>
+        <a href="/compare/dify">vs Dify</a>
+      </div>
+      <div class="footer-col">
+        <h5>Community</h5>
+        <a href="https://github.com/linchpinhq/linchpin">GitHub</a>
+        <a href="https://github.com/linchpinhq/linchpin/issues">Issues</a>
+        <a href="https://github.com/linchpinhq/linchpin/discussions">Discussions</a>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>linchpin.work/compare/dify</span>
+      <span>© 2026 · Apache-2.0</span>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>

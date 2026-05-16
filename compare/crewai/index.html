@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Linchpin vs CrewAI — agent runtime vs multi-agent library</title>
+  <meta name="description" content="Linchpin is an open-source, self-hostable runtime for managed AI agents (HTTP API, per-session Docker sandbox). CrewAI is a Python library for orchestrating role-based multi-agent crews. Different layers; how to choose, and how to combine." />
+  <link rel="canonical" href="https://linchpin.work/compare/crewai" />
+  <meta property="og:title" content="Linchpin vs CrewAI — agent runtime vs multi-agent library" />
+  <meta property="og:description" content="Runtime layer with sandboxes and event log vs a Python library you import." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://linchpin.work/compare/crewai" />
+  <meta property="og:image" content="https://linchpin.work/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Linchpin vs CrewAI — agent runtime vs multi-agent library" />
+  <meta name="twitter:description" content="Runtime vs library. Side-by-side." />
+  <meta name="twitter:image" content="https://linchpin.work/og.png" />
+  <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Linchpin", "item": "https://linchpin.work/" },
+      { "@type": "ListItem", "position": 2, "name": "Compare", "item": "https://linchpin.work/compare/crewai" },
+      { "@type": "ListItem", "position": 3, "name": "vs CrewAI", "item": "https://linchpin.work/compare/crewai" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Linchpin vs CrewAI — agent runtime vs multi-agent library",
+    "description": "Comparison of Linchpin (open-source agent runtime, HTTP API + Docker sandbox) and CrewAI (Python multi-agent orchestration library).",
+    "url": "https://linchpin.work/compare/crewai",
+    "datePublished": "2026-05-16",
+    "dateModified": "2026-05-16",
+    "inLanguage": "en",
+    "author": { "@type": "Organization", "name": "Linchpin", "url": "https://linchpin.work/" },
+    "publisher": { "@type": "Organization", "name": "Linchpin", "url": "https://linchpin.work/", "logo": { "@type": "ImageObject", "url": "https://linchpin.work/logo.svg" } }
+  }
+  </script>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="top">
+    <a class="brand" href="/">
+      <svg class="mark" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="square">
+        <path d="M18 8 L18 48"/>
+        <path d="M18 48 L40 48"/>
+        <circle cx="46" cy="48" r="7" fill="currentColor" stroke="none"/>
+      </svg>
+      <span class="brand-word">Linchpin</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/architecture">Architecture</a></li>
+      <li><a href="https://github.com/linchpinhq/linchpin/releases">Changelog</a></li>
+      <li><a href="https://github.com/linchpinhq/linchpin" class="nav-cta">GitHub</a></li>
+    </ul>
+  </nav>
+
+  <section class="page-hero">
+    <div class="crumb"><a href="/">Linchpin</a> <span>/</span> <a href="/compare/crewai">Compare</a> <span>/</span> vs CrewAI</div>
+    <h1>Linchpin vs CrewAI</h1>
+    <p class="lede">CrewAI is a Python library for orchestrating role-based multi-agent "crews." Linchpin is an HTTP-API agent runtime with per-session Docker sandboxes. Library vs platform; both can live in the same stack.</p>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>What each one is</h2>
+      <div class="num">§ 01</div>
+    </div>
+    <p><strong>CrewAI</strong> is a Python library for multi-agent orchestration. You define <em>agents</em> with roles, goals, and backstories, give them tools, then compose them into a <em>crew</em> that runs through tasks sequentially or hierarchically. CrewAI is imported into your own Python service. Open source (MIT). There is also a hosted CrewAI offering for managed runs.</p>
+    <p><strong>Linchpin</strong> is an open-source managed-agent runtime. Three services and Postgres on a single VM. Agents, environments, and sessions are first-class resources behind an HTTP API. Every session runs in its own Docker container with controlled networking. Output streams over SSE from an append-only event log. Language-agnostic; CrewAI runs in Python, but Linchpin's API is callable from any language. Apache-2.0.</p>
+    <p>Frame: CrewAI is code you import. Linchpin is infrastructure you deploy. They solve different problems.</p>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>Side by side</h2>
+      <div class="num">§ 02</div>
+    </div>
+    <table class="compare-table">
+      <thead>
+        <tr><th>Dimension</th><th>Linchpin</th><th>CrewAI</th></tr>
+      </thead>
+      <tbody>
+        <tr><th>What it is</th><td>Managed-agent runtime (platform)</td><td>Multi-agent orchestration library</td></tr>
+        <tr><th>License</th><td>Apache-2.0</td><td>MIT</td></tr>
+        <tr><th>Language</th><td>HTTP API; runtime in Python</td><td>Python library</td></tr>
+        <tr><th>Deployment shape</th><td><code>docker compose up</code> on a VM</td><td>Imported into your own Python app</td></tr>
+        <tr><th>Multi-agent</th><td>Run multiple sessions; orchestrate from your code</td><td>First-class crew abstraction with role / goal / backstory</td></tr>
+        <tr><th>Sandbox</th><td>Per-session Docker container + network policy</td><td>None by default; runs in your Python process</td></tr>
+        <tr><th>Event log</th><td>Append-only Postgres, cursor + SSE replay</td><td>Logs / traces depending on integration</td></tr>
+        <tr><th>Model providers</th><td>OpenRouter + Ollama</td><td>Broad (any langchain-compatible LLM)</td></tr>
+        <tr><th>Tools</th><td>Built-in 8 + MCP via stdio + HTTP endpoints</td><td>Library of built-in tools + custom Python functions</td></tr>
+        <tr><th>UX out of the box</th><td>Session console</td><td>None; you build it</td></tr>
+        <tr><th>Hosted SaaS option</th><td>No (self-host only)</td><td>Yes (CrewAI Enterprise)</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>When to pick Linchpin</h2>
+      <div class="num">§ 03</div>
+    </div>
+    <ul>
+      <li><strong>Your agent needs to execute code in a sandbox.</strong> Linchpin's per-session Docker container with <code>bash</code> + file tools is the right primitive for agents that <em>do</em>, not just orchestrate text.</li>
+      <li><strong>You want a runtime callable from any language.</strong> HTTP + SSE; your Go service or your TypeScript app can drive Linchpin without writing Python.</li>
+      <li><strong>You want an append-only event log streamable to clients.</strong> Audit, replay, multi-client UIs all become trivial.</li>
+      <li><strong>You want a deployment shape — a VM running services — not a library.</strong> Linchpin is infrastructure; you run it once, all your apps call it.</li>
+      <li><strong>You want a single, small codebase to read.</strong> ~3k LOC.</li>
+    </ul>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>When to pick CrewAI</h2>
+      <div class="num">§ 04</div>
+    </div>
+    <ul>
+      <li><strong>You want role-based multi-agent orchestration as a first-class abstraction.</strong> CrewAI is built around the crew metaphor — roles, goals, backstory, hierarchical / sequential processes. Linchpin treats every session as independent.</li>
+      <li><strong>Your team is Python-first and wants tight in-process control.</strong> CrewAI is just an import; the agent loop runs inside your process.</li>
+      <li><strong>You want a broad ecosystem of LLM providers and tools.</strong> CrewAI builds on top of langchain-style integrations.</li>
+      <li><strong>You want a managed runtime via the vendor.</strong> CrewAI Enterprise is an option if you don't want to operate it yourself.</li>
+    </ul>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>Using them together</h2>
+      <div class="num">§ 05</div>
+    </div>
+    <p>A reasonable architecture: define crews in CrewAI inside a Python service, and call Linchpin's HTTP API when an individual agent needs a sandboxed environment (run a shell, edit files, do anything that should not run in your service process). Linchpin becomes the "sandboxed task" primitive your crew dispatches to.</p>
+    <p>Or skip CrewAI: Linchpin sessions are independent. Run several at once, post events between them at the application layer, and you have multi-agent without the abstraction overhead. The right choice depends on whether the crew metaphor maps onto your problem.</p>
+    <div class="callout">
+      <span class="badge">Honest take</span>
+      <p>If you are thinking "agents that talk to each other," CrewAI is closer to the shape. If you are thinking "agents that do things, in containers, audited" — Linchpin is the right shape. They are complements more than competitors.</p>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>Related</h2>
+      <div class="num">§ 06</div>
+    </div>
+    <ul>
+      <li><a href="/compare/langgraph">Linchpin vs LangGraph</a> — runtime vs Python state-machine library</li>
+      <li><a href="/compare/autogen">Linchpin vs AutoGen</a> — runtime vs Microsoft multi-agent library</li>
+      <li><a href="/compare/openhands">Linchpin vs OpenHands</a> — runtime vs coding agent</li>
+      <li><a href="/use-cases/self-hosted-agents">Use case: self-hosted AI agents</a></li>
+    </ul>
+  </section>
+
+  <footer>
+    <div class="footer-cols">
+      <div class="footer-brand">
+        <a class="brand" href="/">
+          <svg class="mark" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="square">
+            <path d="M18 8 L18 48"/>
+            <path d="M18 48 L40 48"/>
+            <circle cx="46" cy="48" r="7" fill="currentColor" stroke="none"/>
+          </svg>
+          <span class="brand-word">Linchpin</span>
+        </a>
+        <p class="footer-tag">An open standard for managed AI agents.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Product</h5>
+        <a href="/docs">Docs</a>
+        <a href="/architecture">Architecture</a>
+        <a href="/blog">Blog</a>
+        <a href="/faq">FAQ</a>
+        <a href="/glossary">Glossary</a>
+      </div>
+      <div class="footer-col">
+        <h5>Compare</h5>
+        <a href="/compare/openhands">vs OpenHands</a>
+        <a href="/compare/langgraph">vs LangGraph</a>
+        <a href="/compare/autogen">vs AutoGen</a>
+        <a href="/compare/crewai">vs CrewAI</a>
+      </div>
+      <div class="footer-col">
+        <h5>Community</h5>
+        <a href="https://github.com/linchpinhq/linchpin">GitHub</a>
+        <a href="https://github.com/linchpinhq/linchpin/issues">Issues</a>
+        <a href="https://github.com/linchpinhq/linchpin/discussions">Discussions</a>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>linchpin.work/compare/crewai</span>
+      <span>© 2026 · Apache-2.0</span>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Linchpin vs Devin — open-source self-hosted alternative</title>
+  <meta name="description" content="Linchpin is an open-source, self-hostable runtime for managed AI agents. Devin (Cognition Labs) is a closed, hosted AI software engineer. Honest side-by-side: license, hosting, pricing, model choice, control, when to pick which." />
+  <link rel="canonical" href="https://linchpin.work/compare/devin" />
+  <meta property="og:title" content="Linchpin vs Devin — open-source self-hosted alternative" />
+  <meta property="og:description" content="Open-source, self-hostable runtime vs closed hosted AI engineer. Side-by-side comparison and tradeoffs." />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://linchpin.work/compare/devin" />
+  <meta property="og:image" content="https://linchpin.work/og.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Linchpin vs Devin — open-source self-hosted alternative" />
+  <meta name="twitter:description" content="Open self-host vs closed hosted. Side-by-side, honest tradeoffs." />
+  <meta name="twitter:image" content="https://linchpin.work/og.png" />
+  <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Linchpin", "item": "https://linchpin.work/" },
+      { "@type": "ListItem", "position": 2, "name": "Compare", "item": "https://linchpin.work/compare/devin" },
+      { "@type": "ListItem", "position": 3, "name": "vs Devin", "item": "https://linchpin.work/compare/devin" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "TechArticle",
+    "headline": "Linchpin vs Devin — open-source self-hosted alternative",
+    "description": "Side-by-side comparison of Linchpin (open-source, self-hostable agent runtime) and Devin (closed, hosted AI software engineer by Cognition Labs).",
+    "url": "https://linchpin.work/compare/devin",
+    "datePublished": "2026-05-16",
+    "dateModified": "2026-05-16",
+    "inLanguage": "en",
+    "author": { "@type": "Organization", "name": "Linchpin", "url": "https://linchpin.work/" },
+    "publisher": { "@type": "Organization", "name": "Linchpin", "url": "https://linchpin.work/", "logo": { "@type": "ImageObject", "url": "https://linchpin.work/logo.svg" } },
+    "about": [
+      { "@type": "SoftwareApplication", "name": "Linchpin", "applicationCategory": "DeveloperApplication", "operatingSystem": "Linux, macOS", "url": "https://linchpin.work/" },
+      { "@type": "SoftwareApplication", "name": "Devin", "applicationCategory": "DeveloperApplication", "url": "https://devin.ai/" }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is Linchpin an open-source alternative to Devin?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes, with a different shape. Devin is a closed, hosted AI software engineer product. Linchpin is an open-source runtime layer you self-host on your own VM via docker compose. You can build a Devin-style coding agent on top of Linchpin, but Linchpin itself is the platform, not the agent product. License: Apache-2.0." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I self-host an alternative to Devin?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Linchpin runs entirely on your infrastructure — one VM, docker compose up, no calls to a third-party control plane. Your prompts go straight to OpenRouter or Ollama; no broker sees them. Combine Linchpin with an open-source coding agent like OpenHands or Aider for a fully self-hosted Devin-shaped stack." }
+      },
+      {
+        "@type": "Question",
+        "name": "How much does Devin cost vs Linchpin?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Devin is a paid SaaS product (~$500/month for Team at the time of writing, plus usage). Linchpin is Apache-2.0 and free. You pay for your VM and for the model tokens via OpenRouter or run local with Ollama at no per-token cost." }
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+<div class="wrap">
+
+  <nav class="top">
+    <a class="brand" href="/">
+      <svg class="mark" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="square">
+        <path d="M18 8 L18 48"/>
+        <path d="M18 48 L40 48"/>
+        <circle cx="46" cy="48" r="7" fill="currentColor" stroke="none"/>
+      </svg>
+      <span class="brand-word">Linchpin</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/docs">Docs</a></li>
+      <li><a href="/architecture">Architecture</a></li>
+      <li><a href="https://github.com/linchpinhq/linchpin/releases">Changelog</a></li>
+      <li><a href="https://github.com/linchpinhq/linchpin" class="nav-cta"><svg class="gh-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 .5C5.65.5.5 5.65.5 12c0 5.08 3.29 9.39 7.86 10.91.58.11.79-.25.79-.55v-2.07c-3.2.7-3.87-1.36-3.87-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.71 1.26 3.37.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.51-1.46.11-3.05 0 0 .97-.31 3.18 1.18.92-.26 1.91-.39 2.89-.39.98 0 1.97.13 2.89.39 2.21-1.49 3.18-1.18 3.18-1.18.62 1.59.23 2.76.11 3.05.74.81 1.19 1.84 1.19 3.1 0 4.43-2.69 5.4-5.26 5.69.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.55C20.21 21.38 23.5 17.07 23.5 12 23.5 5.65 18.35.5 12 .5z"/></svg> GitHub</a></li>
+    </ul>
+  </nav>
+
+  <section class="page-hero">
+    <div class="crumb"><a href="/">Linchpin</a> <span>/</span> <a href="/compare/devin">Compare</a> <span>/</span> vs Devin</div>
+    <h1>Linchpin vs Devin</h1>
+    <p class="lede">Devin is a closed, hosted AI software engineer from Cognition Labs. Linchpin is an open-source runtime you self-host. Different categories — but for teams who want "Devin, but on our own infrastructure," Linchpin is the platform layer that makes that possible.</p>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>What each one is</h2>
+      <div class="num">§ 01</div>
+    </div>
+    <p><strong>Devin</strong> is a hosted, closed-source autonomous software engineer built by Cognition Labs. You sign up, give it a task in natural language, and it plans, codes, runs, and reports back. The agent loop, the sandbox, the model choice, the planner — all of it runs on Cognition's infrastructure. You do not run Devin yourself; you use it via web or Slack. Pricing is subscription-based and per-usage.</p>
+    <p><strong>Linchpin</strong> is an open-source, self-hostable runtime for managed AI agents. It is a platform — three services and Postgres — that runs agents as long-lived sessions on your VM. You define agents, environments, tools, and policies; Linchpin handles sandboxing, the event log, model calls, and streaming. Linchpin itself is not a coding agent. It is the runtime layer on which you build (or run) one. License: Apache-2.0.</p>
+    <p>So they are not direct substitutes. Devin is a product you use. Linchpin is the platform you build on. The question "Linchpin vs Devin" usually really means "is there a self-hosted, open-source way to get Devin-shaped behavior?" — and Linchpin is the runtime piece of that answer.</p>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>Side by side</h2>
+      <div class="num">§ 02</div>
+    </div>
+    <table class="compare-table">
+      <thead>
+        <tr><th>Dimension</th><th>Linchpin</th><th>Devin</th></tr>
+      </thead>
+      <tbody>
+        <tr><th>What it is</th><td>Open-source managed-agent runtime</td><td>Hosted autonomous software-engineer product</td></tr>
+        <tr><th>License</th><td>Apache-2.0</td><td>Proprietary (closed source)</td></tr>
+        <tr><th>Self-host</th><td>Yes — single VM, <code>docker compose up</code></td><td>No — hosted SaaS only</td></tr>
+        <tr><th>Source available</th><td>Yes — read it top to bottom in an afternoon</td><td>No</td></tr>
+        <tr><th>Pricing</th><td>Free (Apache-2.0) — you pay for VM + model tokens</td><td>Subscription (Team ~$500/mo) + usage</td></tr>
+        <tr><th>Data residency</th><td>Your VM, your Postgres, your Docker</td><td>Cognition's infrastructure</td></tr>
+        <tr><th>Model providers</th><td>OpenRouter (~200 models) + Ollama (local)</td><td>Fixed (Cognition's selection)</td></tr>
+        <tr><th>Bring your own key</th><td>Yes — your OpenRouter / Ollama setup</td><td>No</td></tr>
+        <tr><th>Sandbox</th><td>Per-session Docker container, network policy per env</td><td>Hosted sandbox (managed)</td></tr>
+        <tr><th>Custom tools</th><td>Built-in eight + MCP via stdio + any HTTP endpoint</td><td>Limited; Cognition controls the tool set</td></tr>
+        <tr><th>UI included</th><td>A functional session console, not opinionated</td><td>Full agent UX + Slack integration</td></tr>
+        <tr><th>Audit / event log</th><td>Append-only Postgres event log, SSE replay</td><td>Hosted dashboard</td></tr>
+        <tr><th>Typical use</th><td>Run agent infrastructure inside your product</td><td>Have an agent code for you, hosted</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>When to pick Linchpin</h2>
+      <div class="num">§ 03</div>
+    </div>
+    <ul>
+      <li><strong>You need to run agents on your own infrastructure.</strong> Compliance, customer data, air-gapped envs, EU residency — anything that rules out a hosted U.S. SaaS that sees every prompt. Linchpin runs entirely on your VM with no outbound control-plane call.</li>
+      <li><strong>You want to control the model and switch providers freely.</strong> Linchpin uses OpenRouter for cloud (Claude, GPT, Gemini, Llama, DeepSeek, ~200 more) and Ollama for local. Pick a different model per agent; switch any time.</li>
+      <li><strong>You want to read the agent runtime end-to-end.</strong> Linchpin is ~3k LOC of Python plus a React console. You can audit every code path, every prompt, every tool call. Devin is a black box.</li>
+      <li><strong>You are building a product, not buying one.</strong> Linchpin is the platform layer. You write the agent prompts, the policies, the UX. Linchpin handles sessions, sandboxes, events.</li>
+      <li><strong>You want a long-term cost line that scales with VMs and tokens, not seats.</strong> Apache-2.0 license; no per-user fee.</li>
+    </ul>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>When to pick Devin</h2>
+      <div class="num">§ 04</div>
+    </div>
+    <ul>
+      <li><strong>You want a coding agent today, fully managed.</strong> Devin ships as a product. You don't build infrastructure; you submit tasks and get pull requests.</li>
+      <li><strong>You don't want to think about model choice.</strong> Cognition picks the model and the planner. You don't tune it; they do.</li>
+      <li><strong>You are okay with prompts and code going through a U.S. SaaS.</strong> No compliance constraints, no data-residency requirements, no air-gap needs.</li>
+      <li><strong>You want polished UX out of the box.</strong> Slack integration, web UI, conversation thread — all there day one.</li>
+    </ul>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>Building a self-hosted Devin-shaped stack with Linchpin</h2>
+      <div class="num">§ 05</div>
+    </div>
+    <p>If your goal is "open-source self-hosted equivalent of Devin," the practical recipe is to combine Linchpin with an open-source coding agent and a code sandbox image:</p>
+    <ul>
+      <li><strong>Runtime layer:</strong> Linchpin — sessions, event log, sandboxed Docker containers, tool execution, model adapter.</li>
+      <li><strong>Coding agent definition:</strong> system prompt, allowed tools (<code>bash</code>, <code>read</code>, <code>write</code>, <code>edit</code>, <code>glob</code>, <code>grep</code>, <code>web_fetch</code>, <code>web_search</code>), and policies (<code>always_ask</code> vs <code>always_allow</code>).</li>
+      <li><strong>Sandbox image:</strong> Linchpin spawns a Docker container per session with Python, Node, git, ripgrep preinstalled — close to what Devin runs.</li>
+      <li><strong>Model:</strong> OpenRouter routes to the same frontier models Devin uses (Claude, GPT, etc.). Or run a local Llama / Qwen via Ollama if you want zero outbound calls.</li>
+      <li><strong>UX layer:</strong> the Linchpin console, or write your own thin web UI against the HTTP API.</li>
+    </ul>
+    <p>This is not a drop-in replacement. Devin's planner and tool selection are tuned for end-to-end software engineering tasks; you would tune yours. But all the runtime pieces — sessions, sandboxes, event log, streaming, vaults — are already in Linchpin. See the <a href="/docs">docs</a> for the quickstart.</p>
+    <div class="callout">
+      <span class="badge">Honest take</span>
+      <p>If you just want an agent to write code for you and you do not care where it runs, Devin (or OpenHands, the closest open-source equivalent) is a faster path. If "where it runs" is the whole point, Linchpin is the runtime to build on.</p>
+    </div>
+  </section>
+
+  <section class="content-section">
+    <div class="section-head">
+      <h2>Related</h2>
+      <div class="num">§ 06</div>
+    </div>
+    <ul>
+      <li><a href="/compare/openhands">Linchpin vs OpenHands</a> — open-source coding agent vs runtime</li>
+      <li><a href="/compare/anthropic-managed-agents">Linchpin vs Anthropic Managed Agents</a> — open vs hosted control plane</li>
+      <li><a href="/compare/manus">Linchpin vs Manus</a> — open self-host vs general-purpose hosted</li>
+      <li><a href="/use-cases/devin-alternative">Use case: self-hosted Devin alternative</a></li>
+      <li><a href="/use-cases/self-hosted-agents">Use case: self-hosted AI agents</a></li>
+      <li><a href="/blog/what-is-a-managed-agent-runtime">What is a managed agent runtime?</a></li>
+    </ul>
+  </section>
+
+  <footer>
+    <div class="footer-cols">
+      <div class="footer-brand">
+        <a class="brand" href="/">
+          <svg class="mark" viewBox="0 0 64 64" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="9" stroke-linecap="square">
+            <path d="M18 8 L18 48"/>
+            <path d="M18 48 L40 48"/>
+            <circle cx="46" cy="48" r="7" fill="currentColor" stroke="none"/>
+          </svg>
+          <span class="brand-word">Linchpin</span>
+        </a>
+        <p class="footer-tag">An open standard for managed AI agents.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Product</h5>
+        <a href="/docs">Docs</a>
+        <a href="/architecture">Architecture</a>
+        <a href="/blog">Blog</a>
+        <a href="/faq">FAQ</a>
+        <a href="/glossary">Glossary</a>
+      </div>
+      <div class="footer-col">
+        <h5>Compare</h5>
+        <a href="/compare/openhands">vs OpenHands</a>
+        <a href="/compare/devin">vs Devin</a>
+        <a href="/compare/langgraph">vs LangGraph</a>
+        <a href="/compare/aider">vs Aider</a>
+      </div>
+      <div class="footer-col">
+        <h5>Community</h5>
+        <a href="https://github.com/linchpinhq/linchpin">GitHub</a>
+        <a href="https://github.com/linchpinhq/linchpin/issues">Issues</a>
+        <a href="https://github.com/linchpinhq/linchpin/discussions">Discussions</a>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span>linchpin.work/compare/devin</span>
+      <span>© 2026 · Apache-2.0</span>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>

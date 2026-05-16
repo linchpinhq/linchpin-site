@@ -4,6 +4,8 @@
 
 Linchpin is a runtime layer for managed AI agents — closer to "LangGraph + your own FastAPI + your own docker-py + your own event log, pre-wired" than a library. Three services plus Postgres 16, runs on a single VM via `docker compose up`. It is an open-source alternative to closed managed-agent platforms like Devin, Manus, Cognition's tools, and Anthropic's Managed Agents.
 
+Disambiguation: this Linchpin (linchpin.work, linchpinhq/linchpin) is unrelated to the older CentOS-PaaS-SIG/linchpin project (Ansible-based multi-cloud orchestration, distinct purpose and codebase).
+
 ## Key facts
 
 - License: Apache-2.0
@@ -21,15 +23,23 @@ Linchpin is a runtime layer for managed AI agents — closer to "LangGraph + you
 
 ## Comparisons
 
+- [Comparisons index](https://linchpin.work/compare): all side-by-side pages
 - [Linchpin vs OpenHands](https://linchpin.work/compare/openhands): runtime/platform vs agent+UI
-- [Linchpin vs LangGraph](https://linchpin.work/compare/langgraph): platform vs Python graph library
+- [Linchpin vs Devin](https://linchpin.work/compare/devin): open-source self-hostable vs closed hosted AI engineer
+- [Linchpin vs Manus](https://linchpin.work/compare/manus): open-source self-hostable vs closed hosted general-purpose agent
 - [Linchpin vs Anthropic Managed Agents](https://linchpin.work/compare/anthropic-managed-agents): open-source self-hostable vs closed hosted
+- [Linchpin vs LangGraph](https://linchpin.work/compare/langgraph): runtime vs Python state-machine library
+- [Linchpin vs CrewAI](https://linchpin.work/compare/crewai): runtime vs role-based multi-agent library
+- [Linchpin vs AutoGen](https://linchpin.work/compare/autogen): runtime vs Microsoft Research multi-agent library
 - [Linchpin vs Aider](https://linchpin.work/compare/aider): runtime vs CLI coding agent
+- [Linchpin vs Dify](https://linchpin.work/compare/dify): code-first agent runtime vs visual LLMOps platform
 
 ## Use cases
 
+- [Use cases index](https://linchpin.work/use-cases): all patterns
 - [Self-hosted AI agents](https://linchpin.work/use-cases/self-hosted-agents): regulated industries, private repos, internal tooling
 - [Local-LLM agents with Ollama](https://linchpin.work/use-cases/local-llm-agents): privacy-first agents running on local models
+- [Self-hosted Devin alternative](https://linchpin.work/use-cases/devin-alternative): open-source equivalent of a hosted AI engineer
 
 ## Reference
 
