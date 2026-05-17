@@ -14,9 +14,9 @@ Disambiguation: this Linchpin (linchpin.work, linchpinhq/linchpin) is unrelated 
 - Self-hostable on a single VM (~4 GB RAM minimum, 16 GB recommended)
 - Repo: https://github.com/linchpinhq/linchpin
 - Site: https://linchpin.work
-- Latest release: v0.6.0 — Outcomes (goal-driven sessions with agent grader) + Multi-agent threads (coordinator + worker sub-sessions)
+- Latest release: v0.7.0 — Dreams (async memory curation, research preview)
 
-## Capabilities (v0.6)
+## Capabilities (v0.7)
 
 - **Sessions + sandbox**: per-session Docker container with eight built-in tools (`bash`, `read`, `write`, `edit`, `glob`, `grep`, `web_fetch`, `web_search`). Networking modes: `none`, `unrestricted`, `limited` (per-environment allowlist).
 - **Files API**: content-addressable upload + mount as session resources. Deliverables watcher captures anything the agent writes under `/mnt/session/outputs/`.
@@ -27,6 +27,7 @@ Disambiguation: this Linchpin (linchpin.work, linchpinhq/linchpin) is unrelated 
 - **Git repositories** (v0.5): clone any HTTPS git remote into a session at the requested `mount_path`. Per-environment clone cache, token rotation, generic (GitHub / GitLab / Bitbucket / Gitea).
 - **Outcomes** (v0.6): declare a goal at session create — free-text definition + weighted rubric (weights sum to 1.0) + agent grader. `POST /v1/sessions/{id}/outcome_evaluations` records grader results; auto-terminates the session on success threshold.
 - **Multi-agent threads** (v0.6): coordinator agents spawn worker sub-sessions via `POST /v1/sessions/{id}/threads`. Each thread runs its own agent in its own sandbox; every event mirrors up into the coordinator's event stream with a `thread_id` tag. Nesting cap (default 3 levels) prevents runaway coordinator-of-coordinator chains.
+- **Dreams** (v0.7, research preview): async memory curation. `POST /v1/dreams` reads an input memory store + filtered past-session slice and a configured "dreamer" agent produces a new memory store with the cruft removed. Input store untouched. Opt in by setting `LINCHPIN_DREAMER_AGENT_ID`.
 - **Webhooks** (v0.2): HMAC-signed at-least-once delivery for session lifecycle + credential events (including thread events as of v0.6).
 - **Credential vaults**: Fernet-encrypted; referenced by id from agent + MCP configs.
 - **Event streaming**: append-only per-session log, SSE replay + live tail.

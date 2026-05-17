@@ -113,7 +113,39 @@
         "name": "Does Linchpin support MCP (Model Context Protocol)?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. Linchpin can register MCP servers as tool sources over stdio. The MCP server runs inside the per-session sandbox container; the agent can invoke its tools just like the built-in eight (bash, read, write, edit, glob, grep, web_fetch, web_search)."
+          "text": "Yes — both transports. stdio for community MCP servers spawned as a subprocess inside the per-session sandbox; URL (HTTP-streamable, added in v0.5) for SaaS MCP servers like GitHub Copilot and Linear, with auth resolved through the credential vault. The agent invokes their tools just like the built-in eight (bash, read, write, edit, glob, grep, web_fetch, web_search)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does Linchpin support persistent memory across sessions?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes — memory stores, added in v0.3. A memory store is a workspace-scoped filesystem tree mounted into the sandbox at /mnt/memory/<name>/. Path-addressed entries with a 100 KB cap each, immutable versions on every write with 30-day retention, and per-store read_only or read_write access. The agent reads and writes them naturally; the runtime mirrors changes back to durable storage."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can Linchpin agents work as a team (multi-agent)?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, since v0.6. A coordinator agent can spawn worker threads via POST /v1/sessions/{id}/threads. Each thread is its own session with its own sandbox and optionally its own outcome / agent / resources. Every event a thread emits mirrors up into each ancestor's event log with a thread_id tag, so the coordinator sees one interleaved stream. Nesting cap defaults to three levels."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can a session have a goal it self-evaluates?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes — outcomes, added in v0.6. Declare an outcome at session create with a free-text definition, a weighted rubric (criteria + weights summing to 1.0), and an agent grader. POST /v1/sessions/{id}/outcome_evaluations records grader results; the session auto-terminates when the score crosses the success threshold (default 0.8)."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can agents accept images and PDFs?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, since v0.5. user.message.content[] accepts text, image, and document blocks. Sources can be inline base64, a URL, or a Files-API reference. Images: JPEG / PNG / GIF / WebP. Documents: PDF / text / markdown. The runtime trusts the provider's model-capability claims; unsupported combos surface a clean upstream error."
         }
       },
       {
@@ -211,7 +243,27 @@
 
       <div class="faq-item">
         <h3>Does Linchpin support MCP (Model Context Protocol)?</h3>
-        <p>Yes. Linchpin can register MCP servers as tool sources over stdio. The MCP server runs inside the per-session sandbox container; the agent can invoke its tools just like the built-in eight (<code>bash</code>, <code>read</code>, <code>write</code>, <code>edit</code>, <code>glob</code>, <code>grep</code>, <code>web_fetch</code>, <code>web_search</code>).</p>
+        <p>Yes — both transports. <strong>stdio</strong> for community MCP servers spawned as a subprocess inside the per-session sandbox; <strong>URL</strong> (HTTP-streamable, added in v0.5) for SaaS MCP servers like GitHub Copilot and Linear, with auth resolved through the credential vault. The agent invokes their tools just like the built-in eight (<code>bash</code>, <code>read</code>, <code>write</code>, <code>edit</code>, <code>glob</code>, <code>grep</code>, <code>web_fetch</code>, <code>web_search</code>).</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Does Linchpin support persistent memory across sessions?</h3>
+        <p>Yes — memory stores, added in v0.3. A memory store is a workspace-scoped filesystem tree mounted into the sandbox at <code>/mnt/memory/&lt;name&gt;/</code>. Path-addressed entries (e.g. <code>/preferences/formatting.md</code>) with a 100&nbsp;KB cap each, immutable versions on every write with 30-day retention, and per-store <code>read_only</code> or <code>read_write</code> access. The agent reads + writes them naturally; the runtime mirrors changes back to durable storage.</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Can Linchpin agents work as a team (multi-agent)?</h3>
+        <p>Yes, since v0.6. A coordinator agent can spawn worker <em>threads</em> via <code>POST /v1/sessions/{id}/threads</code>. Each thread is its own session with its own sandbox container and (optionally) its own outcome / agent / resources. Every event a thread emits mirrors up into each ancestor's event log with a <code>thread_id</code> tag, so the coordinator sees one interleaved stream of the whole team. Nesting cap defaults to three levels (configurable).</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Can a session have a goal it self-evaluates?</h3>
+        <p>Yes — outcomes, added in v0.6. Declare an <code>outcome</code> at session create with a free-text definition, a weighted rubric (criteria + weights summing to 1.0), and an agent grader. <code>POST /v1/sessions/{id}/outcome_evaluations</code> records grader results; the session auto-terminates when the score crosses your success threshold (default 0.8, opt-out via <code>auto_terminate: false</code>).</p>
+      </div>
+
+      <div class="faq-item">
+        <h3>Can agents accept images and PDFs?</h3>
+        <p>Yes, since v0.5. <code>user.message.content[]</code> accepts <code>{type: "text"}</code>, <code>{type: "image"}</code>, and <code>{type: "document"}</code> blocks. Sources can be inline base64, a URL the model fetches, or a Files-API reference that the orchestrator resolves to bytes before the provider sees it. Images: JPEG / PNG / GIF / WebP. Documents: PDF / text / markdown. The runtime trusts the provider's model-capability claims — unsupported combos surface a clean upstream error.</p>
       </div>
 
       <div class="faq-item">

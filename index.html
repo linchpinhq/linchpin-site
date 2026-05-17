@@ -4,9 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Linchpin — Open-source managed agents</title>
-  <meta name="description" content="Linchpin is an open-source, self-hostable runtime for AI agents. Any cloud model via OpenRouter, or local via Ollama. One docker compose up." />
+  <meta name="description" content="Linchpin is an open-source, self-hostable runtime for AI agents. Persistent memory, packaged skills, multimodal input, multi-agent threads, goal-driven outcomes — bring any cloud model via OpenRouter, or local via Ollama. One docker compose up." />
   <meta property="og:title" content="Linchpin — Open-source managed agents" />
-  <meta property="og:description" content="A self-hostable runtime for AI agents. Bring any model. No vendor lock-in." />
+  <meta property="og:description" content="Self-hostable runtime for AI agents. Memory, Skills, Multi-agent threads, Outcomes — bring any model. No vendor lock-in." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://linchpin.work/" />
   <meta property="og:image" content="https://linchpin.work/og.png" />
@@ -14,7 +14,7 @@
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Linchpin — Open-source managed agents" />
-  <meta name="twitter:description" content="A self-hostable runtime for AI agents. Bring any model. No vendor lock-in." />
+  <meta name="twitter:description" content="Self-hostable runtime for AI agents. Memory, Skills, Multi-agent threads, Outcomes — bring any model. No vendor lock-in." />
   <meta name="twitter:image" content="https://linchpin.work/og.png" />
   <link rel="canonical" href="https://linchpin.work/" />
   <link rel="icon" type="image/svg+xml" href="/logo.svg" />
@@ -30,13 +30,13 @@
     "@type": "SoftwareApplication",
     "name": "Linchpin",
     "alternateName": "linchpinhq/linchpin",
-    "description": "Open-source, self-hostable runtime for managed AI agents. Apache-2.0. Run agents on infrastructure you own, against any cloud model via OpenRouter or local model via Ollama.",
+    "description": "Open-source, self-hostable runtime for managed AI agents. Apache-2.0. Persistent memory stores, packaged skills, multimodal input (image + document), remote and stdio MCP transports, multi-agent coordinator/worker threads, goal-driven outcomes with agent grader, git-repository resources. Run agents on infrastructure you own, against any cloud model via OpenRouter or local model via Ollama.",
     "applicationCategory": "DeveloperApplication",
     "applicationSubCategory": "AI agent runtime",
     "operatingSystem": "Linux, macOS",
     "url": "https://linchpin.work/",
     "downloadUrl": "https://github.com/linchpinhq/linchpin",
-    "softwareVersion": "0.6",
+    "softwareVersion": "0.7",
     "license": "https://www.apache.org/licenses/LICENSE-2.0",
     "isAccessibleForFree": true,
     "offers": {
@@ -124,7 +124,7 @@
     <div class="pill">Open Source · Apache-2.0 · Self-host</div>
     <h1 class="display"><em>Open-source</em> managed agents.</h1>
     <p class="lede">
-      A self-hostable runtime for AI agents. Bring any cloud model via OpenRouter, or local via Ollama. Spin up the full stack with <code>docker compose up</code>.
+      A self-hostable runtime for AI agents. Persistent memory, packaged skills, multimodal input, multi-agent coordinator/worker threads, goal-driven outcomes — bring any cloud model via OpenRouter, or local via Ollama. Spin up the full stack with <code>docker compose up</code>.
     </p>
     <div class="ctas">
       <a class="btn btn-primary" href="#quickstart">Get started →</a>
@@ -213,7 +213,7 @@
   <section id="features">
     <div class="section-head">
       <h2>What's inside</h2>
-      <div class="num">§ 01 / The runtime</div>
+      <div class="num">§ 01 / Capabilities · v0.1 → v0.7</div>
     </div>
 
     <div class="features-grid">
@@ -288,6 +288,12 @@
         <div class="feat-num">12</div>
         <h3>Multi-agent threads <span class="badge">v0.6</span></h3>
         <p>Coordinator agents spawn worker sub-sessions via <code>POST /v1/sessions/{id}/threads</code>. Each thread runs its own agent in its own sandbox, but every event mirrors up into the coordinator's stream with a <code>thread_id</code> tag — one interleaved view of the whole team.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feat-num">13</div>
+        <h3>Dreams <span class="badge preview">v0.7 · research preview</span></h3>
+        <p>Async memory curation. Point a Dream at a memory store + a slice of past sessions and a "dreamer" agent produces a <em>new</em> store with the cruft removed — duplicates merged, contradictions resolved, stale entries dropped. Original store is untouched. Opt in by setting <code>LINCHPIN_DREAMER_AGENT_ID</code>.</p>
       </article>
 
     </div>
@@ -368,11 +374,11 @@ EOF</pre>
       </div>
       <div class="how-card">
         <div class="how-label">The sandbox</div>
-        <p>Each session is a Docker container the API spawns via <code>docker-py</code>. Two Docker networks are pre-created on startup — <code>linchpin-none</code> and <code>linchpin-open</code> — and the environment's networking type decides which one the container joins.</p>
+        <p>Each session is a Docker container the API spawns via <code>docker-py</code>. Three pre-created networks — <code>linchpin-none</code>, <code>linchpin-open</code>, <code>linchpin-limited</code> — pick the egress posture per environment. Files, memory stores, skills, and git repositories bind-mount under <code>/mnt/&lt;kind&gt;/&lt;name&gt;/</code>.</p>
       </div>
       <div class="how-card">
         <div class="how-label">The event log</div>
-        <p>Append-only. Each event has a monotonic sequence and an opaque cursor. SSE replays everything after the client's cursor before going live. Crash recovery replays the log to put non-terminal sessions back into the right state.</p>
+        <p>Append-only. Each event has a monotonic sequence and an opaque cursor. SSE replays everything after the client's cursor before going live. Crash recovery replays the log to put non-terminal sessions back into the right state. Multi-agent threads mirror their events up into each ancestor's stream with a <code>thread_id</code> tag.</p>
       </div>
       <div class="how-card">
         <div class="how-label">The vault</div>

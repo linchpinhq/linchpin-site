@@ -335,6 +335,13 @@ svg.diagram { width: 100%; height: auto; display: block; margin: 0 0 12px; }
   color: var(--steel);
   border: 1px solid var(--steel);
 }
+.feature h3 .badge.preview {
+  /* Research-preview entries flip the palette so they read as "not
+     promoted as headline" — ink on parchment with a thicker border. */
+  background: var(--ink);
+  color: var(--parchment);
+  border-color: var(--ink);
+}
 
 /* ----- quickstart ----- */
 .steps { display: grid; gap: 32px; }
