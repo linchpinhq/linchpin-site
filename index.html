@@ -389,11 +389,57 @@ EOF</pre>
     <p class="how-foot">Deeper details: <a href="https://github.com/linchpinhq/linchpin/blob/main/ARCHITECTURE.md">ARCHITECTURE.md</a>.</p>
   </section>
 
+  <!-- LINCHPIN CLOUD — EARLY ACCESS WAITLIST -->
+  <!--
+    SETUP (one-time, ~5 min):
+      1. Create a Supabase project at https://supabase.com (free tier is fine).
+      2. Open SQL Editor → New query → paste the contents of
+         /supabase/waitlist_signups.sql → Run. Creates the table + RLS policy.
+      3. Project Settings → API → copy the Project URL + anon (public) key.
+      4. Update the two constants in the inline <script> below — search for
+         WAITLIST_SUPABASE_URL.
+
+    Anon key is meant to be exposed in the browser. RLS allows INSERT only;
+    SELECT / UPDATE / DELETE are blocked at the database. Read the list via
+    Supabase dashboard (service-role) or psql with the service-role key.
+  -->
+  <section id="cloud-waitlist" class="waitlist">
+    <div class="section-head">
+      <h2>Linchpin Cloud — early access</h2>
+      <div class="num">§ 04 / Hosted</div>
+    </div>
+    <div class="waitlist-inner">
+      <div class="waitlist-text">
+        <p>
+          The self-host story stays open-source forever. We're also building a hosted Linchpin Cloud for teams that want the runtime without operating the infrastructure — multi-tenant workspaces, SSO, audit logs, billing.
+        </p>
+        <p>
+          Drop your email to get notified when it opens. No commitment, no spam — early-access invitations only.
+        </p>
+      </div>
+      <form id="waitlist-form" class="waitlist-form" novalidate>
+        <label class="visually-hidden" for="waitlist-email">Email address</label>
+        <input
+          id="waitlist-email"
+          name="email"
+          type="email"
+          required
+          autocomplete="email"
+          placeholder="you@company.com"
+          class="waitlist-input"
+        />
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none" />
+        <button type="submit" class="btn btn-primary waitlist-btn">Join the waitlist →</button>
+        <p class="waitlist-msg" id="waitlist-msg" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
   <!-- RUN IT YOUR WAY -->
   <section id="ownership" class="own">
     <div class="own-inner">
       <div class="own-text">
-        <div class="num">§ 04 / Ownership</div>
+        <div class="num">§ 05 / Ownership</div>
         <h2>Your agents. Your infrastructure. Your bill.</h2>
         <p>
           Most managed-agent platforms route every call through their hosted control plane. Linchpin runs end-to-end on your VM. The API key is yours. The Postgres database is yours. The containers spawn on your Docker daemon. Your prompts go straight to the model provider you chose — no broker.
@@ -473,6 +519,101 @@ EOF</pre>
       } catch (_) {}
     });
   });
+
+  // Cloud waitlist — POSTs to Supabase REST. Schema + RLS policy in
+  // /supabase/waitlist_signups.sql (the anon key is meant to be public;
+  // RLS makes the table insert-only from the client).
+  (() => {
+    // ─── Configure these two ─────────────────────────────────────────────
+    const WAITLIST_SUPABASE_URL  = 'YOUR_SUPABASE_PROJECT_URL';   // e.g. https://abcd1234.supabase.co
+    const WAITLIST_SUPABASE_ANON = 'YOUR_SUPABASE_ANON_KEY';      // public anon key (eyJ…)
+    // ─────────────────────────────────────────────────────────────────────
+
+    const form = document.getElementById('waitlist-form');
+    if (!form) return;
+    const msg = document.getElementById('waitlist-msg');
+    const btn = form.querySelector('.waitlist-btn');
+    const setMsg = (text, kind) => {
+      msg.textContent = text;
+      msg.dataset.kind = kind || '';
+    };
+    const isConfigured = () =>
+      WAITLIST_SUPABASE_URL.startsWith('https://')
+      && !WAITLIST_SUPABASE_URL.includes('YOUR_')
+      && WAITLIST_SUPABASE_ANON.length > 20
+      && !WAITLIST_SUPABASE_ANON.includes('YOUR_');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const emailInput = form.querySelector('input[name="email"]');
+      const email = emailInput.value.trim().toLowerCase();
+      // Honeypot — if the hidden _gotcha field is filled, it's a bot.
+      const honeypot = form.querySelector('input[name="_gotcha"]');
+      if (honeypot && honeypot.value) {
+        setMsg("Thanks — we'll be in touch.", 'ok');
+        return;
+      }
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        setMsg('Please enter a valid email address.', 'error');
+        return;
+      }
+      if (!isConfigured()) {
+        console.log('[waitlist] signup (backend not configured):', email);
+        setMsg(
+          'Waitlist backend not configured yet. Email logged to console.',
+          'info'
+        );
+        return;
+      }
+
+      btn.disabled = true;
+      setMsg('Submitting…', 'info');
+      try {
+        const resp = await fetch(
+          WAITLIST_SUPABASE_URL.replace(/\/$/, '') + '/rest/v1/waitlist_signups',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'apikey': WAITLIST_SUPABASE_ANON,
+              'Authorization': 'Bearer ' + WAITLIST_SUPABASE_ANON,
+              'Prefer': 'return=minimal',
+            },
+            body: JSON.stringify({
+              email,
+              source: 'landing_page',
+              user_agent: navigator.userAgent || null,
+              referrer: document.referrer || null,
+            }),
+          }
+        );
+        if (resp.status === 201 || resp.status === 200) {
+          form.reset();
+          setMsg("Thanks — you're on the list. We'll be in touch when Linchpin Cloud opens.", 'ok');
+        } else if (resp.status === 409) {
+          // Postgres unique_violation — email already on the list.
+          form.reset();
+          setMsg("You're already on the list — thanks!", 'ok');
+        } else {
+          // Try to surface Supabase's error detail if available.
+          let detail = '';
+          try {
+            const body = await resp.json();
+            detail = body.message || body.error || '';
+          } catch (_) {}
+          setMsg(
+            'Sign-up failed (' + resp.status + (detail ? ': ' + detail : '') + '). Please try again.',
+            'error'
+          );
+        }
+      } catch (_) {
+        setMsg('Network error — please try again in a moment.', 'error');
+      } finally {
+        btn.disabled = false;
+      }
+    });
+  })();
 </script>
 </body>
 </html>
