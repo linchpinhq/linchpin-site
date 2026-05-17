@@ -36,7 +36,7 @@
     "operatingSystem": "Linux, macOS",
     "url": "https://linchpin.work/",
     "downloadUrl": "https://github.com/linchpinhq/linchpin",
-    "softwareVersion": "0.1",
+    "softwareVersion": "0.5",
     "license": "https://www.apache.org/licenses/LICENSE-2.0",
     "isAccessibleForFree": true,
     "offers": {
@@ -239,7 +239,7 @@
       <article class="feature">
         <div class="feat-num">04</div>
         <h3>MCP &amp; HTTP tools</h3>
-        <p>Plug in Model Context Protocol servers via stdio. Or point at any HTTP endpoint. The connector handles process lifecycle and credential injection.</p>
+        <p>Plug in Model Context Protocol servers two ways: stdio subprocesses for community servers, or HTTP-streamable URL transport (v0.5) for SaaS MCPs like GitHub Copilot and Linear. Plus any HTTP endpoint as a custom tool.</p>
       </article>
 
       <article class="feature">
@@ -252,6 +252,30 @@
         <div class="feat-num">06</div>
         <h3>Event streaming</h3>
         <p>Append-only event log per session with cursor pagination. Subscribe over SSE — replays anything past your cursor, then streams live. Perfect for live UIs.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feat-num">07</div>
+        <h3>Memory stores <span class="badge">v0.3</span></h3>
+        <p>Persistent, workspace-scoped filesystem state mounted at <code>/mnt/memory/&lt;name&gt;/</code>. Path-addressed, 100&nbsp;KB cap per memory, immutable versions with 30-day retention. The agent reads + writes naturally; the runtime mirrors changes back to durable storage.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feat-num">08</div>
+        <h3>Skills <span class="badge">v0.4</span></h3>
+        <p>Packaged expertise — <code>SKILL.md</code> + scripts in a <code>.tar.gz</code>. Mounted at <code>/mnt/skills/&lt;name&gt;/</code>. Progressive disclosure: metadata always in the system prompt, instructions on trigger, scripts on demand. Max 8 per agent. CLI: <code>linchpin skill build</code>.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feat-num">09</div>
+        <h3>Multimodal input <span class="badge">v0.5</span></h3>
+        <p>Send images (JPEG, PNG, GIF, WebP) and documents (PDF, text, markdown) inside <code>user.message.content[]</code>. Sources: base64 inline, URL, or a Files-API reference. The orchestrator routes to multimodal-capable models and surfaces clean errors for unsupported combos.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feat-num">10</div>
+        <h3>Git repository resources <span class="badge">v0.5</span></h3>
+        <p>Mount any HTTPS git remote into a session: <code>git_repository</code> resource clones at session start, caches per environment so repeat sessions skip the network, and rotates tokens without re-cloning. Works with GitHub, GitLab, Bitbucket, Gitea — anything that speaks HTTPS git.</p>
       </article>
 
     </div>

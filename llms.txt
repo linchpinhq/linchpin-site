@@ -14,6 +14,20 @@ Disambiguation: this Linchpin (linchpin.work, linchpinhq/linchpin) is unrelated 
 - Self-hostable on a single VM (~4 GB RAM minimum, 16 GB recommended)
 - Repo: https://github.com/linchpinhq/linchpin
 - Site: https://linchpin.work
+- Latest release: v0.5.0 — multimodal content blocks, remote URL MCP transport, `git_repository` resource
+
+## Capabilities (v0.5)
+
+- **Sessions + sandbox**: per-session Docker container with eight built-in tools (`bash`, `read`, `write`, `edit`, `glob`, `grep`, `web_fetch`, `web_search`). Networking modes: `none`, `unrestricted`, `limited` (per-environment allowlist).
+- **Files API**: content-addressable upload + mount as session resources. Deliverables watcher captures anything the agent writes under `/mnt/session/outputs/`.
+- **Memory stores** (v0.3): persistent workspace-scoped filesystem state mounted at `/mnt/memory/<name>/`. Path-addressed, 100 KB cap, immutable versions with 30-day retention.
+- **Skills** (v0.4): packaged expertise (SKILL.md + scripts) mounted at `/mnt/skills/<name>/`. Progressive disclosure — metadata always in system prompt, instructions on trigger, scripts on demand. Max 8 per agent. CLI: `linchpin skill build`.
+- **Multimodal input** (v0.5): images (JPEG/PNG/GIF/WebP) and documents (PDF/text/markdown) in `user.message.content[]`. Sources: base64, URL, or Files-API reference.
+- **MCP transport** (v0.5): both stdio (local subprocess) and URL (HTTP-streamable, for SaaS MCPs like GitHub Copilot, Linear). Auth via vault credentials.
+- **Git repositories** (v0.5): clone any HTTPS git remote into a session at the requested `mount_path`. Per-environment clone cache, token rotation, generic (GitHub / GitLab / Bitbucket / Gitea).
+- **Webhooks** (v0.2): HMAC-signed at-least-once delivery for session lifecycle + credential events.
+- **Credential vaults**: Fernet-encrypted; referenced by id from agent + MCP configs.
+- **Event streaming**: append-only per-session log, SSE replay + live tail.
 
 ## Documentation
 

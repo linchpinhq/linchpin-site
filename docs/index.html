@@ -235,7 +235,44 @@
           <span class="arrow">→</span>
         </a></li>
         <li><a href="https://github.com/linchpinhq/linchpin#tools">
-          <span><span class="title ext">Tools</span><span class="desc">Built-in eight, MCP servers via stdio, custom HTTP endpoints.</span></span>
+          <span><span class="title ext">Tools</span><span class="desc">Built-in eight, MCP servers (stdio subprocess <em>or</em> HTTP-streamable URL, v0.5), custom HTTP endpoints.</span></span>
+          <span class="arrow">→</span>
+        </a></li>
+        <li><a href="https://github.com/linchpinhq/linchpin/blob/main/ARCHITECTURE.md#session-resources">
+          <span><span class="title ext">Session resources</span><span class="desc"><code>file</code> · <code>memory_store</code> · <code>git_repository</code> · <code>vault</code> entries mounted into the sandbox at <code>/mnt/…</code> per the resource's discriminator.</span></span>
+          <span class="arrow">→</span>
+        </a></li>
+      </ul>
+    </section>
+
+    <!-- § 02.5 Resources & content -->
+    <section class="doc-section">
+      <div class="num">§ 02.5 / Resources &amp; content</div>
+      <h2>What rides on a session</h2>
+      <p>v0.2 through v0.5 added the things an agent actually uses: files, memory, skills, repositories, and multimodal input.</p>
+      <ul class="doc-list">
+        <li><a href="https://github.com/linchpinhq/linchpin/blob/main/CHANGELOG.md#020---2026-05-15">
+          <span><span class="title ext">Files API <code>v0.2</code></span><span class="desc">Multipart upload, content-addressable dedup, mount as <code>file</code> resources, deliverables watcher captures session output.</span></span>
+          <span class="arrow">→</span>
+        </a></li>
+        <li><a href="https://github.com/linchpinhq/linchpin/blob/main/CHANGELOG.md#030---2026-05-16">
+          <span><span class="title ext">Memory stores <code>v0.3</code></span><span class="desc">Persistent workspace state at <code>/mnt/memory/&lt;name&gt;/</code>. Path-addressed, 100 KB cap, immutable versions with 30-day retention.</span></span>
+          <span class="arrow">→</span>
+        </a></li>
+        <li><a href="https://github.com/linchpinhq/linchpin/blob/main/CHANGELOG.md#040---2026-05-16">
+          <span><span class="title ext">Skills <code>v0.4</code></span><span class="desc">Packaged expertise (<code>SKILL.md</code> + scripts) mounted at <code>/mnt/skills/&lt;name&gt;/</code>. Progressive disclosure; max 8 per agent. CLI: <code>linchpin skill build</code>.</span></span>
+          <span class="arrow">→</span>
+        </a></li>
+        <li><a href="https://github.com/linchpinhq/linchpin/blob/main/CHANGELOG.md#050---2026-05-16">
+          <span><span class="title ext">Multimodal content blocks <code>v0.5</code></span><span class="desc">Images (JPEG/PNG/GIF/WebP) and documents (PDF/text/markdown) in <code>user.message.content[]</code>. Sources: base64, URL, or Files-API reference.</span></span>
+          <span class="arrow">→</span>
+        </a></li>
+        <li><a href="https://github.com/linchpinhq/linchpin/blob/main/CHANGELOG.md#050---2026-05-16">
+          <span><span class="title ext">Remote URL MCP <code>v0.5</code></span><span class="desc">Connect to SaaS MCP servers (GitHub Copilot, Linear, …) via HTTP-streamable transport alongside the existing stdio variant. Auth via vault credentials.</span></span>
+          <span class="arrow">→</span>
+        </a></li>
+        <li><a href="https://github.com/linchpinhq/linchpin/blob/main/CHANGELOG.md#050---2026-05-16">
+          <span><span class="title ext">Git repositories <code>v0.5</code></span><span class="desc">Clone any HTTPS git remote into a session — generic, not GitHub-only. Per-environment cache, token rotation, atomic <code>os.replace</code> swap.</span></span>
           <span class="arrow">→</span>
         </a></li>
       </ul>
