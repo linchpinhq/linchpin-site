@@ -134,6 +134,28 @@
       </a>
     </div>
 
+    <!-- Linchpin Cloud — early access (hero placement) -->
+    <div class="hero-waitlist">
+      <p class="hero-waitlist-lede">
+        <strong>Hosted Linchpin Cloud in the works</strong> — for teams who want the runtime without operating it. Multi-tenant workspaces, SSO, audit logs, billing.
+      </p>
+      <form id="waitlist-form" class="hero-waitlist-form" novalidate>
+        <input
+          id="waitlist-email"
+          name="email"
+          type="email"
+          required
+          autocomplete="email"
+          aria-label="Email address"
+          placeholder="you@company.com"
+          class="hero-waitlist-input"
+        />
+        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none" />
+        <button type="submit" class="btn btn-primary hero-waitlist-btn">Join the waitlist →</button>
+        <p class="waitlist-msg" id="waitlist-msg" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+
     <!-- Schematic diagram -->
     <div class="schematic demo-frame">
       <div class="corner tl"></div>
@@ -389,57 +411,11 @@ EOF</pre>
     <p class="how-foot">Deeper details: <a href="https://github.com/linchpinhq/linchpin/blob/main/ARCHITECTURE.md">ARCHITECTURE.md</a>.</p>
   </section>
 
-  <!-- LINCHPIN CLOUD — EARLY ACCESS WAITLIST -->
-  <!--
-    SETUP (one-time, ~5 min):
-      1. Create a Supabase project at https://supabase.com (free tier is fine).
-      2. Open SQL Editor → New query → paste the contents of
-         /supabase/waitlist_signups.sql → Run. Creates the table + RLS policy.
-      3. Project Settings → API → copy the Project URL + anon (public) key.
-      4. Update the two constants in the inline <script> below — search for
-         WAITLIST_SUPABASE_URL.
-
-    Anon key is meant to be exposed in the browser. RLS allows INSERT only;
-    SELECT / UPDATE / DELETE are blocked at the database. Read the list via
-    Supabase dashboard (service-role) or psql with the service-role key.
-  -->
-  <section id="cloud-waitlist" class="waitlist">
-    <div class="section-head">
-      <h2>Linchpin Cloud — early access</h2>
-      <div class="num">§ 04 / Hosted</div>
-    </div>
-    <div class="waitlist-inner">
-      <div class="waitlist-text">
-        <p>
-          The self-host story stays open-source forever. We're also building a hosted Linchpin Cloud for teams that want the runtime without operating the infrastructure — multi-tenant workspaces, SSO, audit logs, billing.
-        </p>
-        <p>
-          Drop your email to get notified when it opens. No commitment, no spam — early-access invitations only.
-        </p>
-      </div>
-      <form id="waitlist-form" class="waitlist-form" novalidate>
-        <label class="visually-hidden" for="waitlist-email">Email address</label>
-        <input
-          id="waitlist-email"
-          name="email"
-          type="email"
-          required
-          autocomplete="email"
-          placeholder="you@company.com"
-          class="waitlist-input"
-        />
-        <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none" />
-        <button type="submit" class="btn btn-primary waitlist-btn">Join the waitlist →</button>
-        <p class="waitlist-msg" id="waitlist-msg" role="status" aria-live="polite"></p>
-      </form>
-    </div>
-  </section>
-
   <!-- RUN IT YOUR WAY -->
   <section id="ownership" class="own">
     <div class="own-inner">
       <div class="own-text">
-        <div class="num">§ 05 / Ownership</div>
+        <div class="num">§ 04 / Ownership</div>
         <h2>Your agents. Your infrastructure. Your bill.</h2>
         <p>
           Most managed-agent platforms route every call through their hosted control plane. Linchpin runs end-to-end on your VM. The API key is yours. The Postgres database is yours. The containers spawn on your Docker daemon. Your prompts go straight to the model provider you chose — no broker.
