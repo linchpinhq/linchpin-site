@@ -551,7 +551,10 @@ EOF</pre>
     const form = document.getElementById('waitlist-form');
     if (!form) return;
     const msg = document.getElementById('waitlist-msg');
-    const btn = form.querySelector('.waitlist-btn');
+    // Class-agnostic — the button's CSS class has changed twice
+    // already during the design iteration. Selecting by type is
+    // the stable contract.
+    const btn = form.querySelector('button[type="submit"]');
     const setMsg = (text, kind) => {
       msg.textContent = text;
       msg.dataset.kind = kind || '';
