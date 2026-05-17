@@ -74,6 +74,10 @@ nav.top {
 .btn-ghost { background: transparent; color: var(--ink); }
 .btn-ghost:hover { background: var(--ink); color: var(--parchment); }
 
+.ph-badge { display: inline-flex; line-height: 0; transition: opacity 120ms ease; }
+.ph-badge:hover { opacity: 0.85; }
+.ph-badge img { display: block; height: 54px; width: auto; }
+
 section { padding: 96px 0; border-bottom: 1px solid var(--rule); }
 .section-head {
   display: flex; justify-content: space-between; align-items: baseline;
