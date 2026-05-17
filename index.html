@@ -36,7 +36,7 @@
     "operatingSystem": "Linux, macOS",
     "url": "https://linchpin.work/",
     "downloadUrl": "https://github.com/linchpinhq/linchpin",
-    "softwareVersion": "0.5",
+    "softwareVersion": "0.6",
     "license": "https://www.apache.org/licenses/LICENSE-2.0",
     "isAccessibleForFree": true,
     "offers": {
@@ -276,6 +276,18 @@
         <div class="feat-num">10</div>
         <h3>Git repository resources <span class="badge">v0.5</span></h3>
         <p>Mount any HTTPS git remote into a session: <code>git_repository</code> resource clones at session start, caches per environment so repeat sessions skip the network, and rotates tokens without re-cloning. Works with GitHub, GitLab, Bitbucket, Gitea — anything that speaks HTTPS git.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feat-num">11</div>
+        <h3>Outcomes <span class="badge">v0.6</span></h3>
+        <p>Declare a goal on a session — a free-text definition, a weighted rubric, and an agent grader. The runtime evaluates and auto-terminates when the score crosses your threshold. Goal-driven execution without writing your own grading harness.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feat-num">12</div>
+        <h3>Multi-agent threads <span class="badge">v0.6</span></h3>
+        <p>Coordinator agents spawn worker sub-sessions via <code>POST /v1/sessions/{id}/threads</code>. Each thread runs its own agent in its own sandbox, but every event mirrors up into the coordinator's stream with a <code>thread_id</code> tag — one interleaved view of the whole team.</p>
       </article>
 
     </div>
