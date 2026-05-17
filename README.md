@@ -15,47 +15,47 @@ Static HTML/CSS. No build step. Deployed on Vercel.
 ├── linkedin-cover.png  1128x191 cover banner
 ├── vercel.json         Vercel config (clean URLs, security headers)
 ├── supabase/
-│   └── waitlist_signups.sql   Schema + RLS policy for the Cloud waitlist form
+│   └── linchpin_waitlist_signups.sql   Schema + RLS policy for the Cloud waitlist form
 └── docs/
     └── index.html      Curated docs index linking to the main repo
 ```
 
-## Linchpin Cloud waitlist — Supabase setup
+## Linchpin Cloud waitlist — Supabase
 
-The `Linchpin Cloud — early access` form on the landing page POSTs directly
-to a Supabase table. Anon key is exposed in the page (that's the design);
-RLS makes the table insert-only from the client.
+The `Linchpin Cloud — early access` form on the landing page POSTs
+directly to Supabase REST. Anon key is exposed in the page (that's the
+design); RLS on `linchpin_waitlist_signups` makes the table insert-only
+from the client.
 
-1. Create a free Supabase project at https://supabase.com.
-2. SQL Editor → New query → paste `supabase/waitlist_signups.sql` → Run.
-   Idempotent; safe to re-run if you tweak the policy.
-3. Project Settings → API → copy:
-   - **Project URL** (`https://xxxxxxx.supabase.co`)
-   - **anon (public) key** (the long `eyJ…` JWT)
-4. In `index.html`, find the inline `<script>` block and set:
-
-   ```js
-   const WAITLIST_SUPABASE_URL  = 'https://xxxxxxx.supabase.co';
-   const WAITLIST_SUPABASE_ANON = 'eyJ…';
-   ```
-
-5. Reload the page. Submit a test email. Check the
-   `waitlist_signups` table in the Supabase dashboard.
+**Current state (2026-05-17):** live. Hosted in the `flow-rpa` Supabase
+project (`dhkpgytpbawinqvpnfsz`), shared with Flow infrastructure.
+Schema applied via `supabase/linchpin_waitlist_signups.sql`.
 
 ### Reading the list
 
-The anon key cannot SELECT from the table — that's the point. To read:
-- Supabase dashboard → Table Editor → `waitlist_signups` (uses service role).
-- Or `psql` with the service-role connection string from Project Settings:
+The anon key cannot SELECT — that's the point. Reads go through the
+service-role:
+
+- Supabase dashboard → Table Editor → `linchpin_waitlist_signups`.
+- Or psql with the service-role connection string from
+  Project Settings → Database:
   ```bash
-  psql "$SUPABASE_DB_URL" -c "\copy (select email, source, created_at from waitlist_signups order by created_at desc) to 'waitlist.csv' csv header"
+  psql "$SUPABASE_DB_URL" -c "\copy (select email, source, created_at
+    from public.linchpin_waitlist_signups order by created_at desc)
+    to 'waitlist.csv' csv header"
   ```
 
-### Migrating later
+### Re-running the schema migration
 
-If you move to a different backend (ConvertKit / Resend / a Linchpin API
-endpoint), only the inline `<script>` block needs to change. The table
-+ historical signups stay in Supabase; export to CSV and import wherever.
+`supabase/linchpin_waitlist_signups.sql` is idempotent — safe to
+re-apply if you tweak the policy (e.g. via the Supabase MCP's
+`apply_migration` or by pasting into SQL Editor).
+
+### Migrating to a different backend later
+
+If you move to ConvertKit / Resend / a Linchpin API endpoint, only the
+two constants in `index.html` need to change. Existing signups stay in
+Supabase; export to CSV via the snippet above and import wherever.
 
 ## Local preview
 

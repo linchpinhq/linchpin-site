@@ -524,9 +524,14 @@ EOF</pre>
   // /supabase/waitlist_signups.sql (the anon key is meant to be public;
   // RLS makes the table insert-only from the client).
   (() => {
-    // ─── Configure these two ─────────────────────────────────────────────
-    const WAITLIST_SUPABASE_URL  = 'YOUR_SUPABASE_PROJECT_URL';   // e.g. https://abcd1234.supabase.co
-    const WAITLIST_SUPABASE_ANON = 'YOUR_SUPABASE_ANON_KEY';      // public anon key (eyJ…)
+    // ─── Supabase config ─────────────────────────────────────────────────
+    // Project: flow-rpa (dhkpgytpbawinqvpnfsz) — shared with Flow infra.
+    // Table:   public.linchpin_waitlist_signups (RLS: anon insert-only).
+    // Anon key is public by design; RLS makes the table unreadable from
+    // the client.
+    const WAITLIST_SUPABASE_URL   = 'https://dhkpgytpbawinqvpnfsz.supabase.co';
+    const WAITLIST_SUPABASE_ANON  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRoa3BneXRwYmF3aW5xdnBuZnN6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDQ3OTkwOTksImV4cCI6MjA2MDM3NTA5OX0.H4oj5X6XzSThMwM3X4wNGbhxJIVWXKdS4Nl1Tgxj6SY';
+    const WAITLIST_TABLE          = 'linchpin_waitlist_signups';
     // ─────────────────────────────────────────────────────────────────────
 
     const form = document.getElementById('waitlist-form');
@@ -539,9 +544,8 @@ EOF</pre>
     };
     const isConfigured = () =>
       WAITLIST_SUPABASE_URL.startsWith('https://')
-      && !WAITLIST_SUPABASE_URL.includes('YOUR_')
-      && WAITLIST_SUPABASE_ANON.length > 20
-      && !WAITLIST_SUPABASE_ANON.includes('YOUR_');
+      && WAITLIST_SUPABASE_URL.includes('.supabase.co')
+      && WAITLIST_SUPABASE_ANON.length > 100;  // JWTs are ~200+ chars
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -570,7 +574,7 @@ EOF</pre>
       setMsg('Submitting…', 'info');
       try {
         const resp = await fetch(
-          WAITLIST_SUPABASE_URL.replace(/\/$/, '') + '/rest/v1/waitlist_signups',
+          WAITLIST_SUPABASE_URL.replace(/\/$/, '') + '/rest/v1/' + WAITLIST_TABLE,
           {
             method: 'POST',
             headers: {
