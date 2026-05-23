@@ -295,6 +295,128 @@ svg.diagram { width: 100%; height: auto; display: block; margin: 0 0 12px; }
   .demo-steps { flex-direction: column; gap: 8px; }
 }
 
+/* ----- trusted-by strip ----- */
+section.trust {
+  padding: 36px 0;
+  border-bottom: 1px solid var(--rule);
+  background:
+    repeating-linear-gradient(
+      135deg,
+      transparent 0 12px,
+      rgba(26,26,26,0.025) 12px 13px
+    ),
+    var(--parchment);
+}
+.trust-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;
+  flex-wrap: wrap;
+}
+.trust-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--steel);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.trust-logos {
+  display: inline-flex;
+  align-items: center;
+  gap: 28px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.wm {
+  display: inline-flex;
+  align-items: center;
+  color: var(--ink);
+  opacity: 0.62;
+  filter: grayscale(1);
+  transition: opacity 180ms ease;
+  line-height: 1;
+  white-space: nowrap;
+}
+.wm:hover { opacity: 1; }
+.wm-sep {
+  display: inline-block;
+  width: 1px;
+  height: 18px;
+  background: var(--ink);
+  opacity: 0.18;
+}
+
+/* Amazon — rounded sans wordmark with smile arrow */
+.wm-amazon {
+  flex-direction: column;
+  gap: 2px;
+  padding-bottom: 2px;
+}
+.wm-amazon .wm-text {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 22px;
+  letter-spacing: -0.045em;
+}
+.wm-amazon-smile {
+  width: 64px;
+  height: 11px;
+  margin-top: -2px;
+  color: var(--oxide);
+}
+
+/* Netflix — heavy condensed all-caps */
+.wm-netflix {
+  font-family: "Inter", sans-serif;
+  font-weight: 900;
+  font-size: 16px;
+  letter-spacing: 0.04em;
+  font-stretch: condensed;
+  transform: scaleX(0.92);
+  transform-origin: left center;
+}
+
+/* Morgan Stanley — serif with iconic vertical bar */
+.wm-ms .wm-ms-bar {
+  display: inline-block;
+  width: 2px;
+  height: 18px;
+  background: currentColor;
+  margin-right: 8px;
+}
+.wm-ms .wm-ms-text {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 17px;
+  letter-spacing: 0.005em;
+}
+
+/* Meta — geometric sans wordmark */
+.wm-meta {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 21px;
+  letter-spacing: -0.025em;
+}
+
+/* Google — clean sans wordmark */
+.wm-google {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 21px;
+  letter-spacing: -0.018em;
+}
+
+@media (max-width: 720px) {
+  section.trust { padding: 28px 0; }
+  .trust-inner { gap: 18px; }
+  .trust-label { font-size: 10px; }
+  .trust-logos { gap: 18px; }
+  .wm-sep { display: none; }
+}
+
 /* ----- features ----- */
 .features-grid {
   display: grid; grid-template-columns: repeat(3, 1fr); gap: 0;
